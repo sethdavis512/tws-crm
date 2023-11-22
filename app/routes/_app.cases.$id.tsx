@@ -67,7 +67,7 @@ export default function CasesDetailsRoute() {
     const numberOfComments = caseDetails?.comments.length;
 
     return (
-        <div className="p-8">
+        <div className="py-4 pl-8 pr-8">
             <div className="flex justify-between">
                 <div>
                     <Heading>{caseDetails?.title}</Heading>

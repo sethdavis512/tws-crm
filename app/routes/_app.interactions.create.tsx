@@ -47,8 +47,8 @@ export default function CreateInteractionRoute() {
     const { allCustomers } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 p-8">
-            <Heading>Create interaction</Heading>
+        <div className="col-span-4 py-4 pl-8 pr-8">
+            <Heading className="mb-4">Create interaction</Heading>
             <Form method="POST" className="space-y-4">
                 <div>
                     <Label htmlFor="customerId">Customer ID</Label>

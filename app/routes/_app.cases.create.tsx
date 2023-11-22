@@ -54,7 +54,7 @@ export default function CreateCaseRoute() {
     const { allCompanies, allCustomers } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 p-8">
+        <div className="col-span-4 py-4 pl-8 pr-8">
             <Heading>Create case</Heading>
             <Form method="POST" className="space-y-4">
                 <div>

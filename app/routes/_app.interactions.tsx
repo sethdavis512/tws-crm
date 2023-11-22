@@ -27,9 +27,8 @@ export default function InteractionsRoute() {
             </StickyHeader>
             {interactions && interactions.length > 0 ? (
                 interactions.map((interaction) => {
-                    const linkClassName = getPanelLinkClassName(
-                        interaction.id === interactionIdParam
-                    );
+                    const isSelected = interaction.id === interactionIdParam;
+                    const linkClassName = getPanelLinkClassName(isSelected);
 
                     return (
                         <Link
@@ -38,7 +37,12 @@ export default function InteractionsRoute() {
                             className={linkClassName}
                         >
                             <Heading size="4">{interaction.title}</Heading>
-                            <p className="font-normal text-gray-700 dark:text-gray-400 break-words">
+                            <p
+                                className={`dark:text-gray-400 font-normal text-gray-700 ${
+                                    isSelected &&
+                                    'text-white dark:text-gray-200'
+                                } break-words`}
+                            >
                                 {`${interaction.description
                                     .split(' ')
                                     .slice(0, 5)

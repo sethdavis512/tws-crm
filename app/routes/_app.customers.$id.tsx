@@ -57,7 +57,7 @@ export default function InteractionDetailsRoute() {
     const [openInteraction, setOpenInteraction] = useState<string | null>(null);
 
     return (
-        <div className="p-8 space-y-4">
+        <div className="py-4 pl-8 pr-8 space-y-4">
             <div className="flex justify-between">
                 <Heading>
                     {customerDetails?.firstName} {customerDetails?.lastName}

@@ -6,7 +6,7 @@ import NewButtonLink from '~/components/NewButtonLink';
 import StickyHeader from '~/components/StickyHeader';
 import { getAllCases } from '~/models/case.server';
 
-import { cn } from '~/utils/css';
+import { cn, getPanelLinkClassName } from '~/utils/css';
 
 export async function loader() {
     const cases = await getAllCases();
@@ -27,10 +27,8 @@ export default function CasesRoute() {
             </StickyHeader>
             {cases && cases.length > 0 ? (
                 cases.map((caseObj) => {
-                    const linkClassName = cn(
-                        'block p-4 bg-white border-b border-b-gray-200 dark:border-b-gray-700 dark:bg-gray-800',
-                        caseObj.id === caseIdParam &&
-                            'bg-green-200 dark:bg-green-900'
+                    const linkClassName = getPanelLinkClassName(
+                        caseObj.id === caseIdParam
                     );
                     return (
                         <Link
