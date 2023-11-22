@@ -110,7 +110,7 @@ export default function LoginRoute() {
     };
 
     return (
-        <Form method="POST" className="grid grid-cols-12">
+        <Form method="POST">
             <div className="col-span-4 col-start-4">
                 <ul className="my-8 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">

@@ -1,9 +1,5 @@
-import {
-    json,
-    type MetaFunction,
-    type LoaderFunctionArgs
-} from '@remix-run/node';
-import { type User } from '@prisma/client';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import {
     Links,
     LiveReload,
@@ -14,12 +10,13 @@ import {
     useLoaderData
 } from '@remix-run/react';
 
-import { getThemeSession } from '~/utils/theme.server';
-import { getUser } from './utils/auth.server';
-import LeftNav from './components/LeftNav';
-import Navbar from './components/Navbar';
+import { getThemeSession } from './utils/theme.server';
 
 import '~/tailwind.css';
+import SiteLayout from './components/SiteLayout';
+import { getUser } from './utils/auth.server';
+import type { User } from '@prisma/client';
+import { BACKGROUND_COLORS } from './utils/constants';
 
 export const meta: MetaFunction = () => {
     return [
@@ -42,7 +39,7 @@ export default function App() {
     const data = useLoaderData<typeof loader>();
 
     return (
-        <html lang="en" className={`${data.theme} h-full`}>
+        <html lang="en" className={data.theme}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -52,14 +49,10 @@ export default function App() {
                 <Meta />
                 <Links />
             </head>
-            <body className="bg-white dark:bg-gray-800 h-full grid grid-rows-[3.75rem_auto] text-zinc-800 dark:text-zinc-200">
-                <Navbar theme={data.theme} user={data.user as User} />
-                <div className="h-full col-span-full grid grid-cols-12">
-                    <LeftNav className="md:col-span-4 xl:col-span-2" />
-                    <main className="md:col-span-8 xl:col-span-10">
-                        <Outlet />
-                    </main>
-                </div>
+            <body className={`${BACKGROUND_COLORS} overflow-hidden`}>
+                <SiteLayout theme={data.theme} user={data.user as User}>
+                    <Outlet />
+                </SiteLayout>
                 <ScrollRestoration />
                 <LiveReload />
                 <Scripts />

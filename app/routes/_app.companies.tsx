@@ -1,9 +1,12 @@
-import { json, type LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import PageGrid from '~/components/PageGrid';
+
+import AppLayout from '~/components/AppLayout';
+import NewButtonLink from '~/components/NewButtonLink';
+import StickyHeader from '~/components/StickyHeader';
 import { getAllCompanies } from '~/models/company.server';
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
     const companiesData = await getAllCompanies();
 
     return json({
@@ -15,7 +18,10 @@ export default function CompaniesRoute() {
     const { companiesData } = useLoaderData<typeof loader>();
 
     return (
-        <PageGrid>
+        <AppLayout>
+            <StickyHeader text="Companies">
+                <NewButtonLink to="create" />
+            </StickyHeader>
             {companiesData && companiesData.length > 0 ? (
                 companiesData.map((company) => (
                     <div
@@ -38,6 +44,6 @@ export default function CompaniesRoute() {
                     </Link>
                 </div>
             )}
-        </PageGrid>
+        </AppLayout>
     );
 }

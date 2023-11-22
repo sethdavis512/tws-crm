@@ -1,31 +1,23 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
-import { createCustomer } from '~/models/customer.server';
-
-export async function loader({ request }: LoaderFunctionArgs) {
-    return json({});
-}
+import { createCompany } from '~/models/company.server';
 
 export async function action({ request }: ActionFunctionArgs) {
     const form = await request.formData();
+    const name = form.get('name') as string;
 
-    const firstName = form.get('firstName') as string;
-    const lastName = form.get('lastName') as string;
+    invariant(name, 'Name not defined');
 
-    invariant(firstName, 'First name not defined');
-    invariant(lastName, 'Last name not defined');
-
-    const interaction = await createCustomer({
-        firstName,
-        lastName
+    const interaction = await createCompany({
+        name
     });
 
-    return redirect(`/customers/${interaction.id}`);
+    return redirect(`/companies/${interaction.id}`);
 }
 
 export default function CreateInteractionRoute() {

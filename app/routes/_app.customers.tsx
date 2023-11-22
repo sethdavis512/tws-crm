@@ -1,19 +1,23 @@
 import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import PageGrid from '~/components/PageGrid';
+
+import AppLayout from '~/components/AppLayout';
+import NewButtonLink from '~/components/NewButtonLink';
+import StickyHeader from '~/components/StickyHeader';
 import { getAllCustomers } from '~/models/customer.server';
 
 export async function loader() {
-    const customers = await getAllCustomers();
-
-    return json({ customers });
+    return json({ customers: await getAllCustomers() });
 }
 
 export default function CustomersRoute() {
     const { customers } = useLoaderData<typeof loader>();
 
     return (
-        <PageGrid>
+        <AppLayout>
+            <StickyHeader text="Customers">
+                <NewButtonLink to="create" />
+            </StickyHeader>
             {customers && customers.length > 0 ? (
                 customers.map((customer) => (
                     <div
@@ -36,6 +40,6 @@ export default function CustomersRoute() {
                     </Link>
                 </div>
             )}
-        </PageGrid>
+        </AppLayout>
     );
 }

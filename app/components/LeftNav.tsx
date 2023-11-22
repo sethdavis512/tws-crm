@@ -1,39 +1,13 @@
 import { Link } from '@remix-run/react';
-import {
-    ActivitySquare,
-    Building,
-    ChevronDown,
-    ChevronRight,
-    Gauge,
-    Users
-} from 'lucide-react';
-import { useReducer } from 'react';
+import { ActivitySquare, Building, Gauge, Users } from 'lucide-react';
+
 import { Urls } from '~/utils/constants';
-import { cn } from '~/utils/css';
 import FoldableList from './FoldableList';
 
-interface LeftNavProps {
-    className: string;
-}
-
-export default function LeftNav({ className }: LeftNavProps) {
-    const asideClassName = cn(
-        'z-40 md:col-span-4 xl:col-span-2 h-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700',
-        className
-    );
-
-    const [isInteractionsOpen, toggleInteractionsOpen] = useReducer(
-        (s) => !s,
-        false
-    );
-
+export default function LeftNav() {
     return (
-        <aside
-            className={asideClassName}
-            aria-label="Sidenav"
-            id="drawer-navigation"
-        >
-            <div className="overflow-y-auto py-5 px-3 h-full">
+        <>
+            <div className="py-5 px-3">
                 <ul className="space-y-2">
                     <li>
                         <Link
@@ -109,6 +83,6 @@ export default function LeftNav({ className }: LeftNavProps) {
                     </li>
                 </ul>
             </div>
-        </aside>
+        </>
     );
 }

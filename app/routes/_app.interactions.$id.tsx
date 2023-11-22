@@ -14,6 +14,11 @@ import {
     getInteraction
 } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
+import Tabs from '~/components/Tabs';
+import Tab from '~/components/Tab';
+import TabsList from '~/components/TabsList';
+import TabPanels from '~/components/TabPanels';
+import TabPanel from '~/components/TabPanel';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const interactionId = params.id;
@@ -57,6 +62,7 @@ export default function InteractionDetailsRoute() {
         false
     );
     const { interactionDetails } = useLoaderData<typeof loader>();
+    const numberOfComments = interactionDetails?.comments.length;
 
     return (
         <div className="p-8">
@@ -78,7 +84,7 @@ export default function InteractionDetailsRoute() {
                 </Form>
             </div>
 
-            <div className="flex flex-col gap-2 mb-8">
+            <div className="space-y-2 mb-8">
                 <div>
                     Creator:{' '}
                     <Badge variant="tertiary">
@@ -113,50 +119,63 @@ export default function InteractionDetailsRoute() {
                 </div>
             </div>
 
-            <div className="mb-4">
-                <h5 className="text-2xl font-bold mb-4">Description</h5>
-                <p className="mb-4">
-                    {isDescriptionExpanded
-                        ? interactionDetails?.description
-                        : `${interactionDetails?.description.substring(
-                              0,
-                              250
-                          )}...`}
-                </p>
+            <Tabs>
+                <TabsList>
+                    <Tab text="Description" />
+                    <Tab text={`Comments (${numberOfComments})`} />
+                </TabsList>
+                <TabPanels>
+                    <TabPanel>
+                        <p className="mb-4">
+                            {isDescriptionExpanded
+                                ? interactionDetails?.description
+                                : `${interactionDetails?.description.substring(
+                                      0,
+                                      250
+                                  )}...`}
+                        </p>
+                        {interactionDetails?.description &&
+                            interactionDetails?.description.length > 250 && (
+                                <Button onClick={toggleIsDescriptionExpanded}>
+                                    {`Read ${
+                                        isDescriptionExpanded ? 'less' : 'more'
+                                    }`}
+                                </Button>
+                            )}
+                    </TabPanel>
+                    <TabPanel>
+                        {interactionDetails?.comments &&
+                        interactionDetails?.comments.length > 0 ? (
+                            <ul className="list-disc list-inside mb-8">
+                                {interactionDetails?.comments.map((comment) => (
+                                    <li key={comment.id}>
+                                        {comment.text} -{' '}
+                                        <span className="text-gray-500">
+                                            {formatTheDate(comment.createdAt)}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div className="border dark:border-gray-600 p-4 rounded-md mb-4">
+                                <p>No comments to display...</p>
+                            </div>
+                        )}
 
-                {interactionDetails?.description &&
-                    interactionDetails?.description.length > 250 && (
-                        <Button onClick={toggleIsDescriptionExpanded}>
-                            {`Read ${isDescriptionExpanded ? 'less' : 'more'}`}
-                        </Button>
-                    )}
-            </div>
-
-            <hr className="my-8" />
-
-            <h5 className="text-2xl font-bold mb-4">Comments</h5>
-            {interactionDetails?.comments &&
-            interactionDetails?.comments.length > 0 ? (
-                <ul className="list-disc list-inside">
-                    {interactionDetails?.comments.map((comment) => (
-                        <li key={comment.id}>
-                            {comment.text} -{' '}
-                            <span className="text-gray-500">
-                                {formatTheDate(comment.createdAt)}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No comments</p>
-            )}
-            <Form method="POST">
-                <Label htmlFor="addComment">Add comment</Label>
-                <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button name="intent" value="create">
-                    Add comment
-                </Button>
-            </Form>
+                        <Form method="POST">
+                            <Label htmlFor="addComment">Add comment</Label>
+                            <Textarea
+                                id="addComment"
+                                name="comment"
+                                className="mb-4"
+                            />
+                            <Button name="intent" value="create">
+                                Add comment
+                            </Button>
+                        </Form>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </div>
     );
 }

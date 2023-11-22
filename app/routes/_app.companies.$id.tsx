@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
+import DeleteButton from '~/components/DeleteButton';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
 import {
@@ -63,9 +64,7 @@ export default function CompanyDetailsRoute() {
                         name="interactionId"
                         value={companyDetails?.id}
                     />
-                    <Button variant="danger" name="intent" value="delete">
-                        Delete
-                    </Button>
+                    <DeleteButton />
                 </Form>
             </div>
             <div>

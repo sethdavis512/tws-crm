@@ -54,19 +54,13 @@ export function addCommentToCompany({
 //     });
 // }
 
-// export function createInteraction({
-//     description,
-//     title,
-//     customerId
-// }: Pick<Interaction, 'title' | 'description' | 'customerId'>) {
-//     return prisma.interaction.create({
-//         data: {
-//             title,
-//             description,
-//             customerId
-//         }
-//     });
-// }
+export function createCompany({ name }: Pick<Company, 'name'>) {
+    return prisma.company.create({
+        data: {
+            name
+        }
+    });
+}
 
 export function deleteCompany({ id }: Pick<Company, 'id'>) {
     return prisma.company.delete({

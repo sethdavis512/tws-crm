@@ -49,16 +49,6 @@ export default function CreateInteractionRoute() {
             <h1 className="text-4xl font-bold mb-4">Create interaction</h1>
             <Form method="POST" className="space-y-4">
                 <div>
-                    <Label htmlFor="title">Title</Label>
-                    <Input name="title" type="text" />
-                </div>
-
-                <div>
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea name="description" />
-                </div>
-
-                <div>
                     <Label htmlFor="customerId">Customer ID</Label>
                     <select
                         name="customerId"
@@ -70,6 +60,16 @@ export default function CreateInteractionRoute() {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div>
+                    <Label htmlFor="title">Title</Label>
+                    <Input name="title" type="text" />
+                </div>
+
+                <div>
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea name="description" />
                 </div>
 
                 <Button type="submit">Create interaction</Button>
