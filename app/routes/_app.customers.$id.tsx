@@ -6,6 +6,9 @@ import { useState } from 'react';
 import invariant from 'tiny-invariant';
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
+import DeleteButton from '~/components/DeleteButton';
+import Heading from '~/components/Heading';
+import InteractionCard from '~/components/InteractionCard';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
 import {
@@ -56,18 +59,16 @@ export default function InteractionDetailsRoute() {
     return (
         <div className="p-8 space-y-4">
             <div className="flex justify-between">
-                <h3 className="text-4xl font-bold mb-6">
+                <Heading>
                     {customerDetails?.firstName} {customerDetails?.lastName}
-                </h3>
+                </Heading>
                 <Form method="POST">
                     <input
                         type="hidden"
                         name="interactionId"
                         value={customerDetails?.id}
                     />
-                    <Button variant="danger" name="intent" value="delete">
-                        Delete
-                    </Button>
+                    <DeleteButton />
                 </Form>
             </div>
             <div>
@@ -91,37 +92,25 @@ export default function InteractionDetailsRoute() {
                 )}
             </div>
 
-            <h5 className="text-2xl font-bold mb-4">Interactions</h5>
+            <Heading>Interactions</Heading>
             {customerDetails?.interactions &&
             customerDetails?.interactions.length > 0 ? (
                 <ul>
                     {customerDetails?.interactions.map((interaction) => (
                         <li key={interaction.id} className="mb-4">
-                            <h5 className="text-2xl font-bold mb-4">
-                                {interaction.title}
-                            </h5>
-                            <p className="mb-4">
-                                {openInteraction === interaction.id
-                                    ? interaction.description
-                                    : `${interaction.description
-                                          .trim()
-                                          .substring(0, 150)}...`}
-                            </p>
-                            {interaction.description.length > 149 && (
-                                <Button
-                                    onClick={() =>
-                                        setOpenInteraction(
-                                            openInteraction === interaction.id
-                                                ? null
-                                                : interaction.id
-                                        )
+                            <InteractionCard
+                                createdAt={interaction.createdAt}
+                                more={openInteraction === interaction.id}
+                                toggle={() => {
+                                    if (openInteraction === interaction.id) {
+                                        setOpenInteraction(null);
+                                    } else {
+                                        setOpenInteraction(interaction.id);
                                     }
-                                >{`Read ${
-                                    openInteraction === interaction.id
-                                        ? 'less'
-                                        : 'more'
-                                }`}</Button>
-                            )}
+                                }}
+                                heading={interaction.title}
+                                description={interaction.description}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -129,7 +118,7 @@ export default function InteractionDetailsRoute() {
                 <p>No interactions have been recorded</p>
             )}
 
-            <h5 className="text-2xl font-bold mb-4">Comments</h5>
+            <Heading>Comments</Heading>
             {customerDetails?.comments &&
             customerDetails?.comments.length > 0 ? (
                 <ul className="list-disc list-inside">

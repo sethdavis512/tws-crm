@@ -1,4 +1,3 @@
-import { useReducer } from 'react';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
@@ -8,30 +7,30 @@ import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
-import {
-    addCommentToInteraction,
-    deleteInteraction,
-    getInteraction
-} from '~/models/interaction.server';
+import { addCommentToCase, deleteCase, getCase } from '~/models/case.server';
 import { formatTheDate } from '~/utils';
 import Tabs from '~/components/Tabs';
 import Tab from '~/components/Tab';
 import TabsList from '~/components/TabsList';
 import TabPanels from '~/components/TabPanels';
 import TabPanel from '~/components/TabPanel';
-import { Urls } from '~/utils/constants';
+import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
+import { useToggle } from '~/hooks/useToggle';
+import Modal from '~/components/Modal';
+import { LinkButton } from '~/components/LinkButton';
+import { ChevronRight } from 'lucide-react';
 import DeleteButton from '~/components/DeleteButton';
 import ReadMoreButton from '~/components/ReadMoreButton';
 import Heading from '~/components/Heading';
 
 export async function loader({ params }: LoaderFunctionArgs) {
-    const interactionId = params.id;
-    invariant(interactionId, 'Interaction ID not found');
+    const caseId = params.id;
+    invariant(caseId, 'Case ID not found');
 
-    const interactionDetails = await getInteraction({ id: interactionId });
+    const caseDetails = await getCase({ id: caseId });
 
     return json({
-        interactionDetails
+        caseDetails
     });
 }
 
@@ -41,10 +40,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
     const intent = form.get('intent');
 
     if (intent === 'delete') {
-        const interactionId = form.get('interactionId') as string;
-        invariant(interactionId, 'ID doesnt exist');
+        const caseId = form.get('caseId') as string;
+        invariant(caseId, 'ID doesnt exist');
 
-        await deleteInteraction({ id: interactionId });
+        await deleteCase({ id: caseId });
 
         return redirect(Urls.INTERACTIONS);
     } else if (intent === 'create') {
@@ -52,7 +51,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         invariant(comment, 'Comment doesnt exist');
         invariant(id, 'ID doesnt exist');
 
-        await addCommentToInteraction({ id, comment });
+        await addCommentToCase({ id, comment });
 
         return null;
     } else {
@@ -60,25 +59,24 @@ export async function action({ request, params }: ActionFunctionArgs) {
     }
 }
 
-export default function InteractionDetailsRoute() {
-    const [isDescriptionExpanded, toggleIsDescriptionExpanded] = useReducer(
-        (s) => !s,
-        false
-    );
-    const { interactionDetails } = useLoaderData<typeof loader>();
-    const numberOfComments = interactionDetails?.comments.length;
+export default function CasesDetailsRoute() {
+    const [isDescriptionExpanded, toggleIsDescriptionExpanded] = useToggle();
+    const [isModalOpen, toggleIsModalOpen] = useToggle();
+    const { caseDetails } = useLoaderData<typeof loader>();
+    const numberOfInteractions = caseDetails?.interactions.length;
+    const numberOfComments = caseDetails?.comments.length;
 
     return (
         <div className="p-8">
             <div className="flex justify-between">
                 <div>
-                    <Heading>{interactionDetails?.title}</Heading>
+                    <Heading>{caseDetails?.title}</Heading>
                 </div>
                 <Form method="POST">
                     <input
                         type="hidden"
-                        name="interactionId"
-                        value={interactionDetails?.id}
+                        name="caseId"
+                        value={caseDetails?.id}
                     />
                     <DeleteButton />
                 </Form>
@@ -88,30 +86,24 @@ export default function InteractionDetailsRoute() {
                 <div>
                     Creator:{' '}
                     <Badge variant="tertiary">
-                        {interactionDetails?.createdBy?.profile.firstName}{' '}
-                        {interactionDetails?.createdBy?.profile.lastName}
+                        {caseDetails?.createdBy?.profile.firstName}{' '}
+                        {caseDetails?.createdBy?.profile.lastName}
                     </Badge>
                 </div>
-                <div>
-                    Customer:{' '}
-                    <Badge variant="secondary">
-                        {interactionDetails?.customer.firstName}{' '}
-                        {interactionDetails?.customer.lastName}
-                    </Badge>
-                </div>
+
                 <div>
                     Created:{' '}
                     <Badge variant="primary">
-                        {formatTheDate(interactionDetails?.createdAt as string)}
+                        {formatTheDate(caseDetails?.createdAt as string)}
                     </Badge>
-                    {!dayjs(interactionDetails?.createdAt).isSame(
-                        interactionDetails?.updatedAt
+                    {!dayjs(caseDetails?.createdAt).isSame(
+                        caseDetails?.updatedAt
                     ) && (
                         <div>
                             Last updated:{' '}
                             <Badge variant="primary">
                                 {formatTheDate(
-                                    interactionDetails?.updatedAt as string
+                                    caseDetails?.updatedAt as string
                                 )}
                             </Badge>
                         </div>
@@ -122,20 +114,21 @@ export default function InteractionDetailsRoute() {
             <Tabs>
                 <TabsList>
                     <Tab text="Description" />
+                    <Tab text={`Interactions (${numberOfInteractions})`} />
                     <Tab text={`Comments (${numberOfComments})`} />
                 </TabsList>
                 <TabPanels>
                     <TabPanel>
                         <p className="mb-4">
                             {isDescriptionExpanded
-                                ? interactionDetails?.description
-                                : `${interactionDetails?.description.substring(
+                                ? caseDetails?.description
+                                : `${caseDetails?.description.substring(
                                       0,
                                       250
                                   )}...`}
                         </p>
-                        {interactionDetails?.description &&
-                            interactionDetails?.description.length > 250 && (
+                        {caseDetails?.description &&
+                            caseDetails?.description.length > 250 && (
                                 <ReadMoreButton
                                     more={isDescriptionExpanded}
                                     onClick={toggleIsDescriptionExpanded}
@@ -143,10 +136,46 @@ export default function InteractionDetailsRoute() {
                             )}
                     </TabPanel>
                     <TabPanel>
-                        {interactionDetails?.comments &&
-                        interactionDetails?.comments.length > 0 ? (
+                        <ul>
+                            {caseDetails?.interactions &&
+                            caseDetails?.interactions.length > 0 ? (
+                                caseDetails?.interactions.map((interaction) => (
+                                    <li
+                                        key={interaction.id}
+                                        className={`mb-4 ${BORDER_BOTTOM_COLORS}`}
+                                    >
+                                        <Heading>{interaction.title}</Heading>
+                                        <p className="mb-4">
+                                            {interaction.description.slice(
+                                                0,
+                                                100
+                                            )}
+                                        </p>
+                                        <LinkButton
+                                            className="mb-4 inline-flex gap-2 items-center"
+                                            to={`${Urls.INTERACTIONS}/${interaction.id}`}
+                                        >
+                                            Go to interaction <ChevronRight />
+                                        </LinkButton>
+                                    </li>
+                                ))
+                            ) : (
+                                <>
+                                    <p className="italic">
+                                        No interactions have been associated.
+                                    </p>
+                                    <Button onClick={toggleIsModalOpen}>
+                                        Associate interaction
+                                    </Button>
+                                </>
+                            )}
+                        </ul>
+                    </TabPanel>
+                    <TabPanel>
+                        {caseDetails?.comments &&
+                        caseDetails?.comments.length > 0 ? (
                             <ul className="list-disc list-inside mb-8">
-                                {interactionDetails?.comments.map((comment) => (
+                                {caseDetails?.comments.map((comment: any) => (
                                     <li key={comment.id}>
                                         {comment.text} -{' '}
                                         <span className="text-gray-500">
@@ -175,6 +204,14 @@ export default function InteractionDetailsRoute() {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
+
+            <Modal
+                isOpen={isModalOpen}
+                heading="Associate interactions"
+                closeModal={toggleIsModalOpen}
+            >
+                Hi
+            </Modal>
         </div>
     );
 }

@@ -19,6 +19,8 @@ model User {
     profile     Profile
     Company     Company[]
     Interaction Interaction[]
+    Case        Case[]
+    Task        Task[]
 }
 
 type Profile {
@@ -36,6 +38,9 @@ model Customer {
     firstName    String
     lastName     String
     comments     Comment[]
+    Case         Case?         @relation(fields: [caseId], references: [id])
+    caseId       String?       @db.ObjectId
+    Task         Task[]
 }
 
 model Company {
@@ -48,19 +53,45 @@ model Company {
     User        User?      @relation(fields: [userId], references: [id])
     userId      String?    @db.ObjectId
     comments    Comment[]
+    Case        Case?      @relation(fields: [caseId], references: [id])
+    caseId      String?    @db.ObjectId
 }
 
 model Interaction {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt   DateTime  @default(now())
-    createdBy   User?     @relation(fields: [userId], references: [id])
-    userId      String?   @db.ObjectId
-    updatedAt   DateTime  @updatedAt
+    id          String          @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+    createdBy   User?           @relation(fields: [userId], references: [id])
+    userId      String?         @db.ObjectId
     title       String
     description String
-    customer    Customer  @relation(fields: [customerId], references: [id])
-    customerId  String    @db.ObjectId
+    type        InteractionType
+    customer    Customer        @relation(fields: [customerId], references: [id])
+    customerId  String          @db.ObjectId
     comments    Comment[]
+    Case        Case?           @relation(fields: [caseId], references: [id])
+    caseId      String?         @db.ObjectId
+}
+
+enum InteractionType {
+    MEETING
+    CALL
+    EMAIL
+    MESSAGE
+}
+
+model Case {
+    id           String        @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    createdBy    User?         @relation(fields: [userId], references: [id])
+    userId       String?       @db.ObjectId
+    companies    Company[]
+    interactions Interaction[]
+    title        String
+    description  String
+    customers    Customer[]
+    comments     Comment[]
 }
 
 model Comment {
@@ -74,4 +105,35 @@ model Comment {
     customerId    String?      @db.ObjectId
     Company       Company?     @relation(fields: [companyId], references: [id])
     companyId     String?      @db.ObjectId
+    Case          Case?        @relation(fields: [caseId], references: [id])
+    caseId        String?      @db.ObjectId
+}
+
+enum TaskStatus {
+    TODO
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
+
+enum TaskType {
+    GENERAL
+    FOLLOW_UP
+    MEETING
+    CALL
+    EMAIL
+}
+
+model Task {
+    id         String     @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
+    title      String
+    dueDate    DateTime?
+    status     TaskStatus @default(TODO)
+    type       TaskType   @default(GENERAL)
+    assignedTo User?      @relation(fields: [userId], references: [id])
+    userId     String?    @db.ObjectId
+    Customer   Customer?  @relation(fields: [customerId], references: [id])
+    customerId String?    @db.ObjectId
 }

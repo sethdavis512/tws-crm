@@ -2,8 +2,9 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '~/utils/css';
+import { Link } from '@remix-run/react';
 
-const buttonVariants = cva(
+const linkButtonVariants = cva(
     'rounded-md text-white focus:ring-4 focus:ring-blue-300 font-medium text-sm focus:outline-none dark:focus:ring-blue-800',
     {
         variants: {
@@ -31,23 +32,23 @@ const buttonVariants = cva(
 
 export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof buttonVariants> {
-    asChild?: boolean;
+        VariantProps<typeof linkButtonVariants> {
+    to: string;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, type, ...props }, ref) => {
+const LinkButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+    ({ children, className, variant, size, to }) => {
         return (
-            <button
-                type={type}
-                className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref}
-                {...props}
-            />
+            <Link
+                className={cn(linkButtonVariants({ variant, size, className }))}
+                to={to}
+            >
+                {children}
+            </Link>
         );
     }
 );
 
-Button.displayName = 'Button';
+LinkButton.displayName = 'LinkButton';
 
-export { Button, buttonVariants };
+export { LinkButton, linkButtonVariants };

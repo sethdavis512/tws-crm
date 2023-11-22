@@ -1,10 +1,12 @@
 import { json } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData, useParams } from '@remix-run/react';
 
 import AppLayout from '~/components/AppLayout';
+import Heading from '~/components/Heading';
 import NewButtonLink from '~/components/NewButtonLink';
 import StickyHeader from '~/components/StickyHeader';
 import { getAllCompanies } from '~/models/company.server';
+import { getPanelLinkClassName } from '~/utils/css';
 
 export async function loader() {
     const companiesData = await getAllCompanies();
@@ -15,6 +17,7 @@ export async function loader() {
 }
 
 export default function CompaniesRoute() {
+    const { id: companyIdParam } = useParams();
     const { companiesData } = useLoaderData<typeof loader>();
 
     return (
@@ -23,19 +26,21 @@ export default function CompaniesRoute() {
                 <NewButtonLink to="create" />
             </StickyHeader>
             {companiesData && companiesData.length > 0 ? (
-                companiesData.map((company) => (
-                    <div
-                        key={company.id}
-                        className="bg-white border-b border-b-gray-200 dark:bg-gray-800 dark:border-gray-700"
-                    >
+                companiesData.map((company) => {
+                    const linkClassName = getPanelLinkClassName(
+                        company.id === companyIdParam
+                    );
+
+                    return (
                         <Link
-                            className="block p-4 text-lg font-bold tracking-tight text-gray-900 dark:text-white"
+                            key={company.id}
+                            className={linkClassName}
                             to={company.id}
                         >
-                            {company.name}
+                            <Heading size="4">{company.name}</Heading>
                         </Link>
-                    </div>
-                ))
+                    );
+                })
             ) : (
                 <div className="p-8">
                     No companies yet.{' '}

@@ -21,6 +21,18 @@ export function getAllInteractions() {
     });
 }
 
+export function getLatestInteractions(take = 5) {
+    return prisma.interaction.findMany({
+        orderBy: {
+            createdAt: 'desc'
+        },
+        include: {
+            customer: true
+        },
+        take
+    });
+}
+
 export function getFirstInteraction() {
     return prisma.interaction.findFirst({
         include: {

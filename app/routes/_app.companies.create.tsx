@@ -3,9 +3,11 @@ import { redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
+import Heading from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { createCompany } from '~/models/company.server';
+import { Urls } from '~/utils/constants';
 
 export async function action({ request }: ActionFunctionArgs) {
     const form = await request.formData();
@@ -17,19 +19,18 @@ export async function action({ request }: ActionFunctionArgs) {
         name
     });
 
-    return redirect(`/companies/${interaction.id}`);
+    return redirect(`${Urls.COMPANIES}/${interaction.id}`);
 }
 
 export default function CreateInteractionRoute() {
     return (
         <div className="col-span-4 p-8">
-            <h1 className="text-4xl font-bold mb-4">Create company</h1>
+            <Heading>Create company</Heading>
             <Form method="POST" className="space-y-4">
                 <div>
                     <Label htmlFor="name">Name</Label>
                     <Input name="name" type="text" />
                 </div>
-
                 <Button type="submit">Create company</Button>
             </Form>
         </div>

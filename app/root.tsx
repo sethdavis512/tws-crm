@@ -29,6 +29,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     const themeSession = await getThemeSession(request);
     const user = await getUser(request);
 
+    console.log({ user });
+
     return json({
         theme: themeSession.getTheme(),
         user

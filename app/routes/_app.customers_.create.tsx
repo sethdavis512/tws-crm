@@ -3,11 +3,13 @@ import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
+import Heading from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { getAllCompanies } from '~/models/company.server';
 import { createCustomer } from '~/models/customer.server';
 import { createInteraction } from '~/models/interaction.server';
+import { Urls } from '~/utils/constants';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const allCompanies = await getAllCompanies();
@@ -31,7 +33,7 @@ export async function action({ request }: ActionFunctionArgs) {
         lastName
     });
 
-    return redirect(`/customers/${interaction.id}`);
+    return redirect(`${Urls.CUSTOMERS}/${interaction.id}`);
 }
 
 export default function CreateInteractionRoute() {
@@ -39,7 +41,7 @@ export default function CreateInteractionRoute() {
 
     return (
         <div className="col-span-4 p-8">
-            <h1 className="text-4xl font-bold mb-4">Create interaction</h1>
+            <Heading>Create interaction</Heading>
             <Form method="POST" className="space-y-4">
                 <div>
                     <Label htmlFor="firstName">First name</Label>

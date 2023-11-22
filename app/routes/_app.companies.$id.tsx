@@ -6,6 +6,7 @@ import invariant from 'tiny-invariant';
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
 import DeleteButton from '~/components/DeleteButton';
+import Heading from '~/components/Heading';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
 import {
@@ -55,9 +56,7 @@ export default function CompanyDetailsRoute() {
     return (
         <div className="p-8 space-y-4">
             <div className="flex justify-between">
-                <h3 className="text-4xl font-bold mb-6">
-                    {companyDetails?.name}
-                </h3>
+                <Heading>{companyDetails?.name}</Heading>
                 <Form method="POST">
                     <input
                         type="hidden"
@@ -67,26 +66,28 @@ export default function CompanyDetailsRoute() {
                     <DeleteButton />
                 </Form>
             </div>
-            <div>
-                Created:{' '}
-                <Badge variant="primary">
-                    {dayjs(companyDetails?.createdAt).format(
-                        'MMMM D, YYYY h:mm A'
-                    )}
-                </Badge>
+            <div className="flex flex-col gap-2">
+                <div>
+                    Created:{' '}
+                    <Badge variant="primary">
+                        {dayjs(companyDetails?.createdAt).format(
+                            'MMMM D, YYYY h:mm A'
+                        )}
+                    </Badge>
+                </div>
                 {!dayjs(companyDetails?.createdAt).isSame(
                     companyDetails?.updatedAt
                 ) && (
-                    <>
+                    <div>
                         Last updated:{' '}
                         <Badge variant="primary">
                             {formatTheDate(companyDetails?.updatedAt as string)}
                         </Badge>
-                    </>
+                    </div>
                 )}
             </div>
 
-            <h5 className="text-2xl font-bold mb-4">Customers</h5>
+            <Heading>Customers</Heading>
             <ul>
                 {companyDetails?.customers.map((customer) => (
                     <li key={customer.id} className="mb-2">
@@ -97,7 +98,7 @@ export default function CompanyDetailsRoute() {
 
             <hr />
 
-            <h5 className="text-2xl font-bold mb-4">Comments</h5>
+            <Heading>Comments</Heading>
             {companyDetails?.comments && companyDetails?.comments.length > 0 ? (
                 <ul className="list-disc list-inside">
                     {companyDetails?.comments.map((comment) => (

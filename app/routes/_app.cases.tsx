@@ -4,42 +4,43 @@ import AppLayout from '~/components/AppLayout';
 import Heading from '~/components/Heading';
 import NewButtonLink from '~/components/NewButtonLink';
 import StickyHeader from '~/components/StickyHeader';
+import { getAllCases } from '~/models/case.server';
 
-import { getAllInteractions } from '~/models/interaction.server';
-import { getPanelLinkClassName } from '~/utils/css';
+import { cn } from '~/utils/css';
 
 export async function loader() {
-    const interactions = await getAllInteractions();
+    const cases = await getAllCases();
 
     return json({
-        interactions
+        cases
     });
 }
 
-export default function InteractionsRoute() {
-    const { id: interactionIdParam } = useParams();
-    const { interactions } = useLoaderData<typeof loader>();
+export default function CasesRoute() {
+    const { id: caseIdParam } = useParams();
+    const { cases } = useLoaderData<typeof loader>();
 
     return (
         <AppLayout>
-            <StickyHeader text="Interactions">
+            <StickyHeader text="Cases">
                 <NewButtonLink to="create" />
             </StickyHeader>
-            {interactions && interactions.length > 0 ? (
-                interactions.map((interaction) => {
-                    const linkClassName = getPanelLinkClassName(
-                        interaction.id === interactionIdParam
+            {cases && cases.length > 0 ? (
+                cases.map((caseObj) => {
+                    const linkClassName = cn(
+                        'block p-4 bg-white border-b border-b-gray-200 dark:border-b-gray-700 dark:bg-gray-800',
+                        caseObj.id === caseIdParam &&
+                            'bg-green-200 dark:bg-green-900'
                     );
-
                     return (
                         <Link
-                            to={interaction.id}
-                            key={interaction.id}
+                            to={caseObj.id}
+                            key={caseObj.id}
                             className={linkClassName}
                         >
-                            <Heading size="4">{interaction.title}</Heading>
+                            <Heading size="4">{caseObj.title}</Heading>
                             <p className="font-normal text-gray-700 dark:text-gray-400 break-words">
-                                {`${interaction.description
+                                {`${caseObj.description
                                     .split(' ')
                                     .slice(0, 5)
                                     .join(' ')}...`}
