@@ -141,12 +141,7 @@ export default function InteractionDetailsRoute() {
             <Form method="POST">
                 <Label htmlFor="addComment">Add comment</Label>
                 <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button
-                    variant="primary"
-                    size="md"
-                    name="intent"
-                    value="create"
-                >
+                <Button name="intent" value="create">
                     Add comment
                 </Button>
             </Form>

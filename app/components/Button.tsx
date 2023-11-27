@@ -22,15 +22,11 @@ export const buttonVariants = cva('font-semibold shadow-sm rounded-md', {
             md: 'text-sm px-3 py-2',
             lg: 'text-sm px-3 py-2',
             xl: 'text-sm px-4 py-3'
-        },
-        // compoundVariants: {
-        //     variant: ['primary'],
-        //     size: ['md']
-        // },
-        defaultVariants: {
-            variant: 'primary',
-            size: 'md'
         }
+    },
+    defaultVariants: {
+        variant: 'primary',
+        size: 'md'
     }
 });
 

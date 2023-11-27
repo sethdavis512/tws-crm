@@ -168,11 +168,7 @@ export default function CasesDetailsRoute() {
                             )}
                     </TabPanel>
                     <TabPanel>
-                        <Button
-                            variant="primary"
-                            size="md"
-                            onClick={toggleIsModalOpen}
-                        >
+                        <Button onClick={toggleIsModalOpen}>
                             Connect an interaction
                         </Button>
                         <Separator />
@@ -239,8 +235,6 @@ export default function CasesDetailsRoute() {
                     footer={
                         <Button
                             type="submit"
-                            variant="primary"
-                            size="md"
                             name="intent"
                             value="connectInteractions"
                         >

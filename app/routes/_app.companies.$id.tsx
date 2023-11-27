@@ -143,12 +143,7 @@ export default function CompanyDetailsRoute() {
                                 name="comment"
                                 className="mb-4"
                             />
-                            <Button
-                                variant="primary"
-                                size="md"
-                                name="intent"
-                                value="create"
-                            >
+                            <Button name="intent" value="create">
                                 Add comment
                             </Button>
                         </Form>

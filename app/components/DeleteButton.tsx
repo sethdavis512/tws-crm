@@ -8,7 +8,6 @@ export function DeleteButton() {
             variant="danger"
             name="intent"
             value="delete"
-            size="md"
         >
             <Trash className="w-5 h-5" />
             <span>Delete</span>

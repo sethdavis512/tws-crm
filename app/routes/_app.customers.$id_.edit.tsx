@@ -68,9 +68,7 @@ export default function EditCaseRoute() {
                     />
                 </div>
 
-                <Button variant="primary" size="md" type="submit">
-                    Update
-                </Button>
+                <Button type="submit">Update</Button>
             </Form>
         </div>
     );

@@ -197,13 +197,7 @@ export default function LoginRoute() {
                     />
                 </>
             )}
-            <Button
-                variant="primary"
-                size="md"
-                name="intent"
-                type="submit"
-                value={action}
-            >
+            <Button name="intent" type="submit" value={action}>
                 {action === 'login' ? 'Login' : 'Register'}
             </Button>
         </Form>

@@ -24,16 +24,19 @@ export async function action({ request }: ActionFunctionArgs) {
 
     const firstName = form.get('firstName') as string;
     const lastName = form.get('lastName') as string;
+    const companyIDs = form.get('companyIDs') as string;
 
     invariant(firstName, 'First name not defined');
     invariant(lastName, 'Last name not defined');
+    invariant(companyIDs, 'companyIDs not defined');
 
-    const interaction = await createCustomer({
+    const customer = await createCustomer({
         firstName,
-        lastName
+        lastName,
+        companyIDs: [companyIDs]
     });
 
-    return redirect(`${Urls.CUSTOMERS}/${interaction.id}`);
+    return redirect(`${Urls.CUSTOMERS}/${customer.id}`);
 }
 
 export default function CreateInteractionRoute() {
@@ -41,7 +44,7 @@ export default function CreateInteractionRoute() {
 
     return (
         <div className="col-span-4 p-8">
-            <Heading>Create interaction</Heading>
+            <Heading>Create new customer</Heading>
             <Form method="POST" className="space-y-4">
                 <div>
                     <Label htmlFor="firstName">First name</Label>
@@ -54,9 +57,9 @@ export default function CreateInteractionRoute() {
                 </div>
 
                 <div>
-                    <Label htmlFor="customerId">Company</Label>
+                    <Label htmlFor="companyIDs">Company</Label>
                     <select
-                        name="customerId"
+                        name="companyIDs"
                         className="dark:bg-gray-800 rounded-md"
                     >
                         {allCompanies.map((company) => (
@@ -67,9 +70,7 @@ export default function CreateInteractionRoute() {
                     </select>
                 </div>
 
-                <Button variant="primary" size="md" type="submit">
-                    Create interaction
-                </Button>
+                <Button type="submit">Create customer</Button>
             </Form>
         </div>
     );

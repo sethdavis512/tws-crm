@@ -3,7 +3,7 @@ import type { Case } from '@prisma/client';
 import { prisma } from '~/utils/prisma.server';
 
 export function getCase({ id }: Pick<Case, 'id'>) {
-    return prisma.case.findFirst({
+    return prisma.case.findUnique({
         where: { id },
         include: {
             createdBy: true,
@@ -37,18 +37,15 @@ export function getLatestCases(take = 5) {
 export function createCase({
     description,
     title,
-    companies,
+    companyIDs,
     userId
-}: Pick<Case, 'title' | 'description'> & {
-    userId: string;
-    companies: { id: string }[];
-}) {
+}: Pick<Case, 'title' | 'description' | 'companyIDs' | 'userId'>) {
     return prisma.case.create({
         data: {
             title,
             description,
             companies: {
-                connect: companies
+                connect: companyIDs.map((cid) => ({ id: cid }))
             },
             userId
         },

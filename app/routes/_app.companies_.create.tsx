@@ -32,9 +32,7 @@ export default function CreateInteractionRoute() {
                     <Label htmlFor="name">Name</Label>
                     <Input name="name" type="text" />
                 </div>
-                <Button variant="primary" size="md" type="submit">
-                    Create company
-                </Button>
+                <Button type="submit">Create company</Button>
             </Form>
         </div>
     );

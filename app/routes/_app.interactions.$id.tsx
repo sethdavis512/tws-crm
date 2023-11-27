@@ -177,8 +177,6 @@ export default function InteractionDetailsRoute() {
                             <Button
                                 name="intent"
                                 value="create"
-                                variant="primary"
-                                size="md"
                                 disabled={!commentValue}
                             >
                                 Add comment

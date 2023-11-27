@@ -40,12 +40,14 @@ export function addCommentToCustomer({
 
 export function createCustomer({
     firstName,
-    lastName
-}: Pick<Customer, 'firstName' | 'lastName'>) {
+    lastName,
+    companyIDs
+}: Pick<Customer, 'firstName' | 'lastName' | 'companyIDs'>) {
     return prisma.customer.create({
         data: {
             firstName,
-            lastName
+            lastName,
+            companyIDs
         }
     });
 }

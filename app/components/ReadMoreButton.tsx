@@ -9,12 +9,7 @@ interface ReadMoreButtonProps {
 
 export function ReadMoreButton({ show, ...rest }: ReadMoreButtonProps) {
     return (
-        <Button
-            className="flex gap-2 items-center"
-            variant="primary"
-            size="md"
-            {...rest}
-        >
+        <Button className="flex gap-2 items-center" {...rest}>
             {show ? (
                 <BookIcon className="w-4 h-4" />
             ) : (

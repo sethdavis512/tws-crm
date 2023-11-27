@@ -83,9 +83,7 @@ export default function EditInteractionRoute() {
                     />
                 </div>
 
-                <Button variant="primary" size="md" type="submit">
-                    Update
-                </Button>
+                <Button type="submit">Update</Button>
             </Form>
         </div>
     );
