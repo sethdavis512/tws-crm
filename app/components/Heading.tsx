@@ -25,7 +25,7 @@ const headingVariants = cva('font-bold', {
     }
 });
 
-export default function Heading({
+export function Heading({
     as = 'h2',
     children,
     className,

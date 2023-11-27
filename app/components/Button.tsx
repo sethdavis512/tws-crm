@@ -1,53 +1,52 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
+import type { RequiredVariantProps } from '~/types';
 
-import { cn } from '~/utils/css';
+type ButtonVariants = RequiredVariantProps<typeof buttonVariants>;
 
-const buttonVariants = cva(
-    'rounded-md text-white focus:ring-4 focus:ring-blue-300 font-medium text-sm focus:outline-none dark:focus:ring-blue-800',
-    {
-        variants: {
-            variant: {
-                default:
-                    'bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700',
-                danger: 'bg-red-700 hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700'
-            },
-            size: {
-                default: 'px-5 py-2.5',
-                large: '',
-                small: '',
-                tiny: 'px-2 py-1'
-            },
-            outlined: {
-                true: ''
-            }
+type ButtonProps = Partial<ButtonVariants> &
+    React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const buttonVariants = cva('font-semibold shadow-sm rounded-md', {
+    variants: {
+        variant: {
+            primary:
+                'bg-sky-700 text-white hover:bg-sky-800 active:bg-sky-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700',
+            secondary:
+                'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 active:bg-gray-100',
+            danger: 'bg-red-500 text-white ring-1 ring-inset ring-red-300 dark:ring-red-800 hover:bg-red-50 dark:hover:bg-red-700 active:bg-red-100'
+        },
+        size: {
+            xs: 'text-xs px-2 py-1',
+            sm: 'text-sm px-2 py-1',
+            md: 'text-sm px-3 py-2',
+            lg: 'text-sm px-3 py-2',
+            xl: 'text-sm px-4 py-3'
         },
         defaultVariants: {
-            variant: 'default',
-            size: 'default'
+            variant: 'primary',
+            size: 'md'
         }
     }
-);
+});
 
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof buttonVariants> {
-    asChild?: boolean;
+export function Button({
+    variant,
+    size,
+    className,
+    children,
+    ...props
+}: ButtonProps) {
+    return (
+        <button
+            className={buttonVariants({
+                className,
+                variant,
+                size
+            })}
+            {...props}
+        >
+            {children}
+        </button>
+    );
 }
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, type, ...props }, ref) => {
-        return (
-            <button
-                type={type}
-                className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref}
-                {...props}
-            />
-        );
-    }
-);
-
-Button.displayName = 'Button';
-
-export { Button, buttonVariants };

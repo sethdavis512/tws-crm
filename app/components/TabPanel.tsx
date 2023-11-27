@@ -4,6 +4,6 @@ interface TabPanelProps {
     children: ReactNode;
 }
 
-export default function TabPanel({ children }: TabPanelProps) {
+export function TabPanel({ children }: TabPanelProps) {
     return <div className="p-4">{children}</div>;
 }

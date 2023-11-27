@@ -22,6 +22,7 @@ async function seed() {
     await prisma.interaction.deleteMany({});
     await prisma.customer.deleteMany({});
     await prisma.case.deleteMany({});
+    await prisma.comment.deleteMany({});
 
     const email = 'seth@mail.com';
     // cleanup the existing database
@@ -67,7 +68,8 @@ async function seed() {
                                     }),
                                     description: faker.word.words({
                                         count: { min: 100, max: 500 }
-                                    })
+                                    }),
+                                    type: 'EMAIL'
                                 };
                             })
                         }
@@ -98,6 +100,14 @@ async function seed() {
                                 id: interaction.id
                             })
                         )
+                    },
+                    comments: {
+                        create: [...Array(5)].map(() => ({
+                            userId: user.id,
+                            text: faker.word.words({
+                                count: { min: 100, max: 500 }
+                            })
+                        }))
                     }
                 }
             });

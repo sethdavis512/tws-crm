@@ -1,40 +1,52 @@
-import { Link } from '@remix-run/react';
+import { NavLink } from '@remix-run/react';
 import { ActivitySquare, Building, Files, Gauge, Users } from 'lucide-react';
 
 import { Urls } from '~/utils/constants';
-import FoldableList from './FoldableList';
+import { FoldableList } from './FoldableList';
 
-export default function LeftNav() {
+export function LeftNav() {
+    const navLinkClassFn = ({ isActive }: { isActive: boolean }) =>
+        `flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 ${
+            isActive ? 'bg-green-500' : ''
+        }`;
+
     return (
         <>
             <div className="py-5 px-3">
                 <ul className="space-y-2">
                     <li>
-                        <Link
+                        <NavLink
                             to={Urls.DASHBOARD}
-                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            className={({ isActive }) =>
+                                `flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                                    isActive ? 'bg-green-500' : ''
+                                }`
+                            }
                         >
-                            <Gauge />
+                            <div>
+                                <Gauge />
+                            </div>
                             <span className="ml-3">Dashboard</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
                         <FoldableList icon={<Files />} text="Cases">
                             <li>
-                                <Link
+                                <NavLink
                                     to={Urls.CASES}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
+                                    end
                                 >
                                     View all
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
+                                <NavLink
                                     to={`${Urls.CASES}/create`}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
                                 >
                                     Create new
-                                </Link>
+                                </NavLink>
                             </li>
                         </FoldableList>
                     </li>
@@ -44,60 +56,63 @@ export default function LeftNav() {
                             text="Interactions"
                         >
                             <li>
-                                <Link
+                                <NavLink
                                     to={Urls.INTERACTIONS}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
+                                    end
                                 >
                                     View all
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
+                                <NavLink
                                     to={`${Urls.INTERACTIONS}/create`}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
                                 >
                                     Create new
-                                </Link>
+                                </NavLink>
                             </li>
                         </FoldableList>
                     </li>
                     <li>
                         <FoldableList icon={<Building />} text="Companies">
                             <li>
-                                <Link
+                                <NavLink
                                     to={Urls.COMPANIES}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
+                                    end
                                 >
                                     View all
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
+                                <NavLink
                                     to={`${Urls.COMPANIES}/create`}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
                                 >
                                     Create new
-                                </Link>
+                                </NavLink>
                             </li>
                         </FoldableList>
                     </li>
                     <li>
                         <FoldableList icon={<Users />} text="Customers">
                             <li>
-                                <Link
+                                <NavLink
                                     to={Urls.CUSTOMERS}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
+                                    end
                                 >
                                     View all
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
+                                <NavLink
                                     to={`${Urls.CUSTOMERS}/create`}
-                                    className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                    className={navLinkClassFn}
                                 >
                                     Create new
-                                </Link>
+                                </NavLink>
                             </li>
                         </FoldableList>
                     </li>

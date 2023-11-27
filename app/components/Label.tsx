@@ -1,13 +1,13 @@
-import { type ReactNode } from 'react';
+import type { LabelHTMLAttributes, ReactNode } from 'react';
+
 import { cn } from '~/utils/css';
 
-interface LabelProps {
+interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
     children: ReactNode;
     htmlFor: string;
-    className?: string;
 }
 
-const Label = ({ children, htmlFor, className }: LabelProps) => {
+export function Label({ children, htmlFor, className }: LabelProps) {
     const labelClassName = cn(
         'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
         className
@@ -18,6 +18,4 @@ const Label = ({ children, htmlFor, className }: LabelProps) => {
             {children}
         </label>
     );
-};
-
-export { Label };
+}

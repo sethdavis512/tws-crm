@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { cn } from '~/utils/css';
-import Heading from './Heading';
+import { Heading } from './Heading';
 
 interface ModalProps {
     children: ReactNode;
@@ -10,7 +10,7 @@ interface ModalProps {
     footer?: ReactNode;
 }
 
-export default function Modal({
+export function Modal({
     children,
     footer,
     heading,
@@ -58,7 +58,9 @@ export default function Modal({
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="p-4 md:p-5 space-y-4">{children}</div>
+                    <div className="p-4 md:p-5 space-y-4 overflow-y-auto">
+                        {children}
+                    </div>
                     <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                         {footer}
                     </div>

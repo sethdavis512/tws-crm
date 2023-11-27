@@ -3,11 +3,17 @@ import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
+
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
-import DeleteButton from '~/components/DeleteButton';
-import Heading from '~/components/Heading';
+import { Card } from '~/components/Card';
+import { CommentsSection } from '~/components/CommentsSection';
+import { DeleteButton } from '~/components/DeleteButton';
+import { EditButton } from '~/components/EditButton';
+import { Heading } from '~/components/Heading';
 import { Label } from '~/components/Label';
+import { Separator } from '~/components/Separator';
+import { Stack } from '~/components/Stack';
 import { Textarea } from '~/components/Textarea';
 import {
     addCommentToCompany,
@@ -15,6 +21,8 @@ import {
     getCompany
 } from '~/models/company.server';
 import { formatTheDate } from '~/utils';
+import { getUserId } from '~/utils/auth.server';
+import { Urls } from '~/utils/constants';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const companyId = params.id;
@@ -28,6 +36,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
+    const userId = await getUserId(request);
     const { id } = params;
     const form = await request.formData();
     const intent = form.get('intent');
@@ -41,8 +50,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const comment = form.get('comment') as string;
         invariant(comment, 'Comment doesnt exist');
         invariant(id, 'ID doesnt exist');
+        invariant(userId, 'userId doesnt exist');
 
-        await addCommentToCompany({ id, comment });
+        await addCommentToCompany({ id, comment, userId });
 
         return null;
     } else {
@@ -60,19 +70,22 @@ export default function CompanyDetailsRoute() {
                 <Form method="POST">
                     <input
                         type="hidden"
-                        name="interactionId"
+                        name="companyId"
                         value={companyDetails?.id}
                     />
-                    <DeleteButton />
+                    <Stack>
+                        <EditButton
+                            to={`${Urls.COMPANIES}/${companyDetails?.id}/edit`}
+                        />
+                        <DeleteButton />
+                    </Stack>
                 </Form>
             </div>
             <div className="flex flex-col gap-2">
                 <div>
                     Created:{' '}
                     <Badge variant="primary">
-                        {dayjs(companyDetails?.createdAt).format(
-                            'MMMM D, YYYY h:mm A'
-                        )}
+                        {formatTheDate(companyDetails?.createdAt as string)}
                     </Badge>
                 </div>
                 {!dayjs(companyDetails?.createdAt).isSame(
@@ -91,32 +104,36 @@ export default function CompanyDetailsRoute() {
             <ul>
                 {companyDetails?.customers.map((customer) => (
                     <li key={customer.id} className="mb-2">
-                        {customer.firstName} {customer.lastName}
+                        <Card>
+                            <header>
+                                <Heading>
+                                    {customer.firstName} {customer.lastName}
+                                </Heading>
+                            </header>
+                            <section>{customer.caseId}</section>
+                            <footer></footer>
+                        </Card>
                     </li>
                 ))}
             </ul>
 
-            <hr />
+            <Separator />
 
             <Heading>Comments</Heading>
             {companyDetails?.comments && companyDetails?.comments.length > 0 ? (
-                <ul className="list-disc list-inside">
-                    {companyDetails?.comments.map((comment) => (
-                        <li key={comment.id}>
-                            {comment.text} -{' '}
-                            <span className="text-gray-500">
-                                {formatTheDate(comment.createdAt)}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                <CommentsSection comments={companyDetails.comments} />
             ) : (
                 <p>No comments</p>
             )}
             <Form method="POST">
                 <Label htmlFor="addComment">Add comment</Label>
                 <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button name="intent" value="create">
+                <Button
+                    variant="primary"
+                    size="md"
+                    name="intent"
+                    value="create"
+                >
                     Add comment
                 </Button>
             </Form>

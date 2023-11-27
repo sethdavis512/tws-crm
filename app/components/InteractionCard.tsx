@@ -11,7 +11,7 @@ interface InteractionCardProps {
     more: boolean;
 }
 
-export default function InteractionCard({
+export function InteractionCard({
     createdAt,
     description,
     heading,
@@ -31,7 +31,7 @@ export default function InteractionCard({
                     ? description
                     : `${description.split(' ').slice(0, 5).join(' ')}...`}
             </p>
-            <ReadMoreButton onClick={toggle} more={more} size="tiny" />
+            <ReadMoreButton onClick={toggle} show={more} />
         </Card>
     );
 }

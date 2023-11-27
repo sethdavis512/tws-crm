@@ -5,7 +5,7 @@ interface AppListProps {
     children: ReactNode;
 }
 
-export default function AppList({ children }: AppListProps) {
+export function AppList({ children }: AppListProps) {
     return (
         <div className={`col-span-3 ${BORDER_RIGHT_COLORS} overflow-y-auto`}>
             {children}

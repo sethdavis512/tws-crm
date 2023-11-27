@@ -7,7 +7,7 @@ import {
 import { Form } from '@remix-run/react';
 import { useState } from 'react';
 import { Button } from '~/components/Button';
-import Heading from '~/components/Heading';
+import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { getUser, login, register } from '~/utils/auth.server';
@@ -107,7 +107,6 @@ export default function LoginRoute() {
 
     const handleLoginType = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAction(event?.currentTarget.value as LoginActionType);
-        console.log('testing 123');
     };
 
     return (
@@ -198,7 +197,13 @@ export default function LoginRoute() {
                     />
                 </>
             )}
-            <Button name="intent" type="submit" value={action}>
+            <Button
+                variant="primary"
+                size="md"
+                name="intent"
+                type="submit"
+                value={action}
+            >
                 {action === 'login' ? 'Login' : 'Register'}
             </Button>
         </Form>

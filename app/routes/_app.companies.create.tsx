@@ -2,8 +2,9 @@ import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+
 import { Button } from '~/components/Button';
-import Heading from '~/components/Heading';
+import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { createCompany } from '~/models/company.server';
@@ -31,7 +32,9 @@ export default function CreateInteractionRoute() {
                     <Label htmlFor="name">Name</Label>
                     <Input name="name" type="text" />
                 </div>
-                <Button type="submit">Create company</Button>
+                <Button variant="primary" size="md" type="submit">
+                    Create company
+                </Button>
             </Form>
         </div>
     );

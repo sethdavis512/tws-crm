@@ -34,26 +34,6 @@ export function getLatestCases(take = 5) {
     });
 }
 
-// export function getFirstInteraction() {
-//     return prisma.interaction.findFirst({
-//         include: {
-//             customer: true
-//         }
-//     });
-// }
-
-// export function getInteractionsByCustomerId({
-//     customerId
-// }: {
-//     customerId: Customer['id'];
-// }) {
-//     return prisma.interaction.findMany({
-//         where: { customerId },
-//         select: { id: true, title: true },
-//         orderBy: { updatedAt: 'desc' }
-//     });
-// }
-
 export function createCase({
     description,
     title,
@@ -78,19 +58,58 @@ export function createCase({
     });
 }
 
+export function updateCase({
+    id,
+    title,
+    description
+}: Pick<Case, 'id' | 'title' | 'description'>) {
+    return prisma.case.update({
+        where: {
+            id
+        },
+        data: {
+            title,
+            description
+        }
+    });
+}
+
+export function connectInteractionsToCase({
+    id,
+    interactionIds
+}: {
+    id: string;
+    interactionIds: string[];
+}) {
+    return prisma.case.update({
+        where: { id },
+        data: {
+            interactions: {
+                connect: interactionIds.map((interactionId) => ({
+                    id: interactionId
+                }))
+            }
+        }
+    });
+}
+
 export function addCommentToCase({
     id,
-    comment
-}: Pick<Case, 'id'> & { comment: string }) {
+    comment,
+    userId
+}: Pick<Case, 'id'> & { comment: string; userId: string }) {
     return prisma.case.update({
         where: {
             id
         },
         data: {
             comments: {
-                create: {
-                    text: comment
-                }
+                create: [
+                    {
+                        userId,
+                        text: comment
+                    }
+                ]
             }
         }
     });

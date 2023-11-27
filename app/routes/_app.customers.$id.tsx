@@ -4,12 +4,16 @@ import { Form, useLoaderData } from '@remix-run/react';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import invariant from 'tiny-invariant';
+
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
-import DeleteButton from '~/components/DeleteButton';
-import Heading from '~/components/Heading';
-import InteractionCard from '~/components/InteractionCard';
+import { CommentsSection } from '~/components/CommentsSection';
+import { DeleteButton } from '~/components/DeleteButton';
+import { EditButton } from '~/components/EditButton';
+import { Heading } from '~/components/Heading';
+import { InteractionCard } from '~/components/InteractionCard';
 import { Label } from '~/components/Label';
+import { Stack } from '~/components/Stack';
 import { Textarea } from '~/components/Textarea';
 import {
     addCommentToCustomer,
@@ -17,6 +21,8 @@ import {
     getCustomer
 } from '~/models/customer.server';
 import { formatTheDate } from '~/utils';
+import { getUserId } from '~/utils/auth.server';
+import { Urls } from '~/utils/constants';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const customerId = params.id;
@@ -30,6 +36,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
+    const userId = await getUserId(request);
     const { id } = params;
     const form = await request.formData();
     const intent = form.get('intent');
@@ -43,8 +50,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const comment = form.get('comment') as string;
         invariant(comment, 'Comment doesnt exist');
         invariant(id, 'ID doesnt exist');
+        invariant(userId, 'userId doesnt exist');
 
-        await addCommentToCustomer({ id, comment });
+        await addCommentToCustomer({ id, comment, userId });
 
         return null;
     } else {
@@ -65,10 +73,15 @@ export default function InteractionDetailsRoute() {
                 <Form method="POST">
                     <input
                         type="hidden"
-                        name="interactionId"
+                        name="customerId"
                         value={customerDetails?.id}
                     />
-                    <DeleteButton />
+                    <Stack>
+                        <EditButton
+                            to={`${Urls.CUSTOMERS}/${customerDetails?.id}/edit`}
+                        />
+                        <DeleteButton />
+                    </Stack>
                 </Form>
             </div>
             <div>
@@ -121,23 +134,19 @@ export default function InteractionDetailsRoute() {
             <Heading>Comments</Heading>
             {customerDetails?.comments &&
             customerDetails?.comments.length > 0 ? (
-                <ul className="list-disc list-inside">
-                    {customerDetails?.comments.map((comment) => (
-                        <li key={comment.id}>
-                            {comment.text} -{' '}
-                            <span className="text-gray-500">
-                                {formatTheDate(comment.createdAt)}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                <CommentsSection comments={customerDetails.comments} />
             ) : (
                 <p>No comments</p>
             )}
             <Form method="POST">
                 <Label htmlFor="addComment">Add comment</Label>
                 <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button name="intent" value="create">
+                <Button
+                    variant="primary"
+                    size="md"
+                    name="intent"
+                    value="create"
+                >
                     Add comment
                 </Button>
             </Form>

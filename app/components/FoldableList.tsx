@@ -10,11 +10,7 @@ interface FoldableListProps {
     text: string;
 }
 
-export default function FoldableList({
-    children,
-    icon,
-    text
-}: FoldableListProps) {
+export function FoldableList({ children, icon, text }: FoldableListProps) {
     const [isOpen, toggleIsOpen] = useToggle();
 
     return (
@@ -24,7 +20,7 @@ export default function FoldableList({
                 className="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 onClick={toggleIsOpen}
             >
-                {icon}
+                <div>{icon}</div>
                 <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     {text}
                 </span>

@@ -2,16 +2,16 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+
 import { Button } from '~/components/Button';
-import Heading from '~/components/Heading';
+import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
-import Select from '~/components/Select';
+import { Select } from '~/components/Select';
 import { Textarea } from '~/components/Textarea';
 import { createCase } from '~/models/case.server';
 import { getAllCompanies } from '~/models/company.server';
 import { getAllCustomers } from '~/models/customer.server';
-import { createInteraction } from '~/models/interaction.server';
 import { getUserId } from '~/utils/auth.server';
 import { Urls } from '~/utils/constants';
 
@@ -69,7 +69,7 @@ export default function CreateCaseRoute() {
 
                 <div>
                     <Label htmlFor="customerId">Customer</Label>
-                    <Select name="customerId">
+                    <Select id="customerId" name="customerId">
                         {allCustomers.map((customer) => (
                             <option value={customer.id} key={customer.id}>
                                 {customer.firstName} {customer.lastName}
@@ -79,8 +79,8 @@ export default function CreateCaseRoute() {
                 </div>
 
                 <div>
-                    <Label htmlFor="customerId">Company</Label>
-                    <Select name="companyId">
+                    <Label htmlFor="companyId">Company</Label>
+                    <Select id="companyId" name="companyId">
                         {allCompanies.map((company) => (
                             <option value={company.id} key={company.id}>
                                 {company.name}
@@ -89,7 +89,9 @@ export default function CreateCaseRoute() {
                     </Select>
                 </div>
 
-                <Button type="submit">Create interaction</Button>
+                <Button variant="primary" size="md" type="submit">
+                    Create interaction
+                </Button>
             </Form>
         </div>
     );

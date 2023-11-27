@@ -18,41 +18,36 @@ export function getAllCompanies() {
 
 export function addCommentToCompany({
     id,
-    comment
-}: Pick<Company, 'id'> & { comment: string }) {
+    comment,
+    userId
+}: Pick<Company, 'id'> & { comment: string; userId: string }) {
     return prisma.company.update({
         where: {
             id
         },
         data: {
             comments: {
-                create: {
-                    text: comment
-                }
+                create: [
+                    {
+                        userId,
+                        text: comment
+                    }
+                ]
             }
         }
     });
 }
 
-// export function getFirstInteraction() {
-//     return prisma.interaction.findFirst({
-//         include: {
-//             customer: true
-//         }
-//     });
-// }
-
-// export function getInteractionsByCustomerId({
-//     customerId
-// }: {
-//     customerId: Customer['id'];
-// }) {
-//     return prisma.interaction.findMany({
-//         where: { customerId },
-//         select: { id: true, title: true },
-//         orderBy: { updatedAt: 'desc' }
-//     });
-// }
+export function updateCompany({ id, name }: Pick<Company, 'id' | 'name'>) {
+    return prisma.company.update({
+        where: {
+            id
+        },
+        data: {
+            name
+        }
+    });
+}
 
 export function createCompany({ name }: Pick<Company, 'name'>) {
     return prisma.company.create({

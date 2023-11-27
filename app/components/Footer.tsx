@@ -5,7 +5,7 @@ interface FooterProps {
     className?: string;
 }
 
-export default function Footer({ className }: FooterProps) {
+export function Footer({ className }: FooterProps) {
     const footerClassName = cn('bg-white dark:bg-gray-900', className);
 
     return (

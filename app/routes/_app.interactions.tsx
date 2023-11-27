@@ -1,10 +1,10 @@
 import { json } from '@remix-run/node';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
-import AppLayout from '~/components/AppLayout';
-import Heading from '~/components/Heading';
-import NewButtonLink from '~/components/NewButtonLink';
-import StickyHeader from '~/components/StickyHeader';
 
+import { AppLayout } from '~/components/AppLayout';
+import { Heading } from '~/components/Heading';
+import { NewButtonLink } from '~/components/NewButtonLink';
+import { StickyHeader } from '~/components/StickyHeader';
 import { getAllInteractions } from '~/models/interaction.server';
 import { getPanelLinkClassName } from '~/utils/css';
 

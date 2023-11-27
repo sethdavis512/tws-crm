@@ -1,12 +1,12 @@
 import { json } from '@remix-run/node';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
-import AppLayout from '~/components/AppLayout';
-import Heading from '~/components/Heading';
-import NewButtonLink from '~/components/NewButtonLink';
-import StickyHeader from '~/components/StickyHeader';
-import { getAllCases } from '~/models/case.server';
 
-import { cn, getPanelLinkClassName } from '~/utils/css';
+import { AppLayout } from '~/components/AppLayout';
+import { Heading } from '~/components/Heading';
+import { NewButtonLink } from '~/components/NewButtonLink';
+import { StickyHeader } from '~/components/StickyHeader';
+import { getAllCases } from '~/models/case.server';
+import { getPanelLinkClassName } from '~/utils/css';
 
 export async function loader() {
     const cases = await getAllCases();

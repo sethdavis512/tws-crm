@@ -2,13 +2,13 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+
 import { Button } from '~/components/Button';
-import Heading from '~/components/Heading';
+import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { getAllCompanies } from '~/models/company.server';
 import { createCustomer } from '~/models/customer.server';
-import { createInteraction } from '~/models/interaction.server';
 import { Urls } from '~/utils/constants';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -67,7 +67,7 @@ export default function CreateInteractionRoute() {
                     </select>
                 </div>
 
-                <Button type="submit" rounded>
+                <Button variant="primary" size="md" type="submit">
                     Create interaction
                 </Button>
             </Form>

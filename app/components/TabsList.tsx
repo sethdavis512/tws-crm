@@ -13,7 +13,7 @@ interface EnrichedChild {
     index: number;
 }
 
-export default function TabsList({ children }: TabsListProps) {
+export function TabsList({ children }: TabsListProps) {
     const { currentTab, setCurrentTab } = useTabsContextData();
 
     const handleSetCurrentTab = (

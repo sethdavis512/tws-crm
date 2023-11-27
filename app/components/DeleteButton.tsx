@@ -1,16 +1,17 @@
 import { Button } from './Button';
 import { Trash } from 'lucide-react';
 
-export default function DeleteButton() {
+export function DeleteButton() {
     return (
         <Button
             className="flex gap-2 items-center"
             variant="danger"
             name="intent"
             value="delete"
+            size="md"
         >
             <Trash className="w-5 h-5" />
-            Delete
+            <span>Delete</span>
         </Button>
     );
 }

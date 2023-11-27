@@ -27,7 +27,7 @@ export function useTabsContextData() {
     return context;
 }
 
-export default function Tabs({ children, initialTab = 0 }: TabsProps) {
+export function Tabs({ children, initialTab = 0 }: TabsProps) {
     const [currentTab, setCurrentTab] = useState(initialTab);
 
     return (

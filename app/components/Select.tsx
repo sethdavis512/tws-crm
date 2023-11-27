@@ -1,13 +1,13 @@
-import React, { type ReactNode } from 'react';
+import type { SelectHTMLAttributes } from 'react';
 
-interface SelectProps {
-    children: ReactNode;
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+    id: string;
     name: string;
 }
 
-export default function Select({ children, name }: SelectProps) {
+export function Select({ children, id, name }: SelectProps) {
     return (
-        <select name={name} className="dark:bg-gray-800 rounded-md">
+        <select id={id} name={name} className="dark:bg-gray-800 rounded-md">
             {children}
         </select>
     );

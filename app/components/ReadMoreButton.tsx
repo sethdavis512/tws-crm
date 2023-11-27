@@ -2,29 +2,25 @@ import { Button } from './Button';
 import { BookIcon, BookOpen } from 'lucide-react';
 
 interface ReadMoreButtonProps {
-    more: boolean;
-    onClick: () => void;
-    size?: 'default' | 'tiny';
+    show: boolean;
+    onClick: (e: any) => void;
+    value?: string;
 }
 
-export default function ReadMoreButton({
-    more,
-    size,
-    ...rest
-}: ReadMoreButtonProps) {
+export function ReadMoreButton({ show, ...rest }: ReadMoreButtonProps) {
     return (
         <Button
             className="flex gap-2 items-center"
-            variant="default"
-            size={size}
+            variant="primary"
+            size="md"
             {...rest}
         >
-            {more ? (
+            {show ? (
                 <BookIcon className="w-4 h-4" />
             ) : (
                 <BookOpen className="w-4 h-4" />
             )}
-            {more ? 'Collapse' : 'Read more'}
+            {show ? 'Collapse' : 'Read more'}
         </Button>
     );
 }

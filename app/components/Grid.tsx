@@ -7,7 +7,7 @@ interface GridProps {
     className?: string;
 }
 
-export default function Grid({ as = 'div', children, className }: GridProps) {
+export function Grid({ as = 'div', children, className }: GridProps) {
     const Component = as;
     const gridClassName = cn('grid grid-cols-12', className);
 

@@ -12,7 +12,7 @@ interface NavbarProps {
     user: User;
 }
 
-export default function Navbar({ className, theme, user }: NavbarProps) {
+export function Navbar({ className, theme, user }: NavbarProps) {
     const themeFetcher = useFetcher();
     const logoutFetcher = useFetcher();
 

@@ -11,12 +11,12 @@ import {
 } from '@remix-run/react';
 
 import { getThemeSession } from './utils/theme.server';
-
-import '~/tailwind.css';
-import SiteLayout from './components/SiteLayout';
+import { SiteLayout } from './components/SiteLayout';
 import { getUser } from './utils/auth.server';
 import type { User } from '@prisma/client';
 import { BACKGROUND_COLORS } from './utils/constants';
+
+import '~/tailwind.css';
 
 export const meta: MetaFunction = () => {
     return [
@@ -28,8 +28,6 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const themeSession = await getThemeSession(request);
     const user = await getUser(request);
-
-    console.log({ user });
 
     return json({
         theme: themeSession.getTheme(),

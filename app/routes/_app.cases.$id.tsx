@@ -3,55 +3,81 @@ import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
+import { ChevronRight } from 'lucide-react';
+
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
-import { addCommentToCase, deleteCase, getCase } from '~/models/case.server';
+import {
+    addCommentToCase,
+    connectInteractionsToCase,
+    deleteCase,
+    getCase
+} from '~/models/case.server';
 import { formatTheDate } from '~/utils';
-import Tabs from '~/components/Tabs';
-import Tab from '~/components/Tab';
-import TabsList from '~/components/TabsList';
-import TabPanels from '~/components/TabPanels';
-import TabPanel from '~/components/TabPanel';
+import { Tabs } from '~/components/Tabs';
+import { Tab } from '~/components/Tab';
+import { TabsList } from '~/components/TabsList';
+import { TabPanels } from '~/components/TabPanels';
+import { TabPanel } from '~/components/TabPanel';
 import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
 import { useToggle } from '~/hooks/useToggle';
-import Modal from '~/components/Modal';
+import { Modal } from '~/components/Modal';
 import { LinkButton } from '~/components/LinkButton';
-import { ChevronRight } from 'lucide-react';
-import DeleteButton from '~/components/DeleteButton';
-import ReadMoreButton from '~/components/ReadMoreButton';
-import Heading from '~/components/Heading';
+import { DeleteButton } from '~/components/DeleteButton';
+import { ReadMoreButton } from '~/components/ReadMoreButton';
+import { Heading } from '~/components/Heading';
+import { CommentsSection } from '~/components/CommentsSection';
+import { getUserId } from '~/utils/auth.server';
+import { EditButton } from '~/components/EditButton';
+import { Stack } from '~/components/Stack';
+import { getAllInteractions } from '~/models/interaction.server';
+import { Card } from '~/components/Card';
+import { Checkbox } from '~/components/Checkbox';
+import { Separator } from '~/components/Separator';
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
+    const userId = await getUserId(request);
     const caseId = params.id;
     invariant(caseId, 'Case ID not found');
 
     const caseDetails = await getCase({ id: caseId });
+    const allInteractions = await getAllInteractions();
 
     return json({
-        caseDetails
+        userId,
+        caseDetails,
+        allInteractions
     });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
-    const { id } = params;
+    const { id: caseId } = params;
+    invariant(caseId, 'ID doesnt exist');
+    const userId = await getUserId(request);
+
     const form = await request.formData();
     const intent = form.get('intent');
 
     if (intent === 'delete') {
-        const caseId = form.get('caseId') as string;
-        invariant(caseId, 'ID doesnt exist');
-
         await deleteCase({ id: caseId });
 
         return redirect(Urls.INTERACTIONS);
     } else if (intent === 'create') {
         const comment = form.get('comment') as string;
         invariant(comment, 'Comment doesnt exist');
-        invariant(id, 'ID doesnt exist');
+        invariant(userId, 'userId doesnt exist');
 
-        await addCommentToCase({ id, comment });
+        await addCommentToCase({ id: caseId, comment, userId });
+
+        return null;
+    } else if (intent === 'connectInteractions') {
+        const interactions = form.getAll('interaction') as string[];
+        await connectInteractionsToCase({
+            id: caseId,
+            interactionIds: interactions
+        });
 
         return null;
     } else {
@@ -62,30 +88,33 @@ export async function action({ request, params }: ActionFunctionArgs) {
 export default function CasesDetailsRoute() {
     const [isDescriptionExpanded, toggleIsDescriptionExpanded] = useToggle();
     const [isModalOpen, toggleIsModalOpen] = useToggle();
-    const { caseDetails } = useLoaderData<typeof loader>();
+    const { allInteractions, caseDetails } = useLoaderData<typeof loader>();
     const numberOfInteractions = caseDetails?.interactions.length;
     const numberOfComments = caseDetails?.comments.length;
 
     return (
         <div className="py-4 pl-8 pr-8">
             <div className="flex justify-between">
-                <div>
-                    <Heading>{caseDetails?.title}</Heading>
-                </div>
+                <Heading>{caseDetails?.title}</Heading>
                 <Form method="POST">
                     <input
                         type="hidden"
                         name="caseId"
                         value={caseDetails?.id}
                     />
-                    <DeleteButton />
+                    <Stack>
+                        <EditButton
+                            to={`${Urls.CASES}/${caseDetails?.id}/edit`}
+                        />
+                        <DeleteButton />
+                    </Stack>
                 </Form>
             </div>
 
             <div className="space-y-2 mb-8">
                 <div>
                     Creator:{' '}
-                    <Badge variant="tertiary">
+                    <Badge variant="primary">
                         {caseDetails?.createdBy?.profile.firstName}{' '}
                         {caseDetails?.createdBy?.profile.lastName}
                     </Badge>
@@ -96,6 +125,9 @@ export default function CasesDetailsRoute() {
                     <Badge variant="primary">
                         {formatTheDate(caseDetails?.createdAt as string)}
                     </Badge>
+                </div>
+
+                <div>
                     {!dayjs(caseDetails?.createdAt).isSame(
                         caseDetails?.updatedAt
                     ) && (
@@ -130,12 +162,20 @@ export default function CasesDetailsRoute() {
                         {caseDetails?.description &&
                             caseDetails?.description.length > 250 && (
                                 <ReadMoreButton
-                                    more={isDescriptionExpanded}
+                                    show={isDescriptionExpanded}
                                     onClick={toggleIsDescriptionExpanded}
                                 />
                             )}
                     </TabPanel>
                     <TabPanel>
+                        <Button
+                            variant="primary"
+                            size="md"
+                            onClick={toggleIsModalOpen}
+                        >
+                            Connect an interaction
+                        </Button>
+                        <Separator />
                         <ul>
                             {caseDetails?.interactions &&
                             caseDetails?.interactions.length > 0 ? (
@@ -160,30 +200,16 @@ export default function CasesDetailsRoute() {
                                     </li>
                                 ))
                             ) : (
-                                <>
-                                    <p className="italic">
-                                        No interactions have been associated.
-                                    </p>
-                                    <Button onClick={toggleIsModalOpen}>
-                                        Associate interaction
-                                    </Button>
-                                </>
+                                <p className="italic mb-4">
+                                    No interactions have been associated.
+                                </p>
                             )}
                         </ul>
                     </TabPanel>
                     <TabPanel>
                         {caseDetails?.comments &&
                         caseDetails?.comments.length > 0 ? (
-                            <ul className="list-disc list-inside mb-8">
-                                {caseDetails?.comments.map((comment: any) => (
-                                    <li key={comment.id}>
-                                        {comment.text} -{' '}
-                                        <span className="text-gray-500">
-                                            {formatTheDate(comment.createdAt)}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
+                            <CommentsSection comments={caseDetails.comments} />
                         ) : (
                             <div className="mt-4 mb-8 italic">
                                 <p>No comments to display...</p>
@@ -198,20 +224,45 @@ export default function CasesDetailsRoute() {
                                 className="mb-4"
                             />
                             <Button name="intent" value="create">
-                                Add comment
+                                Submit
                             </Button>
                         </Form>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
 
-            <Modal
-                isOpen={isModalOpen}
-                heading="Associate interactions"
-                closeModal={toggleIsModalOpen}
-            >
-                Hi
-            </Modal>
+            <Form method="POST">
+                <Modal
+                    isOpen={isModalOpen}
+                    heading="Connect interactions"
+                    closeModal={toggleIsModalOpen}
+                    footer={
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            size="md"
+                            name="intent"
+                            value="connectInteractions"
+                        >
+                            Submit
+                        </Button>
+                    }
+                >
+                    {allInteractions.map((interaction) => (
+                        <Card key={interaction.id}>
+                            <Label htmlFor={interaction.id}>
+                                <Checkbox
+                                    name="interaction"
+                                    id={interaction.id}
+                                    className="mr-3"
+                                    value={interaction.id}
+                                />
+                                {interaction.title}
+                            </Label>
+                        </Card>
+                    ))}
+                </Modal>
+            </Form>
         </div>
     );
 }

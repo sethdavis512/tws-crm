@@ -5,7 +5,7 @@ interface TabPanelsProps {
     children: ReactNode;
 }
 
-export default function TabPanels({ children }: TabPanelsProps) {
+export function TabPanels({ children }: TabPanelsProps) {
     const { currentTab } = useTabsContextData();
 
     const childrenArr = Children.toArray(children).reduce((acc, cur, index) => {

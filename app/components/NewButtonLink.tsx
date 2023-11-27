@@ -5,7 +5,7 @@ interface NewButtonLinkProps {
     to: string;
 }
 
-export default function NewButtonLink({ to }: NewButtonLinkProps) {
+export function NewButtonLink({ to }: NewButtonLinkProps) {
     return (
         <Link
             to={to}

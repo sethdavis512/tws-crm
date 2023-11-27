@@ -2,8 +2,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+
 import { Button } from '~/components/Button';
-import Heading from '~/components/Heading';
+import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { Textarea } from '~/components/Textarea';
@@ -74,7 +75,9 @@ export default function CreateInteractionRoute() {
                     <Textarea name="description" />
                 </div>
 
-                <Button type="submit">Create interaction</Button>
+                <Button variant="primary" size="md" type="submit">
+                    Create interaction
+                </Button>
             </Form>
         </div>
     );

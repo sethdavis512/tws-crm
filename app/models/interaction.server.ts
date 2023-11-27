@@ -33,6 +33,24 @@ export function getLatestInteractions(take = 5) {
     });
 }
 
+export function updateInteraction({
+    id,
+    title,
+    description,
+    type
+}: Pick<Interaction, 'id' | 'title' | 'description' | 'type'>) {
+    return prisma.interaction.update({
+        where: {
+            id
+        },
+        data: {
+            title,
+            description,
+            type
+        }
+    });
+}
+
 export function getFirstInteraction() {
     return prisma.interaction.findFirst({
         include: {
@@ -57,12 +75,14 @@ export function createInteraction({
     description,
     title,
     customerId,
-    userId
-}: Pick<Interaction, 'title' | 'description' | 'customerId'> & {
+    userId,
+    type
+}: Pick<Interaction, 'title' | 'description' | 'customerId' | 'type'> & {
     userId: string;
 }) {
     return prisma.interaction.create({
         data: {
+            type,
             title,
             description,
             customerId,
@@ -76,17 +96,21 @@ export function createInteraction({
 
 export function addCommentToInteraction({
     id,
-    comment
-}: Pick<Interaction, 'id'> & { comment: string }) {
+    comment,
+    userId
+}: Pick<Interaction, 'id'> & { comment: string; userId: string }) {
     return prisma.interaction.update({
         where: {
             id
         },
         data: {
             comments: {
-                create: {
-                    text: comment
-                }
+                create: [
+                    {
+                        userId,
+                        text: comment
+                    }
+                ]
             }
         }
     });

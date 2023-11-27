@@ -34,6 +34,7 @@ const Textarea = forwardRef<HTMLInputElement, TextareaProps>(
             <textarea
                 className={cn(textareaVariants({ variant, size, className }))}
                 // ref={ref}
+                rows={10}
                 {...props}
             />
         );
