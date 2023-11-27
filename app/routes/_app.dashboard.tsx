@@ -50,7 +50,6 @@ export function DashboardCard({
                         <div className="flex justify-between mb-2">
                             <Heading size="4">{listObj.title}</Heading>
                             <LinkButton
-                                size="tiny"
                                 className="inline-flex items-center"
                                 to={`${baseUrl}/${listObj.id}`}
                             >
