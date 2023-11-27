@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ChevronRight } from 'lucide-react';
 import { Card } from '~/components/Card';
-import Grid from '~/components/Grid';
+import { Grid } from '~/components/Grid';
 import { Heading } from '~/components/Heading';
 import { LinkButton } from '~/components/LinkButton';
 import { Separator } from '~/components/Separator';

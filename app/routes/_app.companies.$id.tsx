@@ -12,8 +12,12 @@ import { DeleteButton } from '~/components/DeleteButton';
 import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
 import { Label } from '~/components/Label';
-import { Separator } from '~/components/Separator';
 import { Stack } from '~/components/Stack';
+import { Tab } from '~/components/Tab';
+import { TabPanel } from '~/components/TabPanel';
+import { TabPanels } from '~/components/TabPanels';
+import { Tabs } from '~/components/Tabs';
+import { TabsList } from '~/components/TabsList';
 import { Textarea } from '~/components/Textarea';
 import {
     addCommentToCompany,
@@ -68,11 +72,6 @@ export default function CompanyDetailsRoute() {
             <div className="flex justify-between">
                 <Heading>{companyDetails?.name}</Heading>
                 <Form method="POST">
-                    <input
-                        type="hidden"
-                        name="companyId"
-                        value={companyDetails?.id}
-                    />
                     <Stack>
                         <EditButton
                             to={`${Urls.COMPANIES}/${companyDetails?.id}/edit`}
@@ -81,10 +80,10 @@ export default function CompanyDetailsRoute() {
                     </Stack>
                 </Form>
             </div>
-            <div className="flex flex-col gap-2">
+            <Stack vertical>
                 <div>
                     Created:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {formatTheDate(companyDetails?.createdAt as string)}
                     </Badge>
                 </div>
@@ -93,50 +92,69 @@ export default function CompanyDetailsRoute() {
                 ) && (
                     <div>
                         Last updated:{' '}
-                        <Badge variant="primary">
+                        <Badge>
                             {formatTheDate(companyDetails?.updatedAt as string)}
                         </Badge>
                     </div>
                 )}
-            </div>
+            </Stack>
 
-            <Heading>Customers</Heading>
-            <ul>
-                {companyDetails?.customers.map((customer) => (
-                    <li key={customer.id} className="mb-2">
-                        <Card>
-                            <header>
-                                <Heading>
-                                    {customer.firstName} {customer.lastName}
-                                </Heading>
-                            </header>
-                            <section>{customer.caseId}</section>
-                            <footer></footer>
-                        </Card>
-                    </li>
-                ))}
-            </ul>
-
-            <Separator />
-
-            <Heading>Comments</Heading>
-            {companyDetails?.comments && companyDetails?.comments.length > 0 ? (
-                <CommentsSection comments={companyDetails.comments} />
-            ) : (
-                <p>No comments</p>
-            )}
-            <Form method="POST">
-                <Label htmlFor="addComment">Add comment</Label>
-                <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button
-                    variant="primary"
-                    size="md"
-                    name="intent"
-                    value="create"
-                >
-                    Add comment
-                </Button>
-            </Form>
+            <Tabs>
+                <TabsList>
+                    <Tab
+                        text={`Customers (${companyDetails?.customers.length})`}
+                    />
+                    <Tab
+                        text={`Comments (${companyDetails?.comments.length})`}
+                    />
+                </TabsList>
+                <TabPanels>
+                    <TabPanel>
+                        <ul>
+                            {companyDetails?.customers.map((customer) => (
+                                <li key={customer.id} className="mb-2">
+                                    <Card>
+                                        <header>
+                                            <Heading>
+                                                {customer.firstName}{' '}
+                                                {customer.lastName}
+                                            </Heading>
+                                        </header>
+                                        <section>{customer.caseId}</section>
+                                        <footer></footer>
+                                    </Card>
+                                </li>
+                            ))}
+                        </ul>
+                    </TabPanel>
+                    <TabPanel>
+                        {companyDetails?.comments &&
+                        companyDetails?.comments.length > 0 ? (
+                            <CommentsSection
+                                comments={companyDetails.comments}
+                            />
+                        ) : (
+                            <p>No comments</p>
+                        )}
+                        <Form method="POST">
+                            <Label htmlFor="addComment">Add comment</Label>
+                            <Textarea
+                                id="addComment"
+                                name="comment"
+                                className="mb-4"
+                            />
+                            <Button
+                                variant="primary"
+                                size="md"
+                                name="intent"
+                                value="create"
+                            >
+                                Add comment
+                            </Button>
+                        </Form>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </div>
     );
 }

@@ -114,7 +114,7 @@ export default function CasesDetailsRoute() {
             <div className="space-y-2 mb-8">
                 <div>
                     Creator:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {caseDetails?.createdBy?.profile.firstName}{' '}
                         {caseDetails?.createdBy?.profile.lastName}
                     </Badge>
@@ -122,7 +122,7 @@ export default function CasesDetailsRoute() {
 
                 <div>
                     Created:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {formatTheDate(caseDetails?.createdAt as string)}
                     </Badge>
                 </div>
@@ -133,7 +133,7 @@ export default function CasesDetailsRoute() {
                     ) && (
                         <div>
                             Last updated:{' '}
-                            <Badge variant="primary">
+                            <Badge>
                                 {formatTheDate(
                                     caseDetails?.updatedAt as string
                                 )}

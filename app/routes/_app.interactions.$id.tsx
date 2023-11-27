@@ -42,24 +42,22 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export async function action({ request, params }: ActionFunctionArgs) {
     const userId = await getUserId(request);
-    const { id } = params;
+    const { id: interactionId } = params;
+    invariant(interactionId, 'ID doesnt exist');
+
     const form = await request.formData();
     const intent = form.get('intent');
 
     if (intent === 'delete') {
-        const interactionId = form.get('interactionId') as string;
-        invariant(interactionId, 'ID doesnt exist');
-
         await deleteInteraction({ id: interactionId });
 
         return redirect(Urls.INTERACTIONS);
     } else if (intent === 'create') {
         const comment = form.get('comment') as string;
         invariant(comment, 'Comment doesnt exist');
-        invariant(id, 'ID doesnt exist');
         invariant(userId, 'userId doesnt exist');
 
-        await addCommentToInteraction({ id, comment, userId });
+        await addCommentToInteraction({ id: interactionId, comment, userId });
 
         return null;
     } else {
@@ -80,15 +78,8 @@ export default function InteractionDetailsRoute() {
     return (
         <div className="p-8">
             <div className="flex justify-between">
-                <div>
-                    <Heading>{interactionDetails?.title}</Heading>
-                </div>
+                <Heading>{interactionDetails?.title}</Heading>
                 <Form method="POST">
-                    <input
-                        type="hidden"
-                        name="interactionId"
-                        value={interactionDetails?.id}
-                    />
                     <Stack>
                         <EditButton
                             to={`${Urls.INTERACTIONS}/${interactionDetails?.id}/edit`}
@@ -97,33 +88,29 @@ export default function InteractionDetailsRoute() {
                     </Stack>
                 </Form>
             </div>
-
-            <div className="space-y-2 mb-8">
+            <Stack vertical className="mb-4">
                 {interactionDetails?.type && (
                     <div>
-                        Type:{' '}
-                        <Badge variant="primary">
-                            {interactionDetails?.type}
-                        </Badge>
+                        Type: <Badge>{interactionDetails?.type}</Badge>
                     </div>
                 )}
                 <div>
                     Creator:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {interactionDetails?.createdBy?.profile.firstName}{' '}
                         {interactionDetails?.createdBy?.profile.lastName}
                     </Badge>
                 </div>
                 <div>
                     Customer:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {interactionDetails?.customer.firstName}{' '}
                         {interactionDetails?.customer.lastName}
                     </Badge>
                 </div>
                 <div>
                     Created:{' '}
-                    <Badge variant="primary">
+                    <Badge>
                         {formatTheDate(interactionDetails?.createdAt as string)}
                     </Badge>
                 </div>
@@ -132,14 +119,14 @@ export default function InteractionDetailsRoute() {
                 ) && (
                     <div>
                         Last updated:{' '}
-                        <Badge variant="primary">
+                        <Badge>
                             {formatTheDate(
                                 interactionDetails?.updatedAt as string
                             )}
                         </Badge>
                     </div>
                 )}
-            </div>
+            </Stack>
 
             <Tabs>
                 <TabsList>

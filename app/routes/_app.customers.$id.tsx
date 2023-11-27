@@ -86,7 +86,7 @@ export default function InteractionDetailsRoute() {
             </div>
             <div>
                 Created:{' '}
-                <Badge variant="primary">
+                <Badge>
                     {dayjs(customerDetails?.createdAt).format(
                         'MMMM D, YYYY h:mm A'
                     )}
@@ -96,7 +96,7 @@ export default function InteractionDetailsRoute() {
                 ) && (
                     <>
                         Last updated:{' '}
-                        <Badge variant="primary">
+                        <Badge>
                             {formatTheDate(
                                 customerDetails?.updatedAt as string
                             )}
