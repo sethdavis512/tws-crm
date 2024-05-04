@@ -1,8 +1,7 @@
 import { type ReactNode } from 'react';
 import { Outlet } from '@remix-run/react';
 
-import { AppList } from './AppList';
-import { AppDetails } from './AppDetails';
+import { BORDER_RIGHT_COLORS } from '~/utils/constants';
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -11,10 +10,14 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
     return (
         <>
-            <AppList>{children}</AppList>
-            <AppDetails>
+            <div
+                className={`col-span-3 ${BORDER_RIGHT_COLORS} overflow-y-auto`}
+            >
+                {children}
+            </div>
+            <div className="col-span-7 overflow-y-auto">
                 <Outlet />
-            </AppDetails>
+            </div>
         </>
     );
 }

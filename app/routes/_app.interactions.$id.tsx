@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
@@ -6,9 +6,6 @@ import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 
 import { Badge } from '~/components/Badge';
-import { Button } from '~/components/Button';
-import { Label } from '~/components/Label';
-import { Textarea } from '~/components/Textarea';
 import {
     addCommentToInteraction,
     deleteInteraction,
@@ -73,8 +70,6 @@ export default function InteractionDetailsRoute() {
     const { interactionDetails } = useLoaderData<typeof loader>();
     const numberOfComments = interactionDetails?.comments.length;
 
-    const [commentValue, setCommentValue] = useState('');
-
     return (
         <div className="p-8">
             <div className="flex justify-between">
@@ -94,13 +89,15 @@ export default function InteractionDetailsRoute() {
                         Type: <Badge>{interactionDetails?.type}</Badge>
                     </div>
                 )}
-                <div>
-                    Creator:{' '}
-                    <Badge>
-                        {interactionDetails?.createdBy?.profile.firstName}{' '}
-                        {interactionDetails?.createdBy?.profile.lastName}
-                    </Badge>
-                </div>
+                {interactionDetails?.createdBy && (
+                    <div>
+                        Creator:{' '}
+                        <Badge>
+                            {interactionDetails?.createdBy?.profile.firstName}{' '}
+                            {interactionDetails?.createdBy?.profile.lastName}
+                        </Badge>
+                    </div>
+                )}
                 <div>
                     Customer:{' '}
                     <Badge>
@@ -134,7 +131,7 @@ export default function InteractionDetailsRoute() {
                     <Tab text={`Comments (${numberOfComments})`} />
                 </TabsList>
                 <TabPanels>
-                    <TabPanel>
+                    <TabPanel paddingY="md">
                         <p className="mb-4">
                             {isDescriptionExpanded
                                 ? interactionDetails?.description
@@ -151,10 +148,11 @@ export default function InteractionDetailsRoute() {
                                 />
                             )}
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel paddingY="md">
                         {interactionDetails?.comments &&
                         interactionDetails?.comments.length > 0 ? (
                             <CommentsSection
+                                intentValue=""
                                 comments={interactionDetails.comments}
                             />
                         ) : (
@@ -162,26 +160,6 @@ export default function InteractionDetailsRoute() {
                                 <p>No comments to display...</p>
                             </div>
                         )}
-
-                        <Form method="POST">
-                            <Label htmlFor="addComment">Add comment</Label>
-                            <Textarea
-                                id="addComment"
-                                name="comment"
-                                className="mb-4"
-                                value={commentValue}
-                                onChange={(
-                                    event: React.ChangeEvent<HTMLTextAreaElement>
-                                ) => setCommentValue(event.currentTarget.value)}
-                            />
-                            <Button
-                                name="intent"
-                                value="create"
-                                disabled={!commentValue}
-                            >
-                                Add comment
-                            </Button>
-                        </Form>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

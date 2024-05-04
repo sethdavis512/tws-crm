@@ -8,9 +8,7 @@ import { ChevronRight } from 'lucide-react';
 import { Badge } from '~/components/Badge';
 import { Button } from '~/components/Button';
 import { Label } from '~/components/Label';
-import { Textarea } from '~/components/Textarea';
 import {
-    addCommentToCase,
     connectInteractionsToCase,
     deleteCase,
     getCase
@@ -55,7 +53,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export async function action({ request, params }: ActionFunctionArgs) {
     const { id: caseId } = params;
     invariant(caseId, 'ID doesnt exist');
-    const userId = await getUserId(request);
 
     const form = await request.formData();
     const intent = form.get('intent');
@@ -64,14 +61,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
         await deleteCase({ id: caseId });
 
         return redirect(Urls.INTERACTIONS);
-    } else if (intent === 'create') {
-        const comment = form.get('comment') as string;
-        invariant(comment, 'Comment doesnt exist');
-        invariant(userId, 'userId doesnt exist');
-
-        await addCommentToCase({ id: caseId, comment, userId });
-
-        return null;
     } else if (intent === 'connectInteractions') {
         const interactions = form.getAll('interaction') as string[];
         await connectInteractionsToCase({
@@ -93,140 +82,131 @@ export default function CasesDetailsRoute() {
     const numberOfComments = caseDetails?.comments.length;
 
     return (
-        <div className="py-4 pl-8 pr-8">
-            <div className="flex justify-between">
-                <Heading>{caseDetails?.title}</Heading>
-                <Form method="POST">
-                    <input
-                        type="hidden"
-                        name="caseId"
-                        value={caseDetails?.id}
-                    />
-                    <Stack>
-                        <EditButton
-                            to={`${Urls.CASES}/${caseDetails?.id}/edit`}
-                        />
-                        <DeleteButton />
-                    </Stack>
-                </Form>
-            </div>
-
-            <div className="space-y-2 mb-8">
-                <div>
-                    Creator:{' '}
-                    <Badge>
-                        {caseDetails?.createdBy?.profile.firstName}{' '}
-                        {caseDetails?.createdBy?.profile.lastName}
-                    </Badge>
+        <>
+            <div className="p-4 pl-8 pr-8">
+                <div className="flex justify-between">
+                    <Heading>{caseDetails?.title}</Heading>
+                    <Form method="POST">
+                        <Stack>
+                            <EditButton
+                                to={`${Urls.CASES}/${caseDetails?.id}/edit`}
+                            />
+                            <DeleteButton />
+                        </Stack>
+                    </Form>
                 </div>
 
-                <div>
-                    Created:{' '}
-                    <Badge>
-                        {formatTheDate(caseDetails?.createdAt as string)}
-                    </Badge>
-                </div>
+                <div className="space-y-2 mb-8">
+                    <div>
+                        Creator:{' '}
+                        <Badge>
+                            {caseDetails?.createdBy?.profile.firstName}{' '}
+                            {caseDetails?.createdBy?.profile.lastName}
+                        </Badge>
+                    </div>
 
-                <div>
-                    {!dayjs(caseDetails?.createdAt).isSame(
-                        caseDetails?.updatedAt
-                    ) && (
-                        <div>
-                            Last updated:{' '}
-                            <Badge>
-                                {formatTheDate(
-                                    caseDetails?.updatedAt as string
-                                )}
-                            </Badge>
-                        </div>
-                    )}
-                </div>
-            </div>
+                    <div>
+                        Created:{' '}
+                        <Badge>
+                            {formatTheDate(caseDetails?.createdAt as string)}
+                        </Badge>
+                    </div>
 
-            <Tabs>
-                <TabsList>
-                    <Tab text="Description" />
-                    <Tab text={`Interactions (${numberOfInteractions})`} />
-                    <Tab text={`Comments (${numberOfComments})`} />
-                </TabsList>
-                <TabPanels>
-                    <TabPanel>
-                        <p className="mb-4">
-                            {isDescriptionExpanded
-                                ? caseDetails?.description
-                                : `${caseDetails?.description.substring(
-                                      0,
-                                      250
-                                  )}...`}
-                        </p>
-                        {caseDetails?.description &&
-                            caseDetails?.description.length > 250 && (
-                                <ReadMoreButton
-                                    show={isDescriptionExpanded}
-                                    onClick={toggleIsDescriptionExpanded}
-                                />
-                            )}
-                    </TabPanel>
-                    <TabPanel>
-                        <Button onClick={toggleIsModalOpen}>
-                            Connect an interaction
-                        </Button>
-                        <Separator />
-                        <ul>
-                            {caseDetails?.interactions &&
-                            caseDetails?.interactions.length > 0 ? (
-                                caseDetails?.interactions.map((interaction) => (
-                                    <li
-                                        key={interaction.id}
-                                        className={`mb-4 ${BORDER_BOTTOM_COLORS}`}
-                                    >
-                                        <Heading>{interaction.title}</Heading>
-                                        <p className="mb-4">
-                                            {interaction.description.slice(
-                                                0,
-                                                100
-                                            )}
-                                        </p>
-                                        <LinkButton
-                                            className="mb-4 inline-flex gap-2 items-center"
-                                            to={`${Urls.INTERACTIONS}/${interaction.id}`}
-                                        >
-                                            Go to interaction <ChevronRight />
-                                        </LinkButton>
-                                    </li>
-                                ))
-                            ) : (
-                                <p className="italic mb-4">
-                                    No interactions have been associated.
-                                </p>
-                            )}
-                        </ul>
-                    </TabPanel>
-                    <TabPanel>
-                        {caseDetails?.comments &&
-                        caseDetails?.comments.length > 0 ? (
-                            <CommentsSection comments={caseDetails.comments} />
-                        ) : (
-                            <div className="mt-4 mb-8 italic">
-                                <p>No comments to display...</p>
+                    <div>
+                        {!dayjs(caseDetails?.createdAt).isSame(
+                            caseDetails?.updatedAt
+                        ) && (
+                            <div>
+                                Last updated:{' '}
+                                <Badge>
+                                    {formatTheDate(
+                                        caseDetails?.updatedAt as string
+                                    )}
+                                </Badge>
                             </div>
                         )}
+                    </div>
+                </div>
 
-                        <Form method="POST">
-                            <Label htmlFor="addComment">Add comment</Label>
-                            <Textarea
-                                id="addComment"
-                                name="comment"
-                                className="mb-4"
-                            />
-                            <Button name="intent" value="create">
-                                Submit
+                <Tabs>
+                    <TabsList>
+                        <Tab text="Description" />
+                        <Tab text={`Interactions (${numberOfInteractions})`} />
+                        <Tab text={`Comments (${numberOfComments})`} />
+                    </TabsList>
+                    <TabPanels>
+                        <TabPanel paddingY="md">
+                            <p className="mb-4">
+                                {isDescriptionExpanded
+                                    ? caseDetails?.description
+                                    : `${caseDetails?.description.substring(
+                                          0,
+                                          250
+                                      )}...`}
+                            </p>
+                            {caseDetails?.description &&
+                                caseDetails?.description.length > 250 && (
+                                    <ReadMoreButton
+                                        show={isDescriptionExpanded}
+                                        onClick={toggleIsDescriptionExpanded}
+                                    />
+                                )}
+                        </TabPanel>
+                        <TabPanel paddingY="md">
+                            <Button onClick={toggleIsModalOpen}>
+                                Connect an interaction
                             </Button>
-                        </Form>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
-
+                            <Separator />
+                            <ul>
+                                {caseDetails?.interactions &&
+                                caseDetails?.interactions.length > 0 ? (
+                                    caseDetails?.interactions.map(
+                                        (interaction) => (
+                                            <li
+                                                key={interaction.id}
+                                                className={`mb-4 ${BORDER_BOTTOM_COLORS}`}
+                                            >
+                                                <Heading>
+                                                    {interaction.title}
+                                                </Heading>
+                                                <p className="mb-4">
+                                                    {interaction.description.slice(
+                                                        0,
+                                                        100
+                                                    )}
+                                                </p>
+                                                <LinkButton
+                                                    className="mb-4 inline-flex gap-2 items-center"
+                                                    to={`${Urls.INTERACTIONS}/${interaction.id}`}
+                                                >
+                                                    Go to interaction{' '}
+                                                    <ChevronRight />
+                                                </LinkButton>
+                                            </li>
+                                        )
+                                    )
+                                ) : (
+                                    <p className="italic mb-4">
+                                        No interactions have been associated.
+                                    </p>
+                                )}
+                            </ul>
+                        </TabPanel>
+                        <TabPanel paddingY="md">
+                            {caseDetails && caseDetails.comments ? (
+                                <CommentsSection
+                                    comments={caseDetails.comments}
+                                    intentValue="addCommentToCase"
+                                />
+                            ) : (
+                                <Card>
+                                    <p>Comments not found...</p>
+                                </Card>
+                            )}
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </div>
             <Form method="POST">
                 <Modal
                     isOpen={isModalOpen}
@@ -257,6 +237,6 @@ export default function CasesDetailsRoute() {
                     ))}
                 </Modal>
             </Form>
-        </div>
+        </>
     );
 }

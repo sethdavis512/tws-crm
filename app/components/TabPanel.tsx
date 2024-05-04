@@ -1,9 +1,32 @@
-import { type ReactNode } from 'react';
+import { cva } from 'class-variance-authority';
+import type { RequiredVariantProps } from '~/types';
 
-interface TabPanelProps {
-    children: ReactNode;
-}
+type TabPanelVariants = RequiredVariantProps<typeof tabPanelVariants>;
 
-export function TabPanel({ children }: TabPanelProps) {
-    return <div className="p-4">{children}</div>;
+type TabPanelProps = Partial<TabPanelVariants> &
+    React.HTMLAttributes<HTMLBaseElement>;
+
+const tabPanelVariants = cva('', {
+    variants: {
+        paddingX: {
+            none: '',
+            sm: 'px-2',
+            md: 'px-4',
+            lg: 'px-8'
+        },
+        paddingY: {
+            none: '',
+            sm: 'py-2',
+            md: 'py-4',
+            lg: 'py-8'
+        }
+    },
+    defaultVariants: {
+        paddingX: 'none',
+        paddingY: 'none'
+    }
+});
+
+export function TabPanel({ children, paddingY }: TabPanelProps) {
+    return <div className={tabPanelVariants({ paddingY })}>{children}</div>;
 }

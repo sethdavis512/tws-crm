@@ -6,15 +6,12 @@ import { useState } from 'react';
 import invariant from 'tiny-invariant';
 
 import { Badge } from '~/components/Badge';
-import { Button } from '~/components/Button';
 import { CommentsSection } from '~/components/CommentsSection';
 import { DeleteButton } from '~/components/DeleteButton';
 import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
 import { InteractionCard } from '~/components/InteractionCard';
-import { Label } from '~/components/Label';
 import { Stack } from '~/components/Stack';
-import { Textarea } from '~/components/Textarea';
 import {
     addCommentToCustomer,
     deleteCustomer,
@@ -130,21 +127,16 @@ export default function InteractionDetailsRoute() {
             ) : (
                 <p>No interactions have been recorded</p>
             )}
-
             <Heading>Comments</Heading>
             {customerDetails?.comments &&
             customerDetails?.comments.length > 0 ? (
-                <CommentsSection comments={customerDetails.comments} />
+                <CommentsSection
+                    intentValue=""
+                    comments={customerDetails.comments}
+                />
             ) : (
                 <p>No comments</p>
             )}
-            <Form method="POST">
-                <Label htmlFor="addComment">Add comment</Label>
-                <Textarea id="addComment" name="comment" className="mb-4" />
-                <Button name="intent" value="create">
-                    Add comment
-                </Button>
-            </Form>
         </div>
     );
 }

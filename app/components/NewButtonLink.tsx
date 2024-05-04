@@ -1,5 +1,6 @@
-import { Link } from '@remix-run/react';
 import { PlusIcon } from 'lucide-react';
+import { LinkButton } from './LinkButton';
+import { Stack } from './Stack';
 
 interface NewButtonLinkProps {
     to: string;
@@ -7,11 +8,11 @@ interface NewButtonLinkProps {
 
 export function NewButtonLink({ to }: NewButtonLinkProps) {
     return (
-        <Link
-            to={to}
-            className="p-2 rounded-md bg-green-200 dark:bg-green-700 text-zinc-800 dark:text-zinc-200 flex gap-2 hover:bg-green-300 hover:dark:bg-green-800"
-        >
-            <PlusIcon /> New
-        </Link>
+        <LinkButton to={to} variant="success">
+            <Stack>
+                <PlusIcon />
+                <p className="self-center">New</p>
+            </Stack>
+        </LinkButton>
     );
 }

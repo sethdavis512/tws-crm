@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react';
 import { cn } from '~/utils/css';
 import { Heading } from './Heading';
-
 interface ModalProps {
     children: ReactNode;
     heading: string;
@@ -24,20 +23,19 @@ export function Modal({
 
     return (
         <div
-            id="static-modal"
-            data-modal-backdrop="static"
+            id="default-modal"
             tab-index="-1"
             aria-hidden="true"
             className={modalClassName}
         >
             <div className="relative p-4 w-full max-w-2xl max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white rounded-lg shadow dark:bg-gray-800">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <Heading>{heading}</Heading>
                         <button
                             type="button"
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide="static-modal"
+                            data-modal-hide="default-modal"
                             onClick={closeModal}
                         >
                             <svg
@@ -58,9 +56,7 @@ export function Modal({
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="p-4 md:p-5 space-y-4 overflow-y-auto">
-                        {children}
-                    </div>
+                    <div className="p-4 md:p-5 space-y-4">{children}</div>
                     <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                         {footer}
                     </div>

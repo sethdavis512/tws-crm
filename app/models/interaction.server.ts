@@ -77,9 +77,10 @@ export function createInteraction({
     customerId,
     userId,
     type
-}: Pick<Interaction, 'title' | 'description' | 'customerId' | 'type'> & {
-    userId: string;
-}) {
+}: Pick<
+    Interaction,
+    'title' | 'description' | 'customerId' | 'type' | 'userId'
+>) {
     return prisma.interaction.create({
         data: {
             type,

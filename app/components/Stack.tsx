@@ -12,7 +12,7 @@ export function Stack({ children, gap = 2, vertical, className }: StackProps) {
         <div
             className={`flex gap-${gap} ${
                 vertical ? 'flex-col' : ''
-            } ${className}`}
+            } item-center ${className}`}
         >
             {children}
         </div>
