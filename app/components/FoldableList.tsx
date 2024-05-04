@@ -17,7 +17,7 @@ export function FoldableList({ children, icon, text }: FoldableListProps) {
         <>
             <button
                 type="button"
-                className="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                className="flex items-center p-2 w-full text-base font-medium text-zinc-900 rounded-lg transition duration-75 group hover:bg-zinc-100 dark:text-white dark:hover:bg-zinc-700"
                 onClick={toggleIsOpen}
             >
                 <div>{icon}</div>

@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+import { cn } from '~/utils/css';
 
 interface StackProps {
     children: ReactNode;
@@ -8,13 +9,13 @@ interface StackProps {
 }
 
 export function Stack({ children, gap = 2, vertical, className }: StackProps) {
-    return (
-        <div
-            className={`flex gap-${gap} ${
-                vertical ? 'flex-col' : ''
-            } item-center ${className}`}
-        >
-            {children}
-        </div>
+    const stackClassName = cn(
+        `flex gap-${gap} item-center`,
+        {
+            'flex-col': vertical
+        },
+        className
     );
+
+    return <div className={stackClassName}>{children}</div>;
 }

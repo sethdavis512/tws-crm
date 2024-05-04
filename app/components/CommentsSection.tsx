@@ -39,7 +39,7 @@ export function CommentsSection({
                             <li key={comment.id}>
                                 <Card>
                                     <div className="flex flex-col">
-                                        <span className="block text-sm text-gray-400 mb-2">
+                                        <span className="block text-sm text-zinc-400 mb-2">
                                             {formatTheDate(
                                                 comment.createdAt as unknown as string
                                             )}

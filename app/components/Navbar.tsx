@@ -19,7 +19,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
     return (
         <nav
             className={cn(
-                'col-span-full bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 z-50',
+                'col-span-full bg-white border-b border-zinc-200 px-4 py-2.5 dark:bg-zinc-800 dark:border-zinc-700 z-50',
                 className
             )}
         >
@@ -29,7 +29,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                         data-drawer-target="drawer-navigation"
                         data-drawer-toggle="drawer-navigation"
                         aria-controls="drawer-navigation"
-                        className="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        className="p-2 mr-2 text-zinc-600 rounded-lg cursor-pointer md:hidden hover:text-zinc-900 hover:bg-zinc-100 focus:bg-zinc-100 dark:focus:bg-zinc-700 focus:ring-2 focus:ring-zinc-100 dark:focus:ring-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white"
                     >
                         <Menu />
                         <span className="sr-only">Toggle sidebar</span>
@@ -48,7 +48,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                         type="button"
                         data-drawer-toggle="drawer-navigation"
                         aria-controls="drawer-navigation"
-                        className="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                        className="p-2 mr-1 text-zinc-500 rounded-lg md:hidden hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-700 focus:ring-4 focus:ring-zinc-300 dark:focus:ring-zinc-600"
                     >
                         <span className="sr-only">Toggle search</span>
                         <Search />
@@ -56,7 +56,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                     <themeFetcher.Form method="POST" action="/api/theme">
                         <button
                             type="submit"
-                            className="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            className="p-2 mr-1 text-zinc-500 rounded-lg hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-700 focus:ring-4 focus:ring-zinc-300 dark:focus:ring-zinc-600"
                             name="themeSelection"
                             value={
                                 theme === Theme.DARK ? Theme.LIGHT : Theme.DARK
@@ -76,7 +76,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                             <logoutFetcher.Form method="POST" action="logout">
                                 <button
                                     type="submit"
-                                    className="w-full flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="w-full flex justify-between items-center py-2 px-4 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-600 dark:hover:text-white"
                                 >
                                     Sign out
                                 </button>

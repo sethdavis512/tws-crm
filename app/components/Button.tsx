@@ -13,7 +13,7 @@ export const buttonVariants = cva('font-bold shadow-sm rounded-md', {
             primary:
                 'bg-sky-700 text-white hover:bg-sky-800 active:bg-sky-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700',
             secondary:
-                'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 active:bg-gray-100',
+                'bg-white text-zinc-900 ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 active:bg-zinc-100',
             danger: 'bg-red-500 text-white ring-1 ring-inset ring-red-300 dark:ring-red-800 hover:bg-red-50 dark:hover:bg-red-700 active:bg-red-100',
             warning:
                 'bg-amber-500 text-white ring-1 ring-inset ring-amber-300 dark:ring-amber-800 hover:bg-amber-50 dark:hover:bg-amber-700 active:bg-amber-100',

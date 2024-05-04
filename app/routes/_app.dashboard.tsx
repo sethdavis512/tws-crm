@@ -1,4 +1,4 @@
-import { InteractionType } from '@prisma/client';
+import type { InteractionType } from '@prisma/client';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
@@ -10,6 +10,7 @@ import { Heading } from '~/components/Heading';
 import { LinkButton } from '~/components/LinkButton';
 import { Separator } from '~/components/Separator';
 import { Stack } from '~/components/Stack';
+import { StickyHeader } from '~/components/StickyHeader';
 import { getLatestCases } from '~/models/case.server';
 import { getLatestInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
@@ -57,7 +58,7 @@ export function DashboardCard({
                                 {listObj.title}
                             </Heading>
                             {listObj.type && <Badge>{listObj.type}</Badge>}
-                            <p className="text-gray-400">
+                            <p className="text-zinc-400">
                                 Created: {formatTheDate(listObj.createdAt)}
                             </p>
                         </Stack>
@@ -79,24 +80,24 @@ export default function DashboardRoute() {
     const { latestCases, latestInteractions } = useLoaderData<typeof loader>();
 
     return (
-        <div className="p-8 col-span-10">
-            <Heading as="h1" size="1" className="mb-4">
-                Dashboard
-            </Heading>
-            <Grid className="gap-4">
-                <DashboardCard
-                    baseUrl={Urls.CASES}
-                    cardType="case"
-                    heading="Latest cases"
-                    data={latestCases}
-                />
-                <DashboardCard
-                    baseUrl={Urls.INTERACTIONS}
-                    cardType="interaction"
-                    heading="Latest interactions"
-                    data={latestInteractions}
-                />
-            </Grid>
+        <div className="col-span-10">
+            <StickyHeader text="Dashboard" />
+            <div className="p-4">
+                <Grid className="gap-4">
+                    <DashboardCard
+                        baseUrl={Urls.CASES}
+                        cardType="case"
+                        heading="Latest cases"
+                        data={latestCases}
+                    />
+                    <DashboardCard
+                        baseUrl={Urls.INTERACTIONS}
+                        cardType="interaction"
+                        heading="Latest interactions"
+                        data={latestInteractions}
+                    />
+                </Grid>
+            </div>
         </div>
     );
 }

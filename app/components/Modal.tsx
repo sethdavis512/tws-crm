@@ -29,12 +29,12 @@ export function Modal({
             className={modalClassName}
         >
             <div className="relative p-4 w-full max-w-2xl max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-800">
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <div className="relative bg-white rounded-lg shadow dark:bg-zinc-800">
+                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-zinc-600">
                         <Heading>{heading}</Heading>
                         <button
                             type="button"
-                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            className="text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-zinc-600 dark:hover:text-white"
                             data-modal-hide="default-modal"
                             onClick={closeModal}
                         >
@@ -57,7 +57,7 @@ export function Modal({
                         </button>
                     </div>
                     <div className="p-4 md:p-5 space-y-4">{children}</div>
-                    <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <div className="flex items-center p-4 md:p-5 border-t border-zinc-200 rounded-b dark:border-zinc-600">
                         {footer}
                     </div>
                 </div>

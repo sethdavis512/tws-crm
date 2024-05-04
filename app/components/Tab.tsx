@@ -9,8 +9,8 @@ interface TabProps {
 
 export function Tab({ text, active, handleSetCurrentTab, index }: TabProps) {
     const buttonClassName = cn(
-        'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300',
-        active && 'bg-gray-200 dark:bg-gray-600'
+        'inline-block p-4 rounded-t-lg hover:text-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:hover:text-zinc-300',
+        active && 'bg-zinc-200 dark:bg-zinc-600'
     );
 
     return (

@@ -36,7 +36,7 @@ export function TabsList({ children }: TabsListProps) {
     });
 
     return (
-        <ul className="flex gap-2 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+        <ul className="flex gap-2 text-sm font-medium text-center text-zinc-500 border-b border-zinc-200 dark:border-zinc-700 dark:text-zinc-400">
             {mappedChildren}
         </ul>
     );

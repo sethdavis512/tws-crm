@@ -9,7 +9,7 @@ interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export function Label({ children, htmlFor, className }: LabelProps) {
     const labelClassName = cn(
-        'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+        'block mb-2 text-sm font-medium text-zinc-900 dark:text-white',
         className
     );
 

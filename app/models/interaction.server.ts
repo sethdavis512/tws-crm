@@ -16,7 +16,8 @@ export function getInteraction({ id }: Pick<Interaction, 'id'>) {
 export function getAllInteractions() {
     return prisma.interaction.findMany({
         include: {
-            customer: true
+            customer: true,
+            Case: true
         }
     });
 }

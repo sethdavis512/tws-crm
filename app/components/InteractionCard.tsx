@@ -22,7 +22,7 @@ export function InteractionCard({
         <Card>
             <div className="flex justify-between">
                 <Heading>{heading}</Heading>
-                <span className="text-gray-200 dark:text-gray-400">
+                <span className="text-zinc-200 dark:text-zinc-400">
                     {formatTheDate(createdAt)}
                 </span>
             </div>

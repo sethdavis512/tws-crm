@@ -1,17 +1,17 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { StickyHeader } from '~/components/StickyHeader';
 import { getAllCompanies } from '~/models/company.server';
 import { createCustomer } from '~/models/customer.server';
 import { Urls } from '~/utils/constants';
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
     const allCompanies = await getAllCompanies();
 
     return json({
@@ -43,35 +43,34 @@ export default function CreateInteractionRoute() {
     const { allCompanies } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 p-8">
-            <Heading>Create new customer</Heading>
-            <Form method="POST" className="space-y-4">
-                <div>
-                    <Label htmlFor="firstName">First name</Label>
-                    <Input name="firstName" type="text" />
-                </div>
-
-                <div>
-                    <Label htmlFor="lastName">Last name</Label>
-                    <Input name="lastName" type="text" />
-                </div>
-
-                <div>
-                    <Label htmlFor="companyIDs">Company</Label>
-                    <select
-                        name="companyIDs"
-                        className="dark:bg-gray-800 rounded-md"
-                    >
-                        {allCompanies.map((company) => (
-                            <option value={company.id} key={company.id}>
-                                {company.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <Button type="submit">Create customer</Button>
-            </Form>
+        <div className="col-span-10">
+            <StickyHeader text="Create new customer" />
+            <div className="p-4">
+                <Form method="POST" className="space-y-4">
+                    <div>
+                        <Label htmlFor="firstName">First name</Label>
+                        <Input name="firstName" type="text" />
+                    </div>
+                    <div>
+                        <Label htmlFor="lastName">Last name</Label>
+                        <Input name="lastName" type="text" />
+                    </div>
+                    <div>
+                        <Label htmlFor="companyIDs">Company</Label>
+                        <select
+                            name="companyIDs"
+                            className="dark:bg-zinc-800 rounded-md"
+                        >
+                            {allCompanies.map((company) => (
+                                <option value={company.id} key={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <Button type="submit">Create customer</Button>
+                </Form>
+            </div>
         </div>
     );
 }

@@ -7,7 +7,7 @@ type SeparatorVariants = RequiredVariantProps<typeof separatorVariants>;
 type SeparatorProps = Partial<SeparatorVariants> &
     React.HTMLAttributes<HTMLBaseElement>;
 
-const separatorVariants = cva('h-px bg-gray-200 border-0 dark:bg-gray-700', {
+const separatorVariants = cva('h-px bg-zinc-200 border-0 dark:bg-zinc-700', {
     variants: {
         spacing: {
             sm: 'my-2',

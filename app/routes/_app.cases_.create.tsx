@@ -4,10 +4,10 @@ import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { Select } from '~/components/Select';
+import { StickyHeader } from '~/components/StickyHeader';
 import { Textarea } from '~/components/Textarea';
 import { createCase } from '~/models/case.server';
 import { getAllCompanies } from '~/models/company.server';
@@ -54,43 +54,45 @@ export default function CreateCaseRoute() {
     const { allCompanies, allCustomers } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 py-4 pl-8 pr-8">
-            <Heading>Create case</Heading>
-            <Form method="POST" className="space-y-4">
-                <div>
-                    <Label htmlFor="title">Title</Label>
-                    <Input name="title" type="text" />
-                </div>
+        <div className="col-span-10">
+            <StickyHeader text="Create case" />
+            <div className="p-4">
+                <Form method="POST" className="space-y-4">
+                    <div>
+                        <Label htmlFor="title">Title</Label>
+                        <Input name="title" type="text" />
+                    </div>
 
-                <div>
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea name="description" />
-                </div>
+                    <div>
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea name="description" />
+                    </div>
 
-                <div>
-                    <Label htmlFor="customerId">Customer</Label>
-                    <Select id="customerId" name="customerId">
-                        {allCustomers.map((customer) => (
-                            <option value={customer.id} key={customer.id}>
-                                {customer.firstName} {customer.lastName}
-                            </option>
-                        ))}
-                    </Select>
-                </div>
+                    <div>
+                        <Label htmlFor="customerId">Customer</Label>
+                        <Select id="customerId" name="customerId">
+                            {allCustomers.map((customer) => (
+                                <option value={customer.id} key={customer.id}>
+                                    {customer.firstName} {customer.lastName}
+                                </option>
+                            ))}
+                        </Select>
+                    </div>
 
-                <div>
-                    <Label htmlFor="companyId">Company</Label>
-                    <Select id="companyId" name="companyId">
-                        {allCompanies.map((company) => (
-                            <option value={company.id} key={company.id}>
-                                {company.name}
-                            </option>
-                        ))}
-                    </Select>
-                </div>
+                    <div>
+                        <Label htmlFor="companyId">Company</Label>
+                        <Select id="companyId" name="companyId">
+                            {allCompanies.map((company) => (
+                                <option value={company.id} key={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </Select>
+                    </div>
 
-                <Button type="submit">Create interaction</Button>
-            </Form>
+                    <Button type="submit">Create interaction</Button>
+                </Form>
+            </div>
         </div>
     );
 }

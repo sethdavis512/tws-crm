@@ -4,9 +4,9 @@ import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { StickyHeader } from '~/components/StickyHeader';
 import { Textarea } from '~/components/Textarea';
 import { getAllCustomers } from '~/models/customer.server';
 import { createInteraction } from '~/models/interaction.server';
@@ -49,35 +49,37 @@ export default function CreateInteractionRoute() {
     const { allCustomers } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 py-4 pl-8 pr-8">
-            <Heading className="mb-4">Create interaction</Heading>
-            <Form method="POST" className="space-y-4">
-                <div>
-                    <Label htmlFor="customerId">Customer ID</Label>
-                    <select
-                        name="customerId"
-                        className="dark:bg-gray-800 rounded-md"
-                    >
-                        {allCustomers.map((customer) => (
-                            <option value={customer.id} key={customer.id}>
-                                {customer.firstName} {customer.lastName}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+        <div className="col-span-10">
+            <StickyHeader text="Create interaction" />
+            <div className="p-4">
+                <Form method="POST" className="space-y-4">
+                    <div>
+                        <Label htmlFor="customerId">Customer ID</Label>
+                        <select
+                            name="customerId"
+                            className="dark:bg-zinc-800 rounded-md"
+                        >
+                            {allCustomers.map((customer) => (
+                                <option value={customer.id} key={customer.id}>
+                                    {customer.firstName} {customer.lastName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                <div>
-                    <Label htmlFor="title">Title</Label>
-                    <Input name="title" type="text" />
-                </div>
+                    <div>
+                        <Label htmlFor="title">Title</Label>
+                        <Input name="title" type="text" />
+                    </div>
 
-                <div>
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea name="description" />
-                </div>
+                    <div>
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea name="description" />
+                    </div>
 
-                <Button type="submit">Create interaction</Button>
-            </Form>
+                    <Button type="submit">Create interaction</Button>
+                </Form>
+            </div>
         </div>
     );
 }

@@ -114,40 +114,40 @@ export default function LoginRoute() {
             <Heading as="h1" size="1" className="mb-8">
                 {action === 'login' ? 'Login' : 'Register'}
             </Heading>
-            <ul className="my-8 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+            <ul className="my-8 items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-700 dark:border-zinc-600 dark:text-white">
+                <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                     <div className="flex items-center ps-3">
                         <input
                             id="horizontal-list-radio-license"
                             type="radio"
                             value="register"
                             name="list-radio"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            className="w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-500"
                             onChange={handleLoginType}
                             checked={action === 'register'}
                         />
                         <label
                             htmlFor="horizontal-list-radio-license"
-                            className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            className="w-full py-3 ms-2 text-sm font-medium text-zinc-900 dark:text-zinc-300"
                         >
                             Register
                         </label>
                     </div>
                 </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                     <div className="flex items-center ps-3">
                         <input
                             id="horizontal-list-radio-id"
                             type="radio"
                             value="login"
                             name="list-radio"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            className="w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-500"
                             onChange={handleLoginType}
                             checked={action === 'login'}
                         />
                         <label
                             htmlFor="horizontal-list-radio-id"
-                            className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            className="w-full py-3 ms-2 text-sm font-medium text-zinc-900 dark:text-zinc-300"
                         >
                             Login
                         </label>

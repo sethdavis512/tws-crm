@@ -4,9 +4,9 @@ import { Form } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { StickyHeader } from '~/components/StickyHeader';
 import { createCompany } from '~/models/company.server';
 import { Urls } from '~/utils/constants';
 
@@ -25,15 +25,17 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function CreateInteractionRoute() {
     return (
-        <div className="col-span-4 p-8">
-            <Heading>Create company</Heading>
-            <Form method="POST" className="space-y-4">
-                <div>
-                    <Label htmlFor="name">Name</Label>
-                    <Input name="name" type="text" />
-                </div>
-                <Button type="submit">Create company</Button>
-            </Form>
+        <div className="col-span-10">
+            <StickyHeader text="Create company" />
+            <div className="p-4">
+                <Form method="POST" className="space-y-4">
+                    <div>
+                        <Label htmlFor="name">Name</Label>
+                        <Input name="name" type="text" />
+                    </div>
+                    <Button type="submit">Create company</Button>
+                </Form>
+            </div>
         </div>
     );
 }
