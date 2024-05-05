@@ -1,10 +1,9 @@
 import { json } from '@remix-run/node';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
 
-import { AppLayout } from '~/components/AppLayout';
 import { Heading } from '~/components/Heading';
 import { NewButtonLink } from '~/components/NewButtonLink';
-import { StickyHeader } from '~/components/StickyHeader';
+import ParentLayout from '~/components/ParentLayout';
 import { getAllCases } from '~/models/case.server';
 import { getPanelLinkClassName } from '~/utils/css';
 
@@ -21,10 +20,7 @@ export default function CasesRoute() {
     const { cases } = useLoaderData<typeof loader>();
 
     return (
-        <AppLayout>
-            <StickyHeader text="Cases">
-                <NewButtonLink to="create" />
-            </StickyHeader>
+        <ParentLayout heading="Cases" aux={<NewButtonLink to="create" />}>
             {cases && cases.length > 0 ? (
                 cases.map((caseObj) => {
                     const linkClassName = getPanelLinkClassName(
@@ -54,6 +50,6 @@ export default function CasesRoute() {
                     </Link>
                 </div>
             )}
-        </AppLayout>
+        </ParentLayout>
     );
 }

@@ -11,6 +11,7 @@ import { DeleteButton } from '~/components/DeleteButton';
 import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
 import { Stack } from '~/components/Stack';
+import { StickyHeader } from '~/components/StickyHeader';
 import { Tab } from '~/components/Tab';
 import { TabPanel } from '~/components/TabPanel';
 import { TabPanels } from '~/components/TabPanels';
@@ -65,9 +66,8 @@ export default function CompanyDetailsRoute() {
     const { companyDetails } = useLoaderData<typeof loader>();
 
     return (
-        <div className="p-8 space-y-4">
-            <div className="flex justify-between">
-                <Heading>{companyDetails?.name}</Heading>
+        <>
+            <StickyHeader text={companyDetails?.name || 'Company'}>
                 <Form method="POST">
                     <Stack>
                         <EditButton
@@ -76,67 +76,71 @@ export default function CompanyDetailsRoute() {
                         <DeleteButton />
                     </Stack>
                 </Form>
-            </div>
-            <Stack vertical>
-                <div>
-                    Created:{' '}
-                    <Badge>
-                        {formatTheDate(companyDetails?.createdAt as string)}
-                    </Badge>
-                </div>
-                {!dayjs(companyDetails?.createdAt).isSame(
-                    companyDetails?.updatedAt
-                ) && (
+            </StickyHeader>
+            <div className="p-4 space-y-4">
+                <Stack className="items-start" vertical>
                     <div>
-                        Last updated:{' '}
+                        Created:{' '}
                         <Badge>
-                            {formatTheDate(companyDetails?.updatedAt as string)}
+                            {formatTheDate(companyDetails?.createdAt as string)}
                         </Badge>
                     </div>
-                )}
-            </Stack>
+                    {!dayjs(companyDetails?.createdAt).isSame(
+                        companyDetails?.updatedAt
+                    ) && (
+                        <div>
+                            Last updated:{' '}
+                            <Badge>
+                                {formatTheDate(
+                                    companyDetails?.updatedAt as string
+                                )}
+                            </Badge>
+                        </div>
+                    )}
+                </Stack>
 
-            <Tabs>
-                <TabsList>
-                    <Tab
-                        text={`Customers (${companyDetails?.customers.length})`}
-                    />
-                    <Tab
-                        text={`Comments (${companyDetails?.comments.length})`}
-                    />
-                </TabsList>
-                <TabPanels>
-                    <TabPanel>
-                        <ul>
-                            {companyDetails?.customers.map((customer) => (
-                                <li key={customer.id} className="mb-2">
-                                    <Card>
-                                        <header>
-                                            <Heading>
-                                                {customer.firstName}{' '}
-                                                {customer.lastName}
-                                            </Heading>
-                                        </header>
-                                        <section>{customer.caseId}</section>
-                                        <footer></footer>
-                                    </Card>
-                                </li>
-                            ))}
-                        </ul>
-                    </TabPanel>
-                    <TabPanel>
-                        {companyDetails?.comments &&
-                        companyDetails?.comments.length > 0 ? (
-                            <CommentsSection
-                                intentValue=""
-                                comments={companyDetails.comments}
-                            />
-                        ) : (
-                            <p>No comments</p>
-                        )}
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
-        </div>
+                <Tabs>
+                    <TabsList>
+                        <Tab
+                            text={`Customers (${companyDetails?.customers.length})`}
+                        />
+                        <Tab
+                            text={`Comments (${companyDetails?.comments.length})`}
+                        />
+                    </TabsList>
+                    <TabPanels>
+                        <TabPanel>
+                            <ul className="space-y-4">
+                                {companyDetails?.customers.map((customer) => (
+                                    <li key={customer.id}>
+                                        <Card>
+                                            <header>
+                                                <Heading>
+                                                    {customer.firstName}{' '}
+                                                    {customer.lastName}
+                                                </Heading>
+                                            </header>
+                                            <section>{customer.caseId}</section>
+                                            <footer></footer>
+                                        </Card>
+                                    </li>
+                                ))}
+                            </ul>
+                        </TabPanel>
+                        <TabPanel>
+                            {companyDetails?.comments &&
+                            companyDetails?.comments.length > 0 ? (
+                                <CommentsSection
+                                    intentValue=""
+                                    comments={companyDetails.comments}
+                                />
+                            ) : (
+                                <p>No comments</p>
+                            )}
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </div>
+        </>
     );
 }

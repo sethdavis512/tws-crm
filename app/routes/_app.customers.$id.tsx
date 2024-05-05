@@ -11,6 +11,8 @@ import { DeleteButton } from '~/components/DeleteButton';
 import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
 import { InteractionCard } from '~/components/InteractionCard';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Stack } from '~/components/Stack';
 import {
     addCommentToCustomer,
@@ -19,7 +21,7 @@ import {
 } from '~/models/customer.server';
 import { formatTheDate } from '~/utils';
 import { getUserId } from '~/utils/auth.server';
-import { Urls } from '~/utils/constants';
+import { BORDER_LEFT_COLORS, Urls } from '~/utils/constants';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const customerId = params.id;
@@ -62,81 +64,85 @@ export default function InteractionDetailsRoute() {
     const [openInteraction, setOpenInteraction] = useState<string | null>(null);
 
     return (
-        <div className="py-4 pl-8 pr-8 space-y-4">
-            <div className="flex justify-between">
-                <Heading>
-                    {customerDetails?.firstName} {customerDetails?.lastName}
-                </Heading>
-                <Form method="POST">
-                    <input
-                        type="hidden"
-                        name="customerId"
-                        value={customerDetails?.id}
-                    />
-                    <Stack>
-                        <EditButton
-                            to={`${Urls.CUSTOMERS}/${customerDetails?.id}/edit`}
+        <ScrollyColumn className={`${BORDER_LEFT_COLORS}`} size={7}>
+            <ScrollyPanel
+                aux={
+                    <Form method="POST">
+                        <input
+                            type="hidden"
+                            name="customerId"
+                            value={customerDetails?.id}
                         />
-                        <DeleteButton />
-                    </Stack>
-                </Form>
-            </div>
-            <div>
-                Created:{' '}
-                <Badge>
-                    {dayjs(customerDetails?.createdAt).format(
-                        'MMMM D, YYYY h:mm A'
-                    )}
-                </Badge>
-                {!dayjs(customerDetails?.createdAt).isSame(
-                    customerDetails?.updatedAt
-                ) && (
-                    <>
-                        Last updated:{' '}
-                        <Badge>
-                            {formatTheDate(
-                                customerDetails?.updatedAt as string
-                            )}
-                        </Badge>
-                    </>
-                )}
-            </div>
-
-            <Heading>Interactions</Heading>
-            {customerDetails?.interactions &&
-            customerDetails?.interactions.length > 0 ? (
-                <ul>
-                    {customerDetails?.interactions.map((interaction) => (
-                        <li key={interaction.id} className="mb-4">
-                            <InteractionCard
-                                createdAt={interaction.createdAt}
-                                more={openInteraction === interaction.id}
-                                toggle={() => {
-                                    if (openInteraction === interaction.id) {
-                                        setOpenInteraction(null);
-                                    } else {
-                                        setOpenInteraction(interaction.id);
-                                    }
-                                }}
-                                heading={interaction.title}
-                                description={interaction.description}
+                        <Stack>
+                            <EditButton
+                                to={`${Urls.CUSTOMERS}/${customerDetails?.id}/edit`}
                             />
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No interactions have been recorded</p>
-            )}
-            <Heading>Comments</Heading>
-            {customerDetails?.comments &&
-            customerDetails?.comments.length > 0 ? (
-                <CommentsSection
-                    intentValue=""
-                    comments={customerDetails.comments}
-                />
-            ) : (
-                <p>No comments</p>
-            )}
-        </div>
+                            <DeleteButton />
+                        </Stack>
+                    </Form>
+                }
+                text={`${customerDetails?.firstName} ${customerDetails?.lastName}`}
+                padded
+            >
+                <div>
+                    Created:{' '}
+                    <Badge>
+                        {dayjs(customerDetails?.createdAt).format(
+                            'MMMM D, YYYY h:mm A'
+                        )}
+                    </Badge>
+                    {!dayjs(customerDetails?.createdAt).isSame(
+                        customerDetails?.updatedAt
+                    ) && (
+                        <>
+                            Last updated:{' '}
+                            <Badge>
+                                {formatTheDate(
+                                    customerDetails?.updatedAt as string
+                                )}
+                            </Badge>
+                        </>
+                    )}
+                </div>
+
+                <Heading>Interactions</Heading>
+                {customerDetails?.interactions &&
+                customerDetails?.interactions.length > 0 ? (
+                    <ul>
+                        {customerDetails?.interactions.map((interaction) => (
+                            <li key={interaction.id} className="mb-4">
+                                <InteractionCard
+                                    createdAt={interaction.createdAt}
+                                    more={openInteraction === interaction.id}
+                                    toggle={() => {
+                                        if (
+                                            openInteraction === interaction.id
+                                        ) {
+                                            setOpenInteraction(null);
+                                        } else {
+                                            setOpenInteraction(interaction.id);
+                                        }
+                                    }}
+                                    heading={interaction.title}
+                                    description={interaction.description}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No interactions have been recorded</p>
+                )}
+                <Heading>Comments</Heading>
+                {customerDetails?.comments &&
+                customerDetails?.comments.length > 0 ? (
+                    <CommentsSection
+                        intentValue=""
+                        comments={customerDetails.comments}
+                    />
+                ) : (
+                    <p>No comments</p>
+                )}
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

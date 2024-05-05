@@ -4,9 +4,10 @@ import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Textarea } from '~/components/Textarea';
 import { getCase, updateCase } from '~/models/case.server';
 import { Urls } from '~/utils/constants';
@@ -44,27 +45,32 @@ export default function EditCaseRoute() {
     const { caseDetails } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 py-4 pl-8 pr-8">
-            <Heading className="mb-8">Edit case</Heading>
-            <Form method="POST" className="space-y-4">
-                <input type="hidden" value={caseDetails?.id} name="caseId" />
-                <div>
-                    <Label htmlFor="title">Title</Label>
-                    <Input
-                        name="title"
-                        type="text"
-                        defaultValue={caseDetails?.title}
-                    />
-                </div>
-                <div>
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea
-                        name="description"
-                        defaultValue={caseDetails?.description}
-                    />
-                </div>
-                <Button type="submit">Update</Button>
-            </Form>
-        </div>
+        <ScrollyColumn>
+            <ScrollyPanel heading="Edit case" padded>
+                <Form method="POST" className="space-y-4 max-w-lg">
+                    <div>
+                        <input
+                            type="hidden"
+                            value={caseDetails?.id}
+                            name="caseId"
+                        />
+                        <Label htmlFor="title">Title</Label>
+                        <Input
+                            name="title"
+                            type="text"
+                            defaultValue={caseDetails?.title}
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea
+                            name="description"
+                            defaultValue={caseDetails?.description}
+                        />
+                    </div>
+                    <Button type="submit">Update</Button>
+                </Form>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

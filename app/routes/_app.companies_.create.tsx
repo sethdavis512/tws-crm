@@ -6,7 +6,8 @@ import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
-import { StickyHeader } from '~/components/StickyHeader';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { createCompany } from '~/models/company.server';
 import { Urls } from '~/utils/constants';
 
@@ -25,17 +26,16 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function CreateInteractionRoute() {
     return (
-        <div className="col-span-10">
-            <StickyHeader text="Create company" />
-            <div className="p-4">
-                <Form method="POST" className="space-y-4">
+        <ScrollyColumn as="main" className="col-span-10">
+            <ScrollyPanel text="Create company" padded>
+                <Form method="POST" className="space-y-4 max-w-lg">
                     <div>
                         <Label htmlFor="name">Name</Label>
                         <Input name="name" type="text" />
                     </div>
                     <Button type="submit">Create company</Button>
                 </Form>
-            </div>
-        </div>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

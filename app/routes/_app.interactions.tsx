@@ -3,11 +3,11 @@ import { Link, useLoaderData, useParams } from '@remix-run/react';
 
 import { Badge } from '~/components/Badge';
 import { Card } from '~/components/Card';
-import { Grid } from '~/components/Grid';
 import { Heading } from '~/components/Heading';
 import { NewButtonLink } from '~/components/NewButtonLink';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Stack } from '~/components/Stack';
-import { StickyHeader } from '~/components/StickyHeader';
 import { getAllInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
 
@@ -24,11 +24,13 @@ export default function InteractionsRoute() {
     const { interactions } = useLoaderData<typeof loader>();
 
     return (
-        <div className={`col-span-10 overflow-y-auto`}>
-            <StickyHeader text="Interactions">
-                <NewButtonLink to="create" />
-            </StickyHeader>
-            <Grid>
+        <ScrollyColumn>
+            <ScrollyPanel
+                aux={<NewButtonLink to="create" />}
+                heading="Interactions"
+                padded
+                className="space-y-4"
+            >
                 {interactions && interactions.length > 0 ? (
                     interactions.map((interaction) => {
                         const isSelected =
@@ -37,25 +39,22 @@ export default function InteractionsRoute() {
                         return (
                             <Card
                                 key={interaction.id}
-                                className="col-span-4 m-4"
+                                className="col-span-full"
                             >
-                                <Stack vertical className="items-start">
-                                    <Link to={interaction.id}>
-                                        <Heading size="5">
-                                            {interaction.title}
-                                        </Heading>
-                                    </Link>
-                                    <Stack vertical>
-                                        {interaction?.Case && (
-                                            <Stack>
-                                                <span className="block">
-                                                    Case:
-                                                </span>
-                                                <Badge>
-                                                    {interaction?.Case?.title}
-                                                </Badge>
-                                            </Stack>
-                                        )}
+                                <Stack className="mb-4">
+                                    <Stack className="items-start" vertical>
+                                        <Link to={interaction.id}>
+                                            <Heading size="5">
+                                                Interaction: {interaction.title}
+                                            </Heading>
+                                        </Link>
+                                        <Link
+                                            to={`/cases/${interaction.caseId}`}
+                                        >
+                                            <Heading size="5">
+                                                Case: {interaction?.Case?.title}
+                                            </Heading>
+                                        </Link>
                                         <Stack>
                                             <span className="block">
                                                 Updated:
@@ -67,18 +66,18 @@ export default function InteractionsRoute() {
                                             </Badge>
                                         </Stack>
                                     </Stack>
-                                    <p
-                                        className={`dark:text-zinc-400 font-normal text-zinc-700 ${
-                                            isSelected &&
-                                            'text-white dark:text-zinc-200'
-                                        } break-words`}
-                                    >
-                                        {`${interaction.description
-                                            .split(' ')
-                                            .slice(0, 5)
-                                            .join(' ')}...`}
-                                    </p>
                                 </Stack>
+                                <p
+                                    className={`dark:text-zinc-400 font-normal text-zinc-700 ${
+                                        isSelected &&
+                                        'text-white dark:text-zinc-200'
+                                    } break-words`}
+                                >
+                                    {`${interaction.description
+                                        .split(' ')
+                                        .slice(0, 25)
+                                        .join(' ')}...`}
+                                </p>
                             </Card>
                         );
                     })
@@ -90,7 +89,7 @@ export default function InteractionsRoute() {
                         </Link>
                     </div>
                 )}
-            </Grid>
-        </div>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

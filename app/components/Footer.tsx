@@ -20,7 +20,7 @@ export function Footer({ className }: FooterProps) {
                         href="https://github.com/sethdavis512/tws-crm"
                         className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                     >
-                        <GithubIcon />
+                        <GithubIcon className="w-5 h-5" />
                         <span className="sr-only">GitHub account</span>
                     </a>
                 </div>

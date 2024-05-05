@@ -6,7 +6,8 @@ import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
-import { StickyHeader } from '~/components/StickyHeader';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { getAllCompanies } from '~/models/company.server';
 import { createCustomer } from '~/models/customer.server';
 import { Urls } from '~/utils/constants';
@@ -43,10 +44,9 @@ export default function CreateInteractionRoute() {
     const { allCompanies } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-10">
-            <StickyHeader text="Create new customer" />
-            <div className="p-4">
-                <Form method="POST" className="space-y-4">
+        <ScrollyColumn as="main" className="col-span-10">
+            <ScrollyPanel text="Create new customer" padded>
+                <Form method="POST" className="space-y-4 max-w-lg">
                     <div>
                         <Label htmlFor="firstName">First name</Label>
                         <Input name="firstName" type="text" />
@@ -70,7 +70,7 @@ export default function CreateInteractionRoute() {
                     </div>
                     <Button type="submit">Create customer</Button>
                 </Form>
-            </div>
-        </div>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

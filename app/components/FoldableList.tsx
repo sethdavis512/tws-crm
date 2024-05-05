@@ -24,7 +24,11 @@ export function FoldableList({ children, icon, text }: FoldableListProps) {
                 <span className="flex-1 ml-3 text-left whitespace-nowrap">
                     {text}
                 </span>
-                {isOpen ? <ChevronDown /> : <ChevronRight />}
+                {isOpen ? (
+                    <ChevronDown className="w-5 h-5" />
+                ) : (
+                    <ChevronRight className="w-5 h-5" />
+                )}
             </button>
             <ul className={clsx(!isOpen && 'hidden')}>{children}</ul>
         </>

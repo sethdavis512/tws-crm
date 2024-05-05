@@ -2,7 +2,7 @@ import { Link, useFetcher } from '@remix-run/react';
 import { Menu, Moon, Search, Sun } from 'lucide-react';
 import type { User } from '@prisma/client';
 
-import { Urls } from '~/utils/constants';
+import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
 import { Theme } from '~/utils/theme-provider';
 import { cn } from '~/utils/css';
 
@@ -17,9 +17,9 @@ export function Navbar({ className, theme, user }: NavbarProps) {
     const logoutFetcher = useFetcher();
 
     return (
-        <nav
+        <header
             className={cn(
-                'col-span-full bg-white border-b border-zinc-200 px-4 py-2.5 dark:bg-zinc-800 dark:border-zinc-700 z-50',
+                `col-span-full bg-white px-4 py-2.5 dark:bg-zinc-800 z-50 ${BORDER_BOTTOM_COLORS}`,
                 className
             )}
         >
@@ -85,6 +85,6 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                     )}
                 </div>
             </div>
-        </nav>
+        </header>
     );
 }

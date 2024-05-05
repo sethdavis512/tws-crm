@@ -9,8 +9,8 @@ interface NewButtonLinkProps {
 export function NewButtonLink({ to }: NewButtonLinkProps) {
     return (
         <LinkButton to={to} variant="success">
-            <Stack>
-                <PlusIcon />
+            <Stack className="items-center">
+                <PlusIcon className="w-5 h-5" />
                 <p className="self-center">New</p>
             </Stack>
         </LinkButton>

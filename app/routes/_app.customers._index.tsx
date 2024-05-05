@@ -1,11 +1,16 @@
 import { Card } from '~/components/Card';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
+import { BORDER_LEFT_COLORS } from '~/utils/constants';
 
 export default function CustomersIndexRoute() {
     return (
-        <div className="p-8">
-            <Card>
-                <p className="italic">Select a customer to view details.</p>
-            </Card>
-        </div>
+        <ScrollyColumn size={7} className={BORDER_LEFT_COLORS}>
+            <ScrollyPanel text="Details" padded>
+                <Card>
+                    <p className="italic">Select a customer to view details.</p>
+                </Card>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

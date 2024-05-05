@@ -6,8 +6,9 @@ import invariant from 'tiny-invariant';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Select } from '~/components/Select';
-import { StickyHeader } from '~/components/StickyHeader';
 import { Textarea } from '~/components/Textarea';
 import { createCase } from '~/models/case.server';
 import { getAllCompanies } from '~/models/company.server';
@@ -54,10 +55,9 @@ export default function CreateCaseRoute() {
     const { allCompanies, allCustomers } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-10">
-            <StickyHeader text="Create case" />
-            <div className="p-4">
-                <Form method="POST" className="space-y-4">
+        <ScrollyColumn>
+            <ScrollyPanel heading="Create case" padded>
+                <Form method="POST" className="space-y-4 max-w-lg">
                     <div>
                         <Label htmlFor="title">Title</Label>
                         <Input name="title" type="text" />
@@ -92,7 +92,7 @@ export default function CreateCaseRoute() {
 
                     <Button type="submit">Create interaction</Button>
                 </Form>
-            </div>
-        </div>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

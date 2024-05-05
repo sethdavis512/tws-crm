@@ -34,6 +34,7 @@ import { getAllInteractions } from '~/models/interaction.server';
 import { Card } from '~/components/Card';
 import { Checkbox } from '~/components/Checkbox';
 import { Separator } from '~/components/Separator';
+import { StickyHeader } from '~/components/StickyHeader';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const userId = await getUserId(request);
@@ -83,19 +84,18 @@ export default function CasesDetailsRoute() {
 
     return (
         <>
-            <div className="p-4 pl-8 pr-8">
-                <div className="flex justify-between">
-                    <Heading>{caseDetails?.title}</Heading>
-                    <Form method="POST">
-                        <Stack>
-                            <EditButton
-                                to={`${Urls.CASES}/${caseDetails?.id}/edit`}
-                            />
-                            <DeleteButton />
-                        </Stack>
-                    </Form>
-                </div>
+            <StickyHeader text={caseDetails?.title || 'Case'}>
+                <Form method="POST">
+                    <Stack>
+                        <EditButton
+                            to={`${Urls.CASES}/${caseDetails?.id}/edit`}
+                        />
+                        <DeleteButton />
+                    </Stack>
+                </Form>
+            </StickyHeader>
 
+            <div className="p-4">
                 <div className="space-y-2 mb-8">
                     <div>
                         Creator:{' '}

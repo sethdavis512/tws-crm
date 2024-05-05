@@ -10,10 +10,15 @@ export enum Urls {
 }
 
 export const BACKGROUND_COLORS =
-    'bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200';
+    'bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300';
 
-export const BORDER_COLORS = 'border border-zinc-200 dark:border-zinc-700';
+export const BORDER_COLORS = 'border border-zinc-300 dark:border-zinc-700';
+
 export const BORDER_RIGHT_COLORS =
-    'border-r border-r-zinc-200 dark:border-r-zinc-700';
+    'border-r border-r-zinc-300 dark:border-r-zinc-700';
+
+export const BORDER_LEFT_COLORS =
+    'border-l border-l-zinc-300 dark:border-l-zinc-700';
+
 export const BORDER_BOTTOM_COLORS =
-    'border-b border-b-zinc-200 dark:border-b-zinc-700';
+    'border-b border-b-zinc-300 dark:border-b-zinc-700';

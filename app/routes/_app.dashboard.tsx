@@ -1,22 +1,20 @@
 import type { InteractionType } from '@prisma/client';
-import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ChevronRight } from 'lucide-react';
 import { Badge } from '~/components/Badge';
 import { Card } from '~/components/Card';
-import { Grid } from '~/components/Grid';
 import { Heading } from '~/components/Heading';
 import { LinkButton } from '~/components/LinkButton';
+import ScrollyPanel from '~/components/ScrollyPanel';
 import { Separator } from '~/components/Separator';
 import { Stack } from '~/components/Stack';
-import { StickyHeader } from '~/components/StickyHeader';
 import { getLatestCases } from '~/models/case.server';
 import { getLatestInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
 import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
     const latestCases = await getLatestCases();
     const latestInteractions = await getLatestInteractions();
 
@@ -53,7 +51,7 @@ export function DashboardCard({
                             data.length - 1 !== idx ? BORDER_BOTTOM_COLORS : ''
                         } mb-4`}
                     >
-                        <Stack className="mb-4 items-center">
+                        <Stack className="mb-4 items-start">
                             <Heading size="4" className="leading-none">
                                 {listObj.title}
                             </Heading>
@@ -80,24 +78,25 @@ export default function DashboardRoute() {
     const { latestCases, latestInteractions } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-10">
-            <StickyHeader text="Dashboard" />
-            <div className="p-4">
-                <Grid className="gap-4">
+        <ScrollyPanel text="Dashboard" padded>
+            <Stack className="w-full">
+                <div className="basis-1/2">
                     <DashboardCard
                         baseUrl={Urls.CASES}
                         cardType="case"
                         heading="Latest cases"
                         data={latestCases}
                     />
+                </div>
+                <div className="basis-1/2">
                     <DashboardCard
                         baseUrl={Urls.INTERACTIONS}
                         cardType="interaction"
                         heading="Latest interactions"
                         data={latestInteractions}
                     />
-                </Grid>
-            </div>
-        </div>
+                </div>
+            </Stack>
+        </ScrollyPanel>
     );
 }

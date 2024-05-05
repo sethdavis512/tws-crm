@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Children, cloneElement, isValidElement } from 'react';
 import { useTabsContextData } from './Tabs';
+import { BORDER_BOTTOM_COLORS } from '~/utils/constants';
 
 interface TabsListProps {
     children: ReactNode;
@@ -36,7 +37,9 @@ export function TabsList({ children }: TabsListProps) {
     });
 
     return (
-        <ul className="flex gap-2 text-sm font-medium text-center text-zinc-500 border-b border-zinc-200 dark:border-zinc-700 dark:text-zinc-400">
+        <ul
+            className={`flex gap-2 text-sm font-medium text-center text-zinc-500 dark:text-zinc-400 ${BORDER_BOTTOM_COLORS}`}
+        >
             {mappedChildren}
         </ul>
     );
