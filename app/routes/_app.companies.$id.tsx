@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
+import { Form, useLoaderData, useNavigation } from '@remix-run/react';
 import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 
@@ -10,6 +10,7 @@ import { CommentsSection } from '~/components/CommentsSection';
 import { DeleteButton } from '~/components/DeleteButton';
 import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Stack } from '~/components/Stack';
 import { StickyHeader } from '~/components/StickyHeader';
 import { Tab } from '~/components/Tab';
@@ -64,83 +65,111 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 export default function CompanyDetailsRoute() {
     const { companyDetails } = useLoaderData<typeof loader>();
+    const navigation = useNavigation();
+
+    const isLoading = navigation.state === 'loading';
 
     return (
         <>
-            <StickyHeader text={companyDetails?.name || 'Company'}>
-                <Form method="POST">
-                    <Stack>
-                        <EditButton
-                            to={`${Urls.COMPANIES}/${companyDetails?.id}/edit`}
-                        />
-                        <DeleteButton />
-                    </Stack>
-                </Form>
-            </StickyHeader>
-            <div className="p-4 space-y-4">
-                <Stack className="items-start" vertical>
-                    <div>
-                        Created:{' '}
-                        <Badge>
-                            {formatTheDate(companyDetails?.createdAt as string)}
-                        </Badge>
-                    </div>
-                    {!dayjs(companyDetails?.createdAt).isSame(
-                        companyDetails?.updatedAt
-                    ) && (
-                        <div>
-                            Last updated:{' '}
-                            <Badge>
-                                {formatTheDate(
-                                    companyDetails?.updatedAt as string
+            <ScrollyPanel
+                aux={
+                    <Form method="POST">
+                        <Stack>
+                            <EditButton
+                                to={`${Urls.COMPANIES}/${companyDetails?.id}/edit`}
+                            />
+                            <DeleteButton />
+                        </Stack>
+                    </Form>
+                }
+                heading={
+                    isLoading ? '...' : companyDetails?.name || 'Company name'
+                }
+            >
+                <div className="p-4 space-y-4">
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <>
+                            <Stack className="items-start" vertical>
+                                <div>
+                                    Created:{' '}
+                                    <Badge>
+                                        {formatTheDate(
+                                            companyDetails?.createdAt as string
+                                        )}
+                                    </Badge>
+                                </div>
+                                {!dayjs(companyDetails?.createdAt).isSame(
+                                    companyDetails?.updatedAt
+                                ) && (
+                                    <div>
+                                        Last updated:{' '}
+                                        <Badge>
+                                            {formatTheDate(
+                                                companyDetails?.updatedAt as string
+                                            )}
+                                        </Badge>
+                                    </div>
                                 )}
-                            </Badge>
-                        </div>
+                            </Stack>
+                            <Tabs>
+                                <TabsList>
+                                    <Tab
+                                        text={`Customers (${companyDetails?.customers.length})`}
+                                    />
+                                    <Tab
+                                        text={`Comments (${companyDetails?.comments.length})`}
+                                    />
+                                </TabsList>
+                                <TabPanels>
+                                    <TabPanel>
+                                        <ul className="space-y-4">
+                                            {companyDetails?.customers.map(
+                                                (customer) => (
+                                                    <li key={customer.id}>
+                                                        <Card>
+                                                            <header>
+                                                                <Heading>
+                                                                    {
+                                                                        customer.firstName
+                                                                    }{' '}
+                                                                    {
+                                                                        customer.lastName
+                                                                    }
+                                                                </Heading>
+                                                            </header>
+                                                            <section>
+                                                                {
+                                                                    customer.caseId
+                                                                }
+                                                            </section>
+                                                            <footer></footer>
+                                                        </Card>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        {companyDetails?.comments &&
+                                        companyDetails?.comments.length > 0 ? (
+                                            <CommentsSection
+                                                intentValue=""
+                                                comments={
+                                                    companyDetails.comments
+                                                }
+                                            />
+                                        ) : (
+                                            <p>No comments</p>
+                                        )}
+                                    </TabPanel>
+                                </TabPanels>
+                            </Tabs>
+                        </>
                     )}
-                </Stack>
-
-                <Tabs>
-                    <TabsList>
-                        <Tab
-                            text={`Customers (${companyDetails?.customers.length})`}
-                        />
-                        <Tab
-                            text={`Comments (${companyDetails?.comments.length})`}
-                        />
-                    </TabsList>
-                    <TabPanels>
-                        <TabPanel>
-                            <ul className="space-y-4">
-                                {companyDetails?.customers.map((customer) => (
-                                    <li key={customer.id}>
-                                        <Card>
-                                            <header>
-                                                <Heading>
-                                                    {customer.firstName}{' '}
-                                                    {customer.lastName}
-                                                </Heading>
-                                            </header>
-                                            <section>{customer.caseId}</section>
-                                            <footer></footer>
-                                        </Card>
-                                    </li>
-                                ))}
-                            </ul>
-                        </TabPanel>
-                        <TabPanel>
-                            {companyDetails?.comments &&
-                            companyDetails?.comments.length > 0 ? (
-                                <CommentsSection
-                                    intentValue=""
-                                    comments={companyDetails.comments}
-                                />
-                            ) : (
-                                <p>No comments</p>
-                            )}
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs>
-            </div>
+                </div>
+            </ScrollyPanel>
         </>
     );
 }

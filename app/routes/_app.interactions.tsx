@@ -44,14 +44,14 @@ export default function InteractionsRoute() {
                                 <Stack className="mb-4">
                                     <Stack className="items-start" vertical>
                                         <Link to={interaction.id}>
-                                            <Heading size="5">
+                                            <Heading as="h3">
                                                 Interaction: {interaction.title}
                                             </Heading>
                                         </Link>
                                         <Link
                                             to={`/cases/${interaction.caseId}`}
                                         >
-                                            <Heading size="5">
+                                            <Heading as="h4" size="5">
                                                 Case: {interaction?.Case?.title}
                                             </Heading>
                                         </Link>

@@ -32,7 +32,9 @@ export default function CasesRoute() {
                             key={caseObj.id}
                             className={linkClassName}
                         >
-                            <Heading size="4">{caseObj.title}</Heading>
+                            <Heading size="4" as="h3">
+                                {caseObj.title}
+                            </Heading>
                             <p className="font-normal text-zinc-700 dark:text-zinc-400 break-words">
                                 {`${caseObj.description
                                     .split(' ')

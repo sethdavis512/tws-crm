@@ -11,7 +11,8 @@ import {
 import { BORDER_LEFT_COLORS, Urls } from '~/utils/constants';
 import { CommentsSection } from '~/components/CommentsSection';
 import { getUserId } from '~/utils/auth.server';
-import { StickyHeader } from '~/components/StickyHeader';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const interactionId = params.id;
@@ -53,9 +54,8 @@ export default function InteractionDetailsRoute() {
     const { interactionDetails } = useLoaderData<typeof loader>();
 
     return (
-        <div className={`col-span-3 ${BORDER_LEFT_COLORS} overflow-y-auto`}>
-            <StickyHeader text="Comments" />
-            <div className="p-4">
+        <ScrollyColumn size={3} className={`${BORDER_LEFT_COLORS}`}>
+            <ScrollyPanel heading="Comments" padded>
                 {interactionDetails?.comments &&
                 interactionDetails?.comments.length > 0 ? (
                     <CommentsSection
@@ -67,7 +67,7 @@ export default function InteractionDetailsRoute() {
                         <p>No comments to display...</p>
                     </div>
                 )}
-            </div>
-        </div>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }
