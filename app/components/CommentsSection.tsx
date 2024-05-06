@@ -1,7 +1,5 @@
 import { formatTheDate } from '~/utils';
 import { Card } from './Card';
-import { useState } from 'react';
-import { ReadMoreButton } from './ReadMoreButton';
 import { useFetcher } from '@remix-run/react';
 import { DeleteButton } from './DeleteButton';
 import { Stack } from './Stack';
@@ -19,16 +17,7 @@ export function CommentsSection({
     comments,
     intentValue
 }: CommentsSectionProps) {
-    const [expanded, setExpanded] = useState<string | null>(null);
     const commentFetcher = useFetcher();
-
-    const handleExpanded = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (expanded === event.currentTarget.value) {
-            setExpanded(null);
-        } else {
-            setExpanded(event.currentTarget.value);
-        }
-    };
 
     return (
         <>

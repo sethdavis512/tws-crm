@@ -24,7 +24,6 @@ import { useToggle } from '~/hooks/useToggle';
 import { Modal } from '~/components/Modal';
 import { LinkButton } from '~/components/LinkButton';
 import { DeleteButton } from '~/components/DeleteButton';
-import { ReadMoreButton } from '~/components/ReadMoreButton';
 import { Heading } from '~/components/Heading';
 import { CommentsSection } from '~/components/CommentsSection';
 import { getUserId } from '~/utils/auth.server';
@@ -76,7 +75,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
 }
 
 export default function CasesDetailsRoute() {
-    const [isDescriptionExpanded, toggleIsDescriptionExpanded] = useToggle();
     const [isModalOpen, toggleIsModalOpen] = useToggle();
     const { allInteractions, caseDetails } = useLoaderData<typeof loader>();
     const numberOfInteractions = caseDetails?.interactions.length;

@@ -1,6 +1,5 @@
 import { formatTheDate } from '~/utils';
 import { Card } from './Card';
-import { ReadMoreButton } from './ReadMoreButton';
 import { Heading } from './Heading';
 
 interface InteractionCardProps {
