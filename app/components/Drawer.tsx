@@ -17,11 +17,12 @@ import { Stack } from './Stack';
 
 interface DrawerProps {
     children: ReactNode;
-    heading: string;
     id: string;
-    isOpen: boolean;
+    backdrop?: boolean;
+    heading?: string;
+    isOpen?: boolean;
+    onClose?: () => void;
     position?: 'left' | 'right' | 'bottom';
-    onClose: () => void;
 }
 
 export function Drawer({
@@ -30,49 +31,61 @@ export function Drawer({
     id,
     isOpen = false,
     position = 'left',
-    onClose
+    onClose,
+    backdrop = true
 }: DrawerProps) {
     const drawerClassName = cn(
-        `w-96 fixed z-50 p-8 overflow-y-auto transition-translate ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
+        `w-80 fixed z-50 p-8 overflow-y-auto transition-translate ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
         {
-            [`top-0 right-0 h-screen ${BORDER_LEFT_COLORS}`]:
-                position === 'right',
-            '': position === 'right' && !isOpen,
-            'translate-x-full': position === 'right' && isOpen
-        },
-        {
-            [`top-0 left-0 h-screen ${BORDER_RIGHT_COLORS}`]:
+            [`top-0 left-0 h-screen ${BORDER_RIGHT_COLORS} -translate-x-full`]:
                 position === 'left',
-            '': position === 'left' && !isOpen,
-            '-translate-x-full': position === 'left' && isOpen
+            'transform-none': position === 'left' && isOpen
         },
         {
-            [`w-full bottom-0 ${BORDER_TOP_COLORS}`]: position === 'bottom',
-            '': position === 'bottom' && !isOpen,
-            'translate-y-full': position === 'bottom' && isOpen
+            [`top-0 right-0 h-screen ${BORDER_LEFT_COLORS} translate-x-full`]:
+                position === 'right',
+            'transform-none': position === 'right' && isOpen
+        },
+        {
+            [`w-full bottom-0 ${BORDER_TOP_COLORS} translate-y-full`]:
+                position === 'bottom',
+            'transform-none': position === 'bottom' && isOpen
         }
     );
 
+    const orientedIcon =
+        position === 'bottom' ? (
+            <PanelBottomCloseIcon />
+        ) : position === 'left' ? (
+            <PanelLeftCloseIcon />
+        ) : position === 'right' ? (
+            <PanelRightCloseIcon />
+        ) : null;
+
+    if (!isOpen) {
+        return null;
+    }
+
     return (
-        <div
-            id={id}
-            className={drawerClassName}
-            tabIndex={-1}
-            aria-labelledby={`${id}-label`}
-        >
-            <Stack className="justify-between">
-                <Heading id={`${id}-label`}>{heading}</Heading>
-                <Button onClick={onClose}>
-                    {position === 'bottom' ? (
-                        <PanelBottomCloseIcon />
-                    ) : position === 'left' ? (
-                        <PanelLeftCloseIcon />
-                    ) : position === 'right' ? (
-                        <PanelRightCloseIcon />
-                    ) : null}
-                </Button>
-            </Stack>
-            {children}
-        </div>
+        <>
+            <div
+                id={id}
+                className={drawerClassName}
+                tabIndex={-1}
+                aria-labelledby={`${id}-label`}
+            >
+                <Stack className="justify-between">
+                    <Heading id={`${id}-label`}>{heading}</Heading>
+                    <Button onClick={onClose}>{orientedIcon}</Button>
+                </Stack>
+                {children}
+            </div>
+            {backdrop && (
+                <div
+                    onClick={onClose}
+                    className="bg-zinc-800/70 dark:bg-zinc-800/70 fixed inset-0 z-40"
+                />
+            )}
+        </>
     );
 }

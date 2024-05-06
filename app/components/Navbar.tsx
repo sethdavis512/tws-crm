@@ -19,7 +19,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
     return (
         <header
             className={cn(
-                `col-span-full bg-white px-4 py-2.5 dark:bg-zinc-900 z-50 ${BORDER_BOTTOM_COLORS}`,
+                `col-span-full bg-white px-4 py-2.5 dark:bg-zinc-900 z-30 ${BORDER_BOTTOM_COLORS}`,
                 className
             )}
         >

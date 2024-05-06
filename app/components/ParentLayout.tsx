@@ -5,9 +5,9 @@ import { BORDER_LEFT_COLORS } from '~/utils/constants';
 import { Outlet } from '@remix-run/react';
 
 interface ParentLayoutProps {
-    aux: ReactNode;
     children: ReactNode;
     heading: string;
+    aux?: ReactNode;
 }
 
 export default function ParentLayout({
