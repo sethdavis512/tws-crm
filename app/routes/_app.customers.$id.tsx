@@ -136,7 +136,7 @@ export default function InteractionDetailsRoute() {
                 {customerDetails?.comments &&
                 customerDetails?.comments.length > 0 ? (
                     <CommentsSection
-                        intentValue=""
+                        intentValue="create"
                         comments={customerDetails.comments}
                     />
                 ) : (

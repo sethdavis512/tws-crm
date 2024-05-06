@@ -12,6 +12,12 @@ export function LeftNav() {
             { 'bg-primary-500 hover:bg-primary-600 text-white': isActive }
         );
 
+    const subNavLinkClassFn = ({ isActive }: { isActive: boolean }) =>
+        cn(
+            `flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-primary-100 dark:text-white dark:hover:bg-primary-700`,
+            { 'bg-primary-500 hover:bg-primary-600 text-white': isActive }
+        );
+
     return (
         <nav className="py-5 px-3">
             <ul className="space-y-2">
@@ -31,7 +37,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={Urls.CASES}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                                 end
                             >
                                 View all
@@ -40,7 +46,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={`${Urls.CASES}/create`}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                             >
                                 Create new
                             </NavLink>
@@ -55,7 +61,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={Urls.INTERACTIONS}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                                 end
                             >
                                 View all
@@ -64,7 +70,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={`${Urls.INTERACTIONS}/create`}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                             >
                                 Create new
                             </NavLink>
@@ -79,7 +85,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={Urls.COMPANIES}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                                 end
                             >
                                 View all
@@ -88,7 +94,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={`${Urls.COMPANIES}/create`}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                             >
                                 Create new
                             </NavLink>
@@ -103,7 +109,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={Urls.CUSTOMERS}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                                 end
                             >
                                 View all
@@ -112,7 +118,7 @@ export function LeftNav() {
                         <li>
                             <NavLink
                                 to={`${Urls.CUSTOMERS}/create`}
-                                className={navLinkClassFn}
+                                className={subNavLinkClassFn}
                             >
                                 Create new
                             </NavLink>

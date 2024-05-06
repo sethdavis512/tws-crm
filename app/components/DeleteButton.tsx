@@ -10,7 +10,7 @@ export function DeleteButton() {
             value="delete"
         >
             <Trash className="w-5 h-5" />
-            <span>Delete</span>
+            {/* <span>Delete</span> */}
         </Button>
     );
 }

@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import {
@@ -8,11 +8,10 @@ import {
     deleteInteraction,
     getInteraction
 } from '~/models/interaction.server';
-import { BORDER_LEFT_COLORS, Urls } from '~/utils/constants';
+import { Urls } from '~/utils/constants';
 import { CommentsSection } from '~/components/CommentsSection';
 import { getUserId } from '~/utils/auth.server';
-import { ScrollyColumn } from '~/components/ScrollyColumn';
-import { ScrollyPanel } from '~/components/ScrollyPanel';
+import { Drawer } from '~/components/Drawer';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const interactionId = params.id;
@@ -52,17 +51,24 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 export default function InteractionDetailsRoute() {
     const { interactionDetails } = useLoaderData<typeof loader>();
+    const navigate = useNavigate();
 
     return (
-        <ScrollyColumn size={3} className={`${BORDER_LEFT_COLORS}`}>
-            <ScrollyPanel heading="Comments" padded>
-                {interactionDetails?.comments && (
+        <Drawer
+            id="interactionDetailsComments"
+            size="md"
+            heading="Comments"
+            isOpen
+            position="right"
+            onClose={() => navigate(`/interactions/${interactionDetails?.id}`)}
+        >
+            {interactionDetails?.comments &&
+                interactionDetails?.comments.length > 0 && (
                     <CommentsSection
                         intentValue="create"
-                        comments={interactionDetails.comments}
+                        comments={interactionDetails?.comments}
                     />
                 )}
-            </ScrollyPanel>
-        </ScrollyColumn>
+        </Drawer>
     );
 }

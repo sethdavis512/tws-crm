@@ -10,7 +10,7 @@ import { Button } from './Button';
 interface CommentsSectionProps {
     // TODO: Fix types
     comments: any[];
-    intentValue: string;
+    intentValue: 'create' | 'addCommentToCase';
 }
 
 export function CommentsSection({
@@ -26,7 +26,7 @@ export function CommentsSection({
                     comments.map((comment) => {
                         return (
                             <li key={comment.id}>
-                                <Card>
+                                <Card className="flex justify-between items-start">
                                     <div className="flex flex-col">
                                         <span className="block text-sm text-zinc-400 mb-2">
                                             {formatTheDate(
@@ -38,15 +38,15 @@ export function CommentsSection({
                                                 {comment.text}
                                             </p>
                                         </div>
-                                        <Stack>
-                                            <commentFetcher.Form
-                                                method="DELETE"
-                                                action={`/api/comments/${comment.id}`}
-                                            >
-                                                <DeleteButton />
-                                            </commentFetcher.Form>
-                                        </Stack>
                                     </div>
+                                    <Stack>
+                                        <commentFetcher.Form
+                                            method="DELETE"
+                                            action={`/api/comments/${comment.id}`}
+                                        >
+                                            <DeleteButton />
+                                        </commentFetcher.Form>
+                                    </Stack>
                                 </Card>
                             </li>
                         );

@@ -7,7 +7,7 @@ interface UseEscapeKeyConfig {
 }
 
 export function useEscapeKey({ handler, condition }: UseEscapeKeyConfig) {
-    const escPressed = useKeyPress('Escape');
+    const [escPressed] = useKeyPress('Escape');
 
     useEffect(() => {
         if (escPressed && condition && handler) {
