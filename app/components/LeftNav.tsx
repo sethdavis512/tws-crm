@@ -3,25 +3,20 @@ import { ActivitySquare, Building, Files, Gauge, Users } from 'lucide-react';
 
 import { Urls } from '~/utils/constants';
 import { FoldableList } from './FoldableList';
+import { cn } from '~/utils/css';
 
 export function LeftNav() {
     const navLinkClassFn = ({ isActive }: { isActive: boolean }) =>
-        `flex items-center p-2 pl-11 w-full text-base font-medium text-zinc-900 rounded-lg transition duration-75 group hover:bg-zinc-100 dark:text-white dark:hover:bg-zinc-700 ${
-            isActive ? 'bg-primary-500' : ''
-        }`;
+        cn(
+            `flex items-center p-2 text-base font-medium text-zinc-900 rounded-lg dark:text-white hover:bg-primary-300 dark:hover:bg-primary-700 group`,
+            { 'bg-primary-500 hover:bg-primary-600 text-white': isActive }
+        );
 
     return (
         <nav className="py-5 px-3">
             <ul className="space-y-2">
                 <li>
-                    <NavLink
-                        to={Urls.DASHBOARD}
-                        className={({ isActive }) =>
-                            `flex items-center p-2 text-base font-medium text-zinc-900 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700 group ${
-                                isActive ? 'bg-primary-500' : ''
-                            }`
-                        }
-                    >
+                    <NavLink to={Urls.DASHBOARD} className={navLinkClassFn}>
                         <div>
                             <Gauge className="w-5 h-5" />
                         </div>

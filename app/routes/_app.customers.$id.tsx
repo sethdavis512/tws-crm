@@ -21,7 +21,7 @@ import {
 } from '~/models/customer.server';
 import { formatTheDate } from '~/utils';
 import { getUserId } from '~/utils/auth.server';
-import { BORDER_LEFT_COLORS, Urls } from '~/utils/constants';
+import { Urls } from '~/utils/constants';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const customerId = params.id;
@@ -64,7 +64,7 @@ export default function InteractionDetailsRoute() {
     const [openInteraction, setOpenInteraction] = useState<string | null>(null);
 
     return (
-        <ScrollyColumn className={`${BORDER_LEFT_COLORS}`} size={7}>
+        <ScrollyColumn size={7}>
             <ScrollyPanel
                 aux={
                     <Form method="POST">

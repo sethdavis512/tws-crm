@@ -1,10 +1,9 @@
 import { json } from '@remix-run/node';
-import { Link, Outlet, useLoaderData, useParams } from '@remix-run/react';
+import { Link, useLoaderData, useParams } from '@remix-run/react';
 
 import { Heading } from '~/components/Heading';
 import { NewButtonLink } from '~/components/NewButtonLink';
-import { ScrollyColumn } from '~/components/ScrollyColumn';
-import { ScrollyPanel } from '~/components/ScrollyPanel';
+import ParentLayout from '~/components/ParentLayout';
 import { getAllCustomers } from '~/models/customer.server';
 import { PRIMARY_COLOR } from '~/utils/constants';
 import { getPanelLinkClassName } from '~/utils/css';
@@ -18,40 +17,32 @@ export default function CustomersRoute() {
     const { customers } = useLoaderData<typeof loader>();
 
     return (
-        <>
-            <ScrollyColumn size={3}>
-                <ScrollyPanel
-                    aux={<NewButtonLink to="create" />}
-                    heading="Customers"
-                >
-                    {customers && customers.length > 0 ? (
-                        customers.map((customer) => {
-                            const linkClassName = getPanelLinkClassName(
-                                customer.id === customerIdParam
-                            );
-                            return (
-                                <Link
-                                    key={customer.id}
-                                    className={linkClassName}
-                                    to={customer.id}
-                                >
-                                    <Heading size="4">
-                                        {customer.firstName} {customer.lastName}
-                                    </Heading>
-                                </Link>
-                            );
-                        })
-                    ) : (
-                        <div className="p-8">
-                            No customers yet.{' '}
-                            <Link to="create" className={PRIMARY_COLOR}>
-                                Create one.
-                            </Link>
-                        </div>
-                    )}
-                </ScrollyPanel>
-            </ScrollyColumn>
-            <Outlet />
-        </>
+        <ParentLayout heading="Customers" aux={<NewButtonLink to="create" />}>
+            {customers && customers.length > 0 ? (
+                customers.map((customer) => {
+                    const linkClassName = getPanelLinkClassName(
+                        customer.id === customerIdParam
+                    );
+                    return (
+                        <Link
+                            key={customer.id}
+                            className={linkClassName}
+                            to={customer.id}
+                        >
+                            <Heading size="4">
+                                {customer.firstName} {customer.lastName}
+                            </Heading>
+                        </Link>
+                    );
+                })
+            ) : (
+                <div className="p-8">
+                    No customers yet.{' '}
+                    <Link to="create" className={PRIMARY_COLOR}>
+                        Create one.
+                    </Link>
+                </div>
+            )}
+        </ParentLayout>
     );
 }

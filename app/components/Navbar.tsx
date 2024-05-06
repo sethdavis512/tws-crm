@@ -43,7 +43,7 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                         </span>
                     </Link>
                 </div>
-                <div className="flex items-center lg:order-2">
+                <div className="flex gap-2 items-center lg:order-2">
                     <button
                         type="button"
                         data-drawer-toggle="drawer-navigation"
@@ -62,7 +62,9 @@ export function Navbar({ className, theme, user }: NavbarProps) {
                                 theme === Theme.DARK ? Theme.LIGHT : Theme.DARK
                             }
                         >
-                            <span className="sr-only">View notifications</span>
+                            <span className="sr-only">
+                                Toggle light and dark theme
+                            </span>
                             {theme === Theme.DARK ? <Sun /> : <Moon />}
                         </button>
                     </themeFetcher.Form>

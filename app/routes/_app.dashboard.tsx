@@ -80,41 +80,29 @@ export async function loader() {
 
 export default function DashboardRoute() {
     const { latestCases, latestInteractions } = useLoaderData<typeof loader>();
-    const [drawerOpen, toggleDrawer] = useToggle();
+
     return (
-        <>
-            <ScrollyColumn>
-                <ScrollyPanel heading="Dashboard" padded>
-                    <Stack className="w-full gap-4">
-                        <div className="basis-1/2">
-                            <DashboardCard
-                                baseUrl={Urls.CASES}
-                                cardType="case"
-                                heading="Latest cases"
-                                data={latestCases}
-                            />
-                            <Button onClick={toggleDrawer}>Open</Button>
-                        </div>
-                        <div className="basis-1/2">
-                            <DashboardCard
-                                baseUrl={Urls.INTERACTIONS}
-                                cardType="interaction"
-                                heading="Latest interactions"
-                                data={latestInteractions}
-                            />
-                        </div>
-                    </Stack>
-                </ScrollyPanel>
-            </ScrollyColumn>
-            <Drawer
-                id="fromTheBottom"
-                heading="From the bottom"
-                position="right"
-                isOpen={drawerOpen}
-                onClose={toggleDrawer}
-            >
-                Lots and lots of fun!
-            </Drawer>
-        </>
+        <ScrollyColumn>
+            <ScrollyPanel heading="Dashboard" padded>
+                <Stack className="w-full gap-4">
+                    <div className="basis-1/2">
+                        <DashboardCard
+                            baseUrl={Urls.CASES}
+                            cardType="case"
+                            heading="Latest cases"
+                            data={latestCases}
+                        />
+                    </div>
+                    <div className="basis-1/2">
+                        <DashboardCard
+                            baseUrl={Urls.INTERACTIONS}
+                            cardType="interaction"
+                            heading="Latest interactions"
+                            data={latestInteractions}
+                        />
+                    </div>
+                </Stack>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }
