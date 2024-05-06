@@ -30,7 +30,7 @@ export function Modal({
             className={modalClassName}
         >
             <div className="relative p-4 w-full max-w-2xl max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-zinc-800">
+                <div className="relative bg-white rounded-lg shadow dark:bg-zinc-900">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-zinc-600">
                         <Heading>{heading}</Heading>
                         <button

@@ -6,7 +6,7 @@ import { BORDER_LEFT_COLORS } from '~/utils/constants';
 export default function CustomersIndexRoute() {
     return (
         <ScrollyColumn size={7} className={BORDER_LEFT_COLORS}>
-            <ScrollyPanel text="Details" padded>
+            <ScrollyPanel heading="Details" padded>
                 <Card>
                     <p className="italic">Select a customer to view details.</p>
                 </Card>

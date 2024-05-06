@@ -46,25 +46,10 @@ export function CommentsSection({
                                         </span>
                                         <div className="flex">
                                             <p className="mb-4">
-                                                {expanded === comment.id ||
-                                                comment.text.length < 100
-                                                    ? comment.text
-                                                    : `${comment.text.substring(
-                                                          0,
-                                                          100
-                                                      )}...`}
+                                                {comment.text}
                                             </p>
                                         </div>
                                         <Stack>
-                                            {comment.text.length > 100 && (
-                                                <ReadMoreButton
-                                                    show={
-                                                        expanded === comment.id
-                                                    }
-                                                    onClick={handleExpanded}
-                                                    value={comment.id}
-                                                />
-                                            )}
                                             <commentFetcher.Form
                                                 method="DELETE"
                                                 action={`/api/comments/${comment.id}`}

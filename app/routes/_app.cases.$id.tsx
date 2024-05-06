@@ -136,21 +136,7 @@ export default function CasesDetailsRoute() {
                     </TabsList>
                     <TabPanels>
                         <TabPanel paddingY="md">
-                            <p className="mb-4">
-                                {isDescriptionExpanded
-                                    ? caseDetails?.description
-                                    : `${caseDetails?.description.substring(
-                                          0,
-                                          250
-                                      )}...`}
-                            </p>
-                            {caseDetails?.description &&
-                                caseDetails?.description.length > 250 && (
-                                    <ReadMoreButton
-                                        show={isDescriptionExpanded}
-                                        onClick={toggleIsDescriptionExpanded}
-                                    />
-                                )}
+                            <p className="mb-4">{caseDetails?.description}</p>
                         </TabPanel>
                         <TabPanel paddingY="md">
                             <Button onClick={toggleIsModalOpen}>

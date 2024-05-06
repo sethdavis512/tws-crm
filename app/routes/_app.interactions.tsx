@@ -10,6 +10,7 @@ import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Stack } from '~/components/Stack';
 import { getAllInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
+import { PRIMARY_COLOR } from '~/utils/constants';
 
 export async function loader() {
     const interactions = await getAllInteractions();
@@ -73,10 +74,7 @@ export default function InteractionsRoute() {
                                         'text-white dark:text-zinc-200'
                                     } break-words`}
                                 >
-                                    {`${interaction.description
-                                        .split(' ')
-                                        .slice(0, 25)
-                                        .join(' ')}...`}
+                                    {interaction.description}
                                 </p>
                             </Card>
                         );
@@ -84,7 +82,7 @@ export default function InteractionsRoute() {
                 ) : (
                     <div className="p-8">
                         No interactions yet.{' '}
-                        <Link to="create" className="text-cyan-500">
+                        <Link to="create" className={PRIMARY_COLOR}>
                             Create one.
                         </Link>
                     </div>

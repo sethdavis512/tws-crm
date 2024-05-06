@@ -57,7 +57,7 @@ export default function CreateInteractionRoute() {
                         <Label htmlFor="customerId">Customer ID</Label>
                         <select
                             name="customerId"
-                            className="dark:bg-zinc-800 rounded-md"
+                            className="dark:bg-zinc-900 rounded-md"
                         >
                             {allCustomers.map((customer) => (
                                 <option value={customer.id} key={customer.id}>

@@ -56,16 +56,11 @@ export default function InteractionDetailsRoute() {
     return (
         <ScrollyColumn size={3} className={`${BORDER_LEFT_COLORS}`}>
             <ScrollyPanel heading="Comments" padded>
-                {interactionDetails?.comments &&
-                interactionDetails?.comments.length > 0 ? (
+                {interactionDetails?.comments && (
                     <CommentsSection
                         intentValue="create"
                         comments={interactionDetails.comments}
                     />
-                ) : (
-                    <div className="mt-4 mb-8 italic">
-                        <p>No comments to display...</p>
-                    </div>
                 )}
             </ScrollyPanel>
         </ScrollyColumn>

@@ -3,26 +3,20 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { ChevronRight } from 'lucide-react';
 import { Badge } from '~/components/Badge';
+import { Button } from '~/components/Button';
 import { Card } from '~/components/Card';
+import { Drawer } from '~/components/Drawer';
 import { Heading } from '~/components/Heading';
 import { LinkButton } from '~/components/LinkButton';
-import ScrollyPanel from '~/components/ScrollyPanel';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Separator } from '~/components/Separator';
 import { Stack } from '~/components/Stack';
+import { useToggle } from '~/hooks/useToggle';
 import { getLatestCases } from '~/models/case.server';
 import { getLatestInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
 import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
-
-export async function loader() {
-    const latestCases = await getLatestCases();
-    const latestInteractions = await getLatestInteractions();
-
-    return json({
-        latestCases,
-        latestInteractions
-    });
-}
 
 interface DashboardCardProps {
     baseUrl: string;
@@ -74,29 +68,53 @@ export function DashboardCard({
     );
 }
 
+export async function loader() {
+    const latestCases = await getLatestCases();
+    const latestInteractions = await getLatestInteractions();
+
+    return json({
+        latestCases,
+        latestInteractions
+    });
+}
+
 export default function DashboardRoute() {
     const { latestCases, latestInteractions } = useLoaderData<typeof loader>();
-
+    const [drawerOpen, toggleDrawer] = useToggle();
     return (
-        <ScrollyPanel text="Dashboard" padded>
-            <Stack className="w-full">
-                <div className="basis-1/2">
-                    <DashboardCard
-                        baseUrl={Urls.CASES}
-                        cardType="case"
-                        heading="Latest cases"
-                        data={latestCases}
-                    />
-                </div>
-                <div className="basis-1/2">
-                    <DashboardCard
-                        baseUrl={Urls.INTERACTIONS}
-                        cardType="interaction"
-                        heading="Latest interactions"
-                        data={latestInteractions}
-                    />
-                </div>
-            </Stack>
-        </ScrollyPanel>
+        <>
+            <ScrollyColumn>
+                <ScrollyPanel heading="Dashboard" padded>
+                    <Stack className="w-full gap-4">
+                        <div className="basis-1/2">
+                            <DashboardCard
+                                baseUrl={Urls.CASES}
+                                cardType="case"
+                                heading="Latest cases"
+                                data={latestCases}
+                            />
+                            <Button onClick={toggleDrawer}>Open</Button>
+                        </div>
+                        <div className="basis-1/2">
+                            <DashboardCard
+                                baseUrl={Urls.INTERACTIONS}
+                                cardType="interaction"
+                                heading="Latest interactions"
+                                data={latestInteractions}
+                            />
+                        </div>
+                    </Stack>
+                </ScrollyPanel>
+            </ScrollyColumn>
+            <Drawer
+                id="fromTheBottom"
+                heading="From the bottom"
+                position="right"
+                isOpen={drawerOpen}
+                onClose={toggleDrawer}
+            >
+                Lots and lots of fun!
+            </Drawer>
+        </>
     );
 }

@@ -7,7 +7,7 @@ import { FoldableList } from './FoldableList';
 export function LeftNav() {
     const navLinkClassFn = ({ isActive }: { isActive: boolean }) =>
         `flex items-center p-2 pl-11 w-full text-base font-medium text-zinc-900 rounded-lg transition duration-75 group hover:bg-zinc-100 dark:text-white dark:hover:bg-zinc-700 ${
-            isActive ? 'bg-green-500' : ''
+            isActive ? 'bg-primary-500' : ''
         }`;
 
     return (
@@ -17,8 +17,8 @@ export function LeftNav() {
                     <NavLink
                         to={Urls.DASHBOARD}
                         className={({ isActive }) =>
-                            `flex items-center p-2 text-base font-medium text-zinc-900 rounded-lg dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700 group ${
-                                isActive ? 'bg-green-500' : ''
+                            `flex items-center p-2 text-base font-medium text-zinc-900 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700 group ${
+                                isActive ? 'bg-primary-500' : ''
                             }`
                         }
                     >

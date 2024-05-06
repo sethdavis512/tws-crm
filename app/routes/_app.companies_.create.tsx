@@ -27,7 +27,7 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function CreateInteractionRoute() {
     return (
         <ScrollyColumn as="main" className="col-span-10">
-            <ScrollyPanel text="Create company" padded>
+            <ScrollyPanel heading="Create company" padded>
                 <Form method="POST" className="space-y-4 max-w-lg">
                     <div>
                         <Label htmlFor="name">Name</Label>

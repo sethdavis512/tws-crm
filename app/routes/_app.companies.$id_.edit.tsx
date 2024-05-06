@@ -4,9 +4,10 @@ import { Form, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { ScrollyColumn } from '~/components/ScrollyColumn';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { getCompany, updateCompany } from '~/models/company.server';
 import { Urls } from '~/utils/constants';
 
@@ -40,26 +41,27 @@ export default function EditCaseRoute() {
     const { companyDetails } = useLoaderData<typeof loader>();
 
     return (
-        <div className="col-span-4 py-4 pl-8 pr-8">
-            <Heading className="mb-8">Edit company</Heading>
-            <Form method="POST" className="space-y-4">
-                <input
-                    type="hidden"
-                    value={companyDetails?.id}
-                    name="companyId"
-                />
-                <div>
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        defaultValue={companyDetails?.name}
-                    />
-                </div>
+        <ScrollyColumn size={4}>
+            <ScrollyPanel heading="Edit company" padded>
+                <Form method="POST" className="space-y-4 max-w-lg">
+                    <div>
+                        <input
+                            type="hidden"
+                            value={companyDetails?.id}
+                            name="companyId"
+                        />
+                        <Label htmlFor="name">Name</Label>
+                        <Input
+                            id="name"
+                            name="name"
+                            type="text"
+                            defaultValue={companyDetails?.name}
+                        />
+                    </div>
 
-                <Button type="submit">Update</Button>
-            </Form>
-        </div>
+                    <Button type="submit">Update</Button>
+                </Form>
+            </ScrollyPanel>
+        </ScrollyColumn>
     );
 }

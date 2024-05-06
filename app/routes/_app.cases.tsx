@@ -5,7 +5,9 @@ import { Heading } from '~/components/Heading';
 import { NewButtonLink } from '~/components/NewButtonLink';
 import ParentLayout from '~/components/ParentLayout';
 import { getAllCases } from '~/models/case.server';
+import { PRIMARY_COLOR } from '~/utils/constants';
 import { getPanelLinkClassName } from '~/utils/css';
+import { truncateString } from '~/utils/functions';
 
 export async function loader() {
     const cases = await getAllCases();
@@ -32,14 +34,15 @@ export default function CasesRoute() {
                             key={caseObj.id}
                             className={linkClassName}
                         >
-                            <Heading size="4" as="h3">
+                            <Heading
+                                size="4"
+                                as="h3"
+                                className="dark:text-white"
+                            >
                                 {caseObj.title}
                             </Heading>
-                            <p className="font-normal text-zinc-700 dark:text-zinc-400 break-words">
-                                {`${caseObj.description
-                                    .split(' ')
-                                    .slice(0, 5)
-                                    .join(' ')}...`}
+                            <p className="font-normal text-zinc-700 dark:text-white break-words">
+                                {truncateString(caseObj.description, 5, false)}
                             </p>
                         </Link>
                     );
@@ -47,7 +50,7 @@ export default function CasesRoute() {
             ) : (
                 <div className="p-8">
                     No interactions yet.{' '}
-                    <Link to="create" className="text-cyan-500">
+                    <Link to="create" className={PRIMARY_COLOR}>
                         Create one.
                     </Link>
                 </div>

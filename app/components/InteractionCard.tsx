@@ -26,12 +26,7 @@ export function InteractionCard({
                     {formatTheDate(createdAt)}
                 </span>
             </div>
-            <p className="mb-4">
-                {more
-                    ? description
-                    : `${description.split(' ').slice(0, 5).join(' ')}...`}
-            </p>
-            <ReadMoreButton onClick={toggle} show={more} />
+            <p className="mb-4">{description}</p>
         </Card>
     );
 }

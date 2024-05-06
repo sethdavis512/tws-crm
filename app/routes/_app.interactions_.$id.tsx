@@ -19,6 +19,7 @@ import { Stack } from '~/components/Stack';
 import { StickyHeader } from '~/components/StickyHeader';
 import { Heading } from '~/components/Heading';
 import { LinkButton } from '~/components/LinkButton';
+import { Card } from '~/components/Card';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const interactionId = params.id;
@@ -93,60 +94,70 @@ export default function InteractionDetailsRoute() {
                     </Stack>
                 </StickyHeader>
 
-                <div className="p-4">
-                    <Heading className="mb-4">Meta</Heading>
-                    <Stack className="mb-4 items-start">
-                        {interactionDetails?.type && (
-                            <div>
-                                Type: <Badge>{interactionDetails?.type}</Badge>
-                            </div>
-                        )}
-                        {interactionDetails?.createdBy && (
-                            <div>
-                                Creator:{' '}
-                                <Badge>
-                                    {
-                                        interactionDetails?.createdBy?.profile
-                                            .firstName
-                                    }{' '}
-                                    {
-                                        interactionDetails?.createdBy?.profile
-                                            .lastName
-                                    }
-                                </Badge>
-                            </div>
-                        )}
-                        <div>
-                            Customer:{' '}
-                            <Badge>
-                                {interactionDetails?.customer.firstName}{' '}
-                                {interactionDetails?.customer.lastName}
-                            </Badge>
-                        </div>
-                        <div>
-                            Created:{' '}
-                            <Badge>
-                                {formatTheDate(
-                                    interactionDetails?.createdAt as string
+                <div className="flex p-4 gap-4">
+                    <div className="basis-2/3">
+                        <Heading className="mb-4">Description</Heading>
+                        <Card>
+                            <p>{interactionDetails?.description}</p>
+                        </Card>
+                    </div>
+                    <div className="basis-1/3">
+                        <Heading className="mb-4">Meta</Heading>
+                        <Card>
+                            <Stack vertical className="mb-4 items-start">
+                                {interactionDetails?.type && (
+                                    <div>
+                                        Type:{' '}
+                                        <Badge>
+                                            {interactionDetails?.type}
+                                        </Badge>
+                                    </div>
                                 )}
-                            </Badge>
-                        </div>
-                        {!dayjs(interactionDetails?.createdAt).isSame(
-                            interactionDetails?.updatedAt
-                        ) && (
-                            <div>
-                                Last updated:{' '}
-                                <Badge>
-                                    {formatTheDate(
-                                        interactionDetails?.updatedAt as string
-                                    )}
-                                </Badge>
-                            </div>
-                        )}
-                    </Stack>
-
-                    <Heading className="mb-4">Description</Heading>
-                    <p className="mb-4">{interactionDetails?.description}</p>
+                                {interactionDetails?.createdBy && (
+                                    <div>
+                                        Creator:{' '}
+                                        <Badge>
+                                            {
+                                                interactionDetails?.createdBy
+                                                    ?.profile.firstName
+                                            }{' '}
+                                            {
+                                                interactionDetails?.createdBy
+                                                    ?.profile.lastName
+                                            }
+                                        </Badge>
+                                    </div>
+                                )}
+                                <div>
+                                    Customer:{' '}
+                                    <Badge>
+                                        {interactionDetails?.customer.firstName}{' '}
+                                        {interactionDetails?.customer.lastName}
+                                    </Badge>
+                                </div>
+                                <div>
+                                    Created:{' '}
+                                    <Badge>
+                                        {formatTheDate(
+                                            interactionDetails?.createdAt as string
+                                        )}
+                                    </Badge>
+                                </div>
+                                {!dayjs(interactionDetails?.createdAt).isSame(
+                                    interactionDetails?.updatedAt
+                                ) && (
+                                    <div>
+                                        Last updated:{' '}
+                                        <Badge>
+                                            {formatTheDate(
+                                                interactionDetails?.updatedAt as string
+                                            )}
+                                        </Badge>
+                                    </div>
+                                )}
+                            </Stack>
+                        </Card>
+                    </div>
                 </div>
             </div>
             <Outlet />

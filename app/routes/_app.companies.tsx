@@ -5,6 +5,7 @@ import { Heading } from '~/components/Heading';
 import { NewButtonLink } from '~/components/NewButtonLink';
 import ParentLayout from '~/components/ParentLayout';
 import { getAllCompanies } from '~/models/company.server';
+import { PRIMARY_COLOR } from '~/utils/constants';
 import { getPanelLinkClassName } from '~/utils/css';
 
 export async function loader() {
@@ -42,7 +43,7 @@ export default function CompaniesRoute() {
             ) : (
                 <div className="p-8">
                     No companies yet.{' '}
-                    <Link to="create" className="text-cyan-500">
+                    <Link to="create" className={PRIMARY_COLOR}>
                         Create one.
                     </Link>
                 </div>

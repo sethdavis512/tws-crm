@@ -81,7 +81,7 @@ export default function InteractionDetailsRoute() {
                         </Stack>
                     </Form>
                 }
-                text={`${customerDetails?.firstName} ${customerDetails?.lastName}`}
+                heading={`${customerDetails?.firstName} ${customerDetails?.lastName}`}
                 padded
             >
                 <div>

@@ -45,7 +45,7 @@ export default function CreateInteractionRoute() {
 
     return (
         <ScrollyColumn as="main" className="col-span-10">
-            <ScrollyPanel text="Create new customer" padded>
+            <ScrollyPanel heading="Create new customer" padded>
                 <Form method="POST" className="space-y-4 max-w-lg">
                     <div>
                         <Label htmlFor="firstName">First name</Label>
@@ -59,7 +59,7 @@ export default function CreateInteractionRoute() {
                         <Label htmlFor="companyIDs">Company</Label>
                         <select
                             name="companyIDs"
-                            className="dark:bg-zinc-800 rounded-md"
+                            className="dark:bg-zinc-900 rounded-md"
                         >
                             {allCompanies.map((company) => (
                                 <option value={company.id} key={company.id}>

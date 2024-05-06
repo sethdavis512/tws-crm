@@ -6,6 +6,7 @@ import { NewButtonLink } from '~/components/NewButtonLink';
 import { ScrollyColumn } from '~/components/ScrollyColumn';
 import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { getAllCustomers } from '~/models/customer.server';
+import { PRIMARY_COLOR } from '~/utils/constants';
 import { getPanelLinkClassName } from '~/utils/css';
 
 export async function loader() {
@@ -21,7 +22,7 @@ export default function CustomersRoute() {
             <ScrollyColumn size={3}>
                 <ScrollyPanel
                     aux={<NewButtonLink to="create" />}
-                    text="Customers"
+                    heading="Customers"
                 >
                     {customers && customers.length > 0 ? (
                         customers.map((customer) => {
@@ -43,7 +44,7 @@ export default function CustomersRoute() {
                     ) : (
                         <div className="p-8">
                             No customers yet.{' '}
-                            <Link to="create" className="text-cyan-500">
+                            <Link to="create" className={PRIMARY_COLOR}>
                                 Create one.
                             </Link>
                         </div>

@@ -12,7 +12,7 @@ export function Grid({ as = 'div', children, className, subgrid }: GridProps) {
     const Component = as;
 
     const gridClassName = cn(
-        'grid grid-cols-12',
+        `grid grid-cols-12`,
         { 'grid-cols-subgrid': subgrid },
         className
     );

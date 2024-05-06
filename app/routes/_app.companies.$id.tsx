@@ -12,7 +12,6 @@ import { EditButton } from '~/components/EditButton';
 import { Heading } from '~/components/Heading';
 import { ScrollyPanel } from '~/components/ScrollyPanel';
 import { Stack } from '~/components/Stack';
-import { StickyHeader } from '~/components/StickyHeader';
 import { Tab } from '~/components/Tab';
 import { TabPanel } from '~/components/TabPanel';
 import { TabPanels } from '~/components/TabPanels';
@@ -152,16 +151,13 @@ export default function CompanyDetailsRoute() {
                                         </ul>
                                     </TabPanel>
                                     <TabPanel>
-                                        {companyDetails?.comments &&
-                                        companyDetails?.comments.length > 0 ? (
+                                        {companyDetails?.comments && (
                                             <CommentsSection
-                                                intentValue=""
+                                                intentValue="create"
                                                 comments={
                                                     companyDetails.comments
                                                 }
                                             />
-                                        ) : (
-                                            <p>No comments</p>
                                         )}
                                     </TabPanel>
                                 </TabPanels>

@@ -6,6 +6,7 @@ interface HeadingProps {
     children: ReactNode;
     as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     className?: string;
+    id?: string;
     size?: '1' | '2' | '3' | '4' | '5' | '6';
 }
 
@@ -29,6 +30,7 @@ export function Heading({
     as = 'h2',
     children,
     className,
+    id,
     size = '2'
 }: HeadingProps) {
     const Component = as;

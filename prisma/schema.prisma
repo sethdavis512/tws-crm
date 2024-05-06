@@ -11,9 +11,10 @@ datasource db {
 }
 
 model User {
-    id          String        @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt   DateTime      @default(now())
-    updatedAt   DateTime      @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     email       String        @unique
     password    String
     profile     Profile
@@ -30,9 +31,10 @@ type Profile {
 }
 
 model Customer {
-    id           String        @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     interactions Interaction[]
     companyIDs   String[]      @db.ObjectId
     companies    Company[]     @relation(fields: [companyIDs], references: [id])
@@ -45,9 +47,10 @@ model Customer {
 }
 
 model Company {
-    id          String     @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     name        String
     customerIDs String[]   @db.ObjectId
     customers   Customer[] @relation(fields: [customerIDs], references: [id])
@@ -59,9 +62,10 @@ model Company {
 }
 
 model Interaction {
-    id          String          @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt   DateTime        @default(now())
-    updatedAt   DateTime        @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     createdBy   User?           @relation(fields: [userId], references: [id])
     userId      String?         @db.ObjectId
     title       String
@@ -70,8 +74,8 @@ model Interaction {
     customer    Customer        @relation(fields: [customerId], references: [id])
     customerId  String          @db.ObjectId
     comments    Comment[]
-    Case        Case?           @relation(fields: [caseId], references: [id])
-    caseId      String?         @db.ObjectId
+    cases       Case[]          @relation(fields: [caseIDs], references: [id])
+    caseIDs     String[]        @db.ObjectId
 }
 
 enum InteractionType {
@@ -82,18 +86,19 @@ enum InteractionType {
 }
 
 model Case {
-    id           String        @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @updatedAt
-    createdBy    User?         @relation(fields: [userId], references: [id])
-    userId       String?       @db.ObjectId
-    companyIDs   String[]      @db.ObjectId
-    companies    Company[]     @relation(fields: [companyIDs], references: [id])
-    interactions Interaction[]
-    title        String
-    description  String
-    customers    Customer[]
-    comments     Comment[]
+    id             String        @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+    createdBy      User?         @relation(fields: [userId], references: [id])
+    userId         String?       @db.ObjectId
+    companyIDs     String[]      @db.ObjectId
+    companies      Company[]     @relation(fields: [companyIDs], references: [id])
+    interactions   Interaction[] @relation(fields: [interactionIDs], references: [id])
+    interactionIDs String[]      @db.ObjectId
+    title          String
+    description    String
+    customers      Customer[]
+    comments       Comment[]
 }
 
 model Comment {
@@ -129,9 +134,10 @@ enum TaskType {
 }
 
 model Task {
-    id         String     @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt  DateTime   @default(now())
-    updatedAt  DateTime   @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     title      String
     dueDate    DateTime?
     status     TaskStatus @default(TODO)
