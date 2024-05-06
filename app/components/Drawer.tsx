@@ -23,6 +23,7 @@ interface DrawerProps {
     isOpen?: boolean;
     onClose?: () => void;
     position?: 'left' | 'right' | 'bottom';
+    size: 'sm' | 'md' | 'lg' | 'full';
 }
 
 export function Drawer({
@@ -32,10 +33,15 @@ export function Drawer({
     isOpen = false,
     position = 'left',
     onClose,
-    backdrop = true
+    backdrop = true,
+    size = 'sm'
 }: DrawerProps) {
     const drawerClassName = cn(
-        `w-80 fixed z-50 p-8 overflow-y-auto transition-translate ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
+        `fixed z-50 p-8 overflow-y-auto transition-translate ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
+        size === 'sm' && 'w-96',
+        size === 'md' && 'w-1/2',
+        size === 'lg' && 'w-3/4',
+        size === 'full' && 'w-[calc(100vw_-_75px)] rounded-lg',
         {
             [`top-0 left-0 h-screen ${BORDER_RIGHT_COLORS} -translate-x-full`]:
                 position === 'left',
@@ -47,8 +53,12 @@ export function Drawer({
             'transform-none': position === 'right' && isOpen
         },
         {
-            [`w-full bottom-0 ${BORDER_TOP_COLORS} translate-y-full`]:
+            [`w-full bottom-0 ${BORDER_TOP_COLORS} translate-y-full rounded-lg`]:
                 position === 'bottom',
+            'h-96': position === 'bottom' && size === 'sm',
+            'h-1/2': position === 'bottom' && size === 'md',
+            'h-3/4': position === 'bottom' && size === 'lg',
+            'h-[calc(100vh_-_30px)]': position === 'bottom' && size === 'full',
             'transform-none': position === 'bottom' && isOpen
         }
     );
@@ -74,7 +84,7 @@ export function Drawer({
                 tabIndex={-1}
                 aria-labelledby={`${id}-label`}
             >
-                <Stack className="justify-between">
+                <Stack className="justify-between mb-4">
                     <Heading id={`${id}-label`}>{heading}</Heading>
                     <Button onClick={onClose}>{orientedIcon}</Button>
                 </Stack>

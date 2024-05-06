@@ -1,7 +1,6 @@
 import { useReducer, useState } from 'react';
 import { Button } from '~/components/Button';
 import { Drawer } from '~/components/Drawer';
-import ParentLayout from '~/components/ParentLayout';
 
 export default function KitchenSink() {
     const [isDrawerOpen, toggleDrawerOpen] = useReducer((s) => !s, false);
@@ -39,14 +38,17 @@ export default function KitchenSink() {
                 Open bottom
             </Button>
             <Drawer
-                heading="test"
+                heading="Marketing tactics 101"
                 id="test1234"
                 isOpen={isDrawerOpen}
                 onClose={toggleDrawerOpen}
                 position={drawerPosition}
                 backdrop
+                size="full"
             >
-                Test
+                <p>Sell all the things!</p>
+                <p>Sell all the things!</p>
+                <p>Sell all the things!</p>
             </Drawer>
         </div>
     );
