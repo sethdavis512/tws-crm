@@ -1,4 +1,11 @@
 import { type ReactNode } from 'react';
+import { cva } from 'class-variance-authority';
+import {
+    PanelBottomCloseIcon,
+    PanelLeftCloseIcon,
+    PanelRightCloseIcon
+} from 'lucide-react';
+
 import {
     BACKGROUND_COLORS,
     BORDER_LEFT_COLORS,
@@ -8,17 +15,66 @@ import {
 import { Heading } from './Heading';
 import { cn } from '~/utils/css';
 import { Button } from './Button';
-import {
-    PanelBottomCloseIcon,
-    PanelLeftCloseIcon,
-    PanelRightCloseIcon
-} from 'lucide-react';
 import { Stack } from './Stack';
+import { useEscapeKey } from '~/hooks/useEscapeKey';
+
+const drawerVariants = cva(
+    `fixed z-50 p-8 overflow-y-auto ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
+    {
+        variants: {
+            position: {
+                left: `top-0 left-0 h-screen ${BORDER_RIGHT_COLORS} -translate-x-full rounded-tr-lg rounded-br-lg`,
+                right: `top-0 right-0 h-screen ${BORDER_LEFT_COLORS} translate-x-full rounded-tl-lg rounded-bl-lg`,
+                bottom: `w-full bottom-0 ${BORDER_TOP_COLORS} translate-y-full rounded-tl-lg rounded-tr-lg`
+            },
+            isOpen: {
+                true: 'transform-none'
+            },
+            size: {
+                sm: 'w-96',
+                md: 'w-1/2',
+                lg: 'w-3/4',
+                full: 'w-[calc(100vw_-_75px)]'
+            }
+        },
+        compoundVariants: [
+            {
+                position: 'bottom',
+                isOpen: true,
+                className: 'transform-none'
+            },
+            {
+                position: 'bottom',
+                size: 'sm',
+                className: 'w-full h-96'
+            },
+            {
+                position: 'bottom',
+                size: 'md',
+                className: 'w-full h-1/2'
+            },
+            {
+                position: 'bottom',
+                size: 'lg',
+                className: 'w-full h-3/4'
+            },
+            {
+                position: 'bottom',
+                size: 'full',
+                className: 'w-full h-[calc(100vh_-_25px)] mt-4'
+            }
+        ],
+        defaultVariants: {
+            position: 'left'
+        }
+    }
+);
 
 interface DrawerProps {
     children: ReactNode;
     id: string;
     backdrop?: boolean;
+    className?: string;
     heading?: string;
     isOpen?: boolean;
     onClose?: () => void;
@@ -28,40 +84,20 @@ interface DrawerProps {
 
 export function Drawer({
     children,
+    className,
     heading,
     id,
     isOpen = false,
     position = 'left',
-    onClose,
+    onClose = () => {},
     backdrop = true,
     size = 'sm'
 }: DrawerProps) {
-    const drawerClassName = cn(
-        `fixed z-50 p-8 overflow-y-auto transition-translate ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
-        size === 'sm' && 'w-96',
-        size === 'md' && 'w-1/2',
-        size === 'lg' && 'w-3/4',
-        size === 'full' && 'w-[calc(100vw_-_75px)] rounded-lg',
-        {
-            [`top-0 left-0 h-screen ${BORDER_RIGHT_COLORS} -translate-x-full`]:
-                position === 'left',
-            'transform-none': position === 'left' && isOpen
-        },
-        {
-            [`top-0 right-0 h-screen ${BORDER_LEFT_COLORS} translate-x-full`]:
-                position === 'right',
-            'transform-none': position === 'right' && isOpen
-        },
-        {
-            [`w-full bottom-0 ${BORDER_TOP_COLORS} translate-y-full rounded-lg`]:
-                position === 'bottom',
-            'h-96': position === 'bottom' && size === 'sm',
-            'h-1/2': position === 'bottom' && size === 'md',
-            'h-3/4': position === 'bottom' && size === 'lg',
-            'h-[calc(100vh_-_30px)]': position === 'bottom' && size === 'full',
-            'transform-none': position === 'bottom' && isOpen
-        }
+    const betterDrawerClassName = cn(
+        drawerVariants({ position, className, size, isOpen })
     );
+
+    useEscapeKey({ handler: onClose, condition: isOpen });
 
     const orientedIcon =
         position === 'bottom' ? (
@@ -80,7 +116,7 @@ export function Drawer({
         <>
             <div
                 id={id}
-                className={drawerClassName}
+                className={betterDrawerClassName}
                 tabIndex={-1}
                 aria-labelledby={`${id}-label`}
             >
