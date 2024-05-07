@@ -23,7 +23,10 @@ export function LinkButton({
 }: LinkButtonProps) {
     return (
         <Link
-            className={cn(linkButtonVariants({ variant, size, className }))}
+            className={cn(
+                'inline-flex',
+                linkButtonVariants({ variant, size, className })
+            )}
             to={to}
         >
             {children}

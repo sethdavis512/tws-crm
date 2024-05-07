@@ -13,7 +13,7 @@ import { Stack } from '~/components/Stack';
 import { getLatestCases } from '~/models/case.server';
 import { getLatestInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
-import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
+import { Urls } from '~/utils/constants';
 
 interface DashboardCardProps {
     baseUrl: string;
@@ -32,32 +32,32 @@ export function DashboardCard({
 }: DashboardCardProps) {
     return (
         <Card className="col-span-6">
-            <Heading>{heading} (5)</Heading>
+            <Heading>
+                {heading} ({data.length})
+            </Heading>
             <Separator className="mt-4" />
-            <ul>
+            <ul className="space-y-4">
                 {data.map((listObj, idx) => (
-                    <li
-                        key={listObj.id}
-                        className={`${
-                            data.length - 1 !== idx ? BORDER_BOTTOM_COLORS : ''
-                        } mb-4`}
-                    >
-                        <Stack className="mb-4 items-start">
-                            <Heading size="4" className="leading-none">
+                    <li key={listObj.id}>
+                        <Stack className="items-center">
+                            <LinkButton
+                                to={`${baseUrl}/${listObj.id}`}
+                                size="sm"
+                            >
+                                <ChevronRight />
+                            </LinkButton>
+                            <Heading as="h3" size="5">
                                 {listObj.title}
                             </Heading>
-                            {listObj.type && <Badge>{listObj.type}</Badge>}
+                            {listObj.type && (
+                                <Badge variant="secondary">
+                                    {listObj.type}
+                                </Badge>
+                            )}
                             <p className="text-zinc-400">
                                 Created: {formatTheDate(listObj.createdAt)}
                             </p>
                         </Stack>
-                        <LinkButton
-                            className="inline-flex items-center mb-4"
-                            to={`${baseUrl}/${listObj.id}`}
-                            size="sm"
-                        >
-                            {`View ${cardType}`} <ChevronRight />
-                        </LinkButton>
                     </li>
                 ))}
             </ul>
