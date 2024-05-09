@@ -18,8 +18,20 @@ import { Button } from './Button';
 import { Stack } from './Stack';
 import { useEscapeKey } from '~/hooks/useEscapeKey';
 
+interface DrawerProps {
+    children: ReactNode;
+    id: string;
+    backdrop?: boolean;
+    className?: string;
+    heading?: string;
+    isOpen?: boolean;
+    onClose?: () => void;
+    position?: 'left' | 'right' | 'bottom';
+    size: 'sm' | 'md' | 'lg' | 'full';
+}
+
 const drawerVariants = cva(
-    `fixed z-50 p-8 overflow-y-auto ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS}`,
+    `fixed z-50 p-8 overflow-y-auto ${BACKGROUND_COLORS} ${BORDER_LEFT_COLORS} transition-transform delay-250`,
     {
         variants: {
             position: {
@@ -38,11 +50,6 @@ const drawerVariants = cva(
             }
         },
         compoundVariants: [
-            {
-                position: 'bottom',
-                isOpen: true,
-                className: 'transform-none'
-            },
             {
                 position: 'bottom',
                 size: 'sm',
@@ -70,18 +77,6 @@ const drawerVariants = cva(
     }
 );
 
-interface DrawerProps {
-    children: ReactNode;
-    id: string;
-    backdrop?: boolean;
-    className?: string;
-    heading?: string;
-    isOpen?: boolean;
-    onClose?: () => void;
-    position?: 'left' | 'right' | 'bottom';
-    size: 'sm' | 'md' | 'lg' | 'full';
-}
-
 export function Drawer({
     children,
     className,
@@ -93,7 +88,7 @@ export function Drawer({
     backdrop = true,
     size = 'sm'
 }: DrawerProps) {
-    const betterDrawerClassName = cn(
+    const drawerClassName = cn(
         drawerVariants({ position, className, size, isOpen })
     );
 
@@ -108,15 +103,11 @@ export function Drawer({
             <PanelRightCloseIcon />
         ) : null;
 
-    if (!isOpen) {
-        return null;
-    }
-
     return (
         <>
             <div
                 id={id}
-                className={betterDrawerClassName}
+                className={drawerClassName}
                 tabIndex={-1}
                 aria-labelledby={`${id}-label`}
             >
@@ -129,7 +120,10 @@ export function Drawer({
             {backdrop && (
                 <div
                     onClick={onClose}
-                    className="bg-zinc-800/70 dark:bg-zinc-800/70 fixed inset-0 z-40"
+                    className={`bg-zinc-800 dark:bg-zinc-800 fixed inset-0 z-40 transition-opacity duration-300 ${
+                        // TODO: Remove hidden class so that backdrop fades out properly
+                        isOpen ? 'opacity-70' : 'opacity-0 hidden'
+                    }`}
                 />
             )}
         </>
