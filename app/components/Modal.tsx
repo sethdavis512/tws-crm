@@ -1,66 +1,59 @@
 import { type ReactNode } from 'react';
+import { X } from 'lucide-react';
+
 import { cn } from '~/utils/css';
+import { Button } from './Button';
+import {
+    BACKGROUND_COLORS,
+    BORDER_BOTTOM_COLORS,
+    BORDER_COLORS,
+    BORDER_TOP_COLORS
+} from '~/utils/constants';
 import { Heading } from './Heading';
 
 interface ModalProps {
     children: ReactNode;
     heading: string;
+    id: string;
     isOpen: boolean;
-    closeModal: () => void;
+    handleClose: () => void;
     footer?: ReactNode;
 }
 
 export function Modal({
     children,
     footer,
+    handleClose,
     heading,
-    isOpen,
-    closeModal
+    id,
+    isOpen = false
 }: ModalProps) {
     const modalClassName = cn(
-        'overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full',
+        `flex items-center justify-center fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-zinc-800/70`,
         !isOpen && 'hidden'
     );
 
     return (
-        <div
-            id="default-modal"
-            tab-index="-1"
-            aria-hidden="true"
-            className={modalClassName}
-        >
-            <div className="relative p-4 w-full max-w-2xl max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-zinc-900">
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-zinc-600">
+        <div data-id={id} className={modalClassName} tabIndex={-1}>
+            <div className={`relative w-full max-w-lg max-h-full`}>
+                <div
+                    className={`relative rounded-lg shadow ${BACKGROUND_COLORS} ${BORDER_COLORS} rounded-xl`}
+                >
+                    <div
+                        className={`flex items-center justify-between p-4 md:p-5 rounded-t ${BORDER_BOTTOM_COLORS}`}
+                    >
                         <Heading>{heading}</Heading>
-                        <button
-                            type="button"
-                            className="text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-zinc-600 dark:hover:text-white"
-                            data-modal-hide="default-modal"
-                            onClick={closeModal}
-                        >
-                            <svg
-                                className="w-3 h-3"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 14"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                                />
-                            </svg>
+                        <Button type="button" onClick={handleClose}>
+                            <X />
                             <span className="sr-only">Close modal</span>
-                        </button>
+                        </Button>
                     </div>
-                    <div className="p-4 md:p-5 space-y-4">{children}</div>
-                    <div className="flex items-center p-4 md:p-5 border-t border-zinc-200 rounded-b dark:border-zinc-600">
+                    <div className="p-4">{children}</div>
+                    <footer
+                        className={`flex items-center p-4 ${BORDER_TOP_COLORS} rounded-b`}
+                    >
                         {footer}
-                    </div>
+                    </footer>
                 </div>
             </div>
         </div>

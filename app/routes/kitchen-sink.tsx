@@ -1,10 +1,13 @@
 import { useReducer, useState } from 'react';
 import { Button } from '~/components/Button';
 import { Drawer } from '~/components/Drawer';
+import { Heading } from '~/components/Heading';
+import { Modal } from '~/components/Modal';
 import { Stack } from '~/components/Stack';
 
 export default function KitchenSink() {
     const [isDrawerOpen, toggleDrawerOpen] = useReducer((s) => !s, false);
+    const [isModalOpen, toggleModalOpen] = useReducer((s) => !s, false);
 
     const [drawerPosition, setDrawerPosition] = useState<
         'left' | 'right' | 'bottom'
@@ -16,8 +19,9 @@ export default function KitchenSink() {
 
     return (
         <div className="col-span-12">
-            <div className="px-4 space-y-4">
-                <p className="py-4">
+            <div className="pt-4 px-4 space-y-4">
+                <Heading>Drawer</Heading>
+                <p>
                     Drawer set to: {drawerPosition} / {drawerSize}
                 </p>
                 <Stack>
@@ -80,13 +84,17 @@ export default function KitchenSink() {
                         Set full size
                     </Button>
                 </Stack>
+                <Heading>Modal</Heading>
+                <Stack>
+                    <Button onClick={toggleModalOpen}>Open modal</Button>
+                </Stack>
             </div>
             <Drawer
                 backdrop
                 heading="Marketing tactics 101"
                 id="test1234"
                 isOpen={isDrawerOpen}
-                onClose={toggleDrawerOpen}
+                handleClose={toggleDrawerOpen}
                 position={drawerPosition}
                 size={drawerSize}
             >
@@ -94,6 +102,19 @@ export default function KitchenSink() {
                 <p>Sell all the things!</p>
                 <p>Sell all the things!</p>
             </Drawer>
+            <Modal
+                isOpen={isModalOpen}
+                heading="Heading"
+                handleClose={toggleModalOpen}
+                id="myModal"
+                footer={
+                    <Stack>
+                        <Button>Click this</Button>
+                    </Stack>
+                }
+            >
+                Test test test
+            </Modal>
         </div>
     );
 }

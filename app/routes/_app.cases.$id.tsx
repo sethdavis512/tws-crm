@@ -33,7 +33,7 @@ import { getAllInteractions } from '~/models/interaction.server';
 import { Card } from '~/components/Card';
 import { Checkbox } from '~/components/Checkbox';
 import { Separator } from '~/components/Separator';
-import { StickyHeader } from '~/components/StickyHeader';
+import { ScrollyPanel } from '~/components/ScrollyPanel';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const userId = await getUserId(request);
@@ -81,8 +81,9 @@ export default function CasesDetailsRoute() {
     const numberOfComments = caseDetails?.comments.length;
 
     return (
-        <>
-            <StickyHeader text={caseDetails?.title || 'Case'}>
+        <ScrollyPanel
+            heading={caseDetails?.title || 'Case'}
+            aux={
                 <Form method="POST">
                     <Stack>
                         <EditButton
@@ -91,8 +92,8 @@ export default function CasesDetailsRoute() {
                         <DeleteButton />
                     </Stack>
                 </Form>
-            </StickyHeader>
-
+            }
+        >
             <div className="p-4">
                 <div className="space-y-2 mb-8">
                     <div>
@@ -193,9 +194,10 @@ export default function CasesDetailsRoute() {
             </div>
             <Form method="POST">
                 <Modal
+                    id="interactionConnection"
                     isOpen={isModalOpen}
                     heading="Connect interactions"
-                    closeModal={toggleIsModalOpen}
+                    handleClose={toggleIsModalOpen}
                     footer={
                         <Button
                             type="submit"
@@ -206,21 +208,23 @@ export default function CasesDetailsRoute() {
                         </Button>
                     }
                 >
-                    {allInteractions.map((interaction) => (
-                        <Card key={interaction.id}>
-                            <Label htmlFor={interaction.id}>
-                                <Checkbox
-                                    name="interaction"
-                                    id={interaction.id}
-                                    className="mr-3"
-                                    value={interaction.id}
-                                />
-                                {interaction.title}
-                            </Label>
-                        </Card>
-                    ))}
+                    <div className="space-y-3">
+                        {allInteractions.map((interaction) => (
+                            <Card key={interaction.id}>
+                                <Label htmlFor={interaction.id}>
+                                    <Checkbox
+                                        name="interaction"
+                                        id={interaction.id}
+                                        className="mr-3"
+                                        value={interaction.id}
+                                    />
+                                    {interaction.title}
+                                </Label>
+                            </Card>
+                        ))}
+                    </div>
                 </Modal>
             </Form>
-        </>
+        </ScrollyPanel>
     );
 }

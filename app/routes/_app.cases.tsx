@@ -22,7 +22,17 @@ export default function CasesRoute() {
     const { cases } = useLoaderData<typeof loader>();
 
     return (
-        <ParentLayout heading="Cases" aux={<NewButtonLink to="create" />}>
+        <ParentLayout
+            heading={
+                <>
+                    Cases{' '}
+                    <span className="text-zinc-300 dark:text-zinc-500">
+                        ({cases.length})
+                    </span>
+                </>
+            }
+            aux={<NewButtonLink to="create" />}
+        >
             {cases && cases.length > 0 ? (
                 cases.map((caseObj) => {
                     const linkClassName = getPanelLinkClassName(

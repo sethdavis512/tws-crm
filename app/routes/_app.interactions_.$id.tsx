@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { Form, Outlet, useLoaderData, useLocation } from '@remix-run/react';
+import { Form, Outlet, useLoaderData } from '@remix-run/react';
 import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 
@@ -60,29 +60,12 @@ export async function action({ request, params }: ActionFunctionArgs) {
 export default function InteractionDetailsRoute() {
     const { interactionDetails } = useLoaderData<typeof loader>();
 
-    const location = useLocation();
-    const isDetailsPage = location.pathname.endsWith(
-        interactionDetails?.id || ''
-    );
-
     return (
         <>
-            <div
-                className={`${
-                    isDetailsPage ? 'col-span-10' : 'col-span-7'
-                } overflow-y-auto`}
-            >
+            <div className={`col-span-10 overflow-y-auto`}>
                 <StickyHeader text={interactionDetails?.title || 'Interaction'}>
                     <Stack>
-                        <LinkButton
-                            to={
-                                isDetailsPage
-                                    ? 'comments'
-                                    : `/interactions/${interactionDetails?.id}`
-                            }
-                        >
-                            {`${isDetailsPage ? 'Show' : 'Hide'} comments`}
-                        </LinkButton>
+                        <LinkButton to="comments">{`Show comments`}</LinkButton>
                         <Form method="POST">
                             <Stack>
                                 <EditButton

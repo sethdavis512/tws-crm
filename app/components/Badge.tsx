@@ -14,9 +14,9 @@ const badgeVariants = cva(
     {
         variants: {
             variant: {
-                primary: 'bg-primary-500',
-                secondary: 'bg-amber-500',
-                tertiary: 'bg-red-500'
+                primary: 'bg-primary-700 dark:bg-primary-700',
+                secondary: 'bg-amber-500 dark:bg-amber-50',
+                tertiary: 'bg-red-500 dark:bg-red-500'
             }
         },
         defaultVariants: {

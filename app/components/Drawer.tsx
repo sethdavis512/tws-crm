@@ -25,9 +25,9 @@ interface DrawerProps {
     className?: string;
     heading?: string;
     isOpen?: boolean;
-    onClose?: () => void;
+    handleClose?: () => void;
     position?: 'left' | 'right' | 'bottom';
-    size: 'sm' | 'md' | 'lg' | 'full';
+    size?: 'sm' | 'md' | 'lg' | 'full';
 }
 
 const drawerVariants = cva(
@@ -84,7 +84,7 @@ export function Drawer({
     id,
     isOpen = false,
     position = 'left',
-    onClose = () => {},
+    handleClose = () => {},
     backdrop = true,
     size = 'sm'
 }: DrawerProps) {
@@ -92,7 +92,7 @@ export function Drawer({
         drawerVariants({ position, className, size, isOpen })
     );
 
-    useEscapeKey({ handler: onClose, condition: isOpen });
+    useEscapeKey({ handler: handleClose, condition: isOpen });
 
     const orientedIcon =
         position === 'bottom' ? (
@@ -113,14 +113,14 @@ export function Drawer({
             >
                 <Stack className="justify-between mb-4">
                     <Heading id={`${id}-label`}>{heading}</Heading>
-                    <Button onClick={onClose}>{orientedIcon}</Button>
+                    <Button onClick={handleClose}>{orientedIcon}</Button>
                 </Stack>
                 {children}
             </div>
             {backdrop && (
                 <div
-                    onClick={onClose}
-                    className={`bg-zinc-800 dark:bg-zinc-800 fixed inset-0 z-40 transition-opacity duration-300 ${
+                    onClick={handleClose}
+                    className={`bg-white dark:bg-zinc-800 fixed inset-0 z-40 transition-opacity duration-1000 ${
                         // TODO: Remove hidden class so that backdrop fades out properly
                         isOpen ? 'opacity-70' : 'opacity-0 hidden'
                     }`}

@@ -3,7 +3,7 @@ import { BACKGROUND_COLORS, BORDER_BOTTOM_COLORS } from '~/utils/constants';
 import { Heading } from './Heading';
 
 interface StickyHeaderProps {
-    text: string;
+    text: ReactNode;
     children?: ReactNode;
 }
 

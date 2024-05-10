@@ -4,6 +4,7 @@ import { Link, useLoaderData, useParams } from '@remix-run/react';
 import { Badge } from '~/components/Badge';
 import { Card } from '~/components/Card';
 import { Heading } from '~/components/Heading';
+import { LinkButton } from '~/components/LinkButton';
 import { NewButtonLink } from '~/components/NewButtonLink';
 import { ScrollyColumn } from '~/components/ScrollyColumn';
 import { ScrollyPanel } from '~/components/ScrollyPanel';
@@ -11,6 +12,7 @@ import { Stack } from '~/components/Stack';
 import { getAllInteractions } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
 import { PRIMARY_COLOR } from '~/utils/constants';
+import { truncateString } from '~/utils/functions';
 
 export async function loader() {
     const interactions = await getAllInteractions();
@@ -28,7 +30,14 @@ export default function InteractionsRoute() {
         <ScrollyColumn>
             <ScrollyPanel
                 aux={<NewButtonLink to="create" />}
-                heading="Interactions"
+                heading={
+                    <>
+                        Interactions{' '}
+                        <span className="text-zinc-300 dark:text-zinc-500">
+                            ({interactions.length})
+                        </span>
+                    </>
+                }
                 padded
                 className="space-y-4"
             >
@@ -42,40 +51,39 @@ export default function InteractionsRoute() {
                                 key={interaction.id}
                                 className="col-span-full"
                             >
-                                <Stack className="mb-4">
-                                    <Stack className="items-start" vertical>
-                                        <Link to={interaction.id}>
-                                            <Heading as="h3">
-                                                Interaction: {interaction.title}
-                                            </Heading>
-                                        </Link>
-                                        <Link
-                                            to={`/cases/${interaction.caseId}`}
-                                        >
-                                            <Heading as="h4" size="5">
-                                                Case: {interaction?.Case?.title}
-                                            </Heading>
-                                        </Link>
-                                        <Stack>
-                                            <span className="block">
-                                                Updated:
-                                            </span>
-                                            <Badge>
-                                                {formatTheDate(
-                                                    interaction?.updatedAt as string
-                                                )}
-                                            </Badge>
-                                        </Stack>
+                                <Stack className="items-center">
+                                    <Link to={interaction.id}>
+                                        <Heading as="h3">
+                                            {interaction.title}
+                                        </Heading>
+                                    </Link>
+                                    <LinkButton
+                                        to={`/cases/${interaction.caseId}`}
+                                        size="sm"
+                                    >
+                                        View {interaction?.Case?.title}
+                                    </LinkButton>
+                                    <Stack>
+                                        <span className="block">Updated:</span>
+                                        <Badge>
+                                            {formatTheDate(
+                                                interaction?.updatedAt as string
+                                            )}
+                                        </Badge>
                                     </Stack>
+                                    <p
+                                        className={`dark:text-zinc-400 font-normal text-zinc-700 ${
+                                            isSelected &&
+                                            'text-white dark:text-zinc-200'
+                                        } break-words`}
+                                    >
+                                        {truncateString(
+                                            interaction.description,
+                                            10,
+                                            true
+                                        )}
+                                    </p>
                                 </Stack>
-                                <p
-                                    className={`dark:text-zinc-400 font-normal text-zinc-700 ${
-                                        isSelected &&
-                                        'text-white dark:text-zinc-200'
-                                    } break-words`}
-                                >
-                                    {interaction.description}
-                                </p>
                             </Card>
                         );
                     })

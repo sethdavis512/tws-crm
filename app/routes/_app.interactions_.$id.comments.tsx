@@ -12,6 +12,8 @@ import { Urls } from '~/utils/constants';
 import { CommentsSection } from '~/components/CommentsSection';
 import { getUserId } from '~/utils/auth.server';
 import { Drawer } from '~/components/Drawer';
+import { useToggle } from '~/hooks/useToggle';
+import { useEffect, useState } from 'react';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const interactionId = params.id;
@@ -52,15 +54,24 @@ export async function action({ request, params }: ActionFunctionArgs) {
 export default function InteractionDetailsRoute() {
     const { interactionDetails } = useLoaderData<typeof loader>();
     const navigate = useNavigate();
+    const [isDrawerOpen, toggleDrawerOpen] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            toggleDrawerOpen(true);
+        }, 100);
+    }, []);
 
     return (
         <Drawer
             id="interactionDetailsComments"
             size="md"
             heading="Comments"
-            isOpen
+            isOpen={isDrawerOpen}
             position="right"
-            onClose={() => navigate(`/interactions/${interactionDetails?.id}`)}
+            handleClose={() =>
+                navigate(`/interactions/${interactionDetails?.id}`)
+            }
         >
             {interactionDetails?.comments &&
                 interactionDetails?.comments.length > 0 && (

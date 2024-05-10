@@ -6,7 +6,7 @@ import { Outlet } from '@remix-run/react';
 
 interface ParentLayoutProps {
     children: ReactNode;
-    heading: string;
+    heading: ReactNode;
     aux?: ReactNode;
 }
 

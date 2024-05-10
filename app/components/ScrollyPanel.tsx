@@ -4,7 +4,7 @@ import { cn } from '~/utils/css';
 
 interface ScrollyPanelProps {
     children: ReactNode;
-    heading: string;
+    heading: ReactNode;
     aux?: ReactNode;
     className?: string;
     padded?: boolean;

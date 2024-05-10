@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { cva } from 'class-variance-authority';
 import type { RequiredVariantProps } from '~/types';
+import { cn } from '~/utils/css';
 
 type ButtonVariants = RequiredVariantProps<typeof buttonVariants>;
 
@@ -13,7 +14,7 @@ export const buttonVariants = cva('font-bold shadow-sm rounded-md', {
             primary:
                 'bg-primary-700 text-white hover:bg-primary-800 active:bg-primary-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700',
             secondary:
-                'bg-white text-zinc-900 ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 active:bg-zinc-100',
+                'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-inset ring-zinc-300 dark:ring-zinc-600 hover:bg-zinc-50 active:bg-zinc-100',
             danger: 'bg-red-500 text-white ring-1 ring-inset ring-red-300 dark:ring-red-800 hover:bg-red-50 dark:hover:bg-red-700 active:bg-red-100',
             warning:
                 'bg-amber-500 text-white ring-1 ring-inset ring-amber-300 dark:ring-amber-800 hover:bg-amber-50 dark:hover:bg-amber-700 active:bg-amber-100',
@@ -43,11 +44,13 @@ export function Button({
 }: ButtonProps) {
     return (
         <button
-            className={buttonVariants({
-                className,
-                variant,
-                size
-            })}
+            className={cn(
+                buttonVariants({
+                    className,
+                    variant,
+                    size
+                })
+            )}
             {...props}
         >
             {children}
