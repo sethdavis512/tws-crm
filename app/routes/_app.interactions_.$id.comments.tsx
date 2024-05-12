@@ -12,7 +12,6 @@ import { Urls } from '~/utils/constants';
 import { CommentsSection } from '~/components/CommentsSection';
 import { getUserId } from '~/utils/auth.server';
 import { Drawer } from '~/components/Drawer';
-import { useToggle } from '~/hooks/useToggle';
 import { useEffect, useState } from 'react';
 
 export async function loader({ params }: LoaderFunctionArgs) {

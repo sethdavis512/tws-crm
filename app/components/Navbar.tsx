@@ -1,5 +1,5 @@
 import { Link, useFetcher } from '@remix-run/react';
-import { CogIcon, Menu, Moon, Search, Sun } from 'lucide-react';
+import { CogIcon, Menu, Moon, Sun } from 'lucide-react';
 import type { User } from '@prisma/client';
 
 import { BORDER_BOTTOM_COLORS, Urls } from '~/utils/constants';
