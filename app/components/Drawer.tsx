@@ -16,7 +16,6 @@ import { Heading } from './Heading';
 import { cn } from '~/utils/css';
 import { Button } from './Button';
 import { Stack } from './Stack';
-import { useEscapeKey } from '~/hooks/useEscapeKey';
 
 interface DrawerProps {
     children: ReactNode;
@@ -91,8 +90,6 @@ export function Drawer({
     const drawerClassName = cn(
         drawerVariants({ position, className, size, isOpen })
     );
-
-    useEscapeKey({ handler: handleClose, condition: isOpen });
 
     const orientedIcon =
         position === 'bottom' ? (
