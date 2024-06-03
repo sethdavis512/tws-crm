@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { cn } from '~/utils/css';
+import { cx } from 'cva.config';
 
 interface ScrollyColumnProps {
     children: ReactNode;
@@ -9,13 +9,13 @@ interface ScrollyColumnProps {
 }
 
 export function ScrollyColumn({
-    as = 'main',
+    as = 'div',
     children,
     className,
     size = 10
 }: ScrollyColumnProps) {
     const Component = as;
-    const scrollyColumnClassName = cn(
+    const scrollyColumnClassName = cx(
         `col-span-${size} overflow-y-auto`,
         className
     );

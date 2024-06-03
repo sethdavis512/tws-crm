@@ -13,7 +13,6 @@ import { Textarea } from '~/components/Textarea';
 import { createCase } from '~/models/case.server';
 import { getAllCompanies } from '~/models/company.server';
 import { getAllCustomers } from '~/models/customer.server';
-import { getUserId } from '~/utils/auth.server';
 import { Urls } from '~/utils/constants';
 
 export async function loader() {
@@ -28,7 +27,6 @@ export async function loader() {
 
 export async function action({ request }: ActionFunctionArgs) {
     const form = await request.formData();
-    const userId = await getUserId(request);
 
     const title = form.get('title') as string;
     const description = form.get('description') as string;
@@ -39,16 +37,15 @@ export async function action({ request }: ActionFunctionArgs) {
     invariant(description, 'Description not defined');
     invariant(customerId, 'Customer ID not defined');
     invariant(companies, 'Companies not defined');
-    invariant(userId, 'User ID not defined');
 
-    const interaction = await createCase({
+    const caseObj = await createCase({
         title,
         description,
         companyIDs: companies,
-        userId
+        userId: ''
     });
 
-    return redirect(`${Urls.CASES}/${interaction.id}`);
+    return redirect(`${Urls.CASES}/${caseObj.id}`);
 }
 
 export default function CreateCaseRoute() {
@@ -73,7 +70,7 @@ export default function CreateCaseRoute() {
                         <Select id="customerId" name="customerId">
                             {allCustomers.map((customer) => (
                                 <option value={customer.id} key={customer.id}>
-                                    {customer.firstName} {customer.lastName}
+                                    {customer.id}
                                 </option>
                             ))}
                         </Select>

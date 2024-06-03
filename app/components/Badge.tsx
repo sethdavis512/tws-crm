@@ -1,33 +1,35 @@
 import * as React from 'react';
-import { cva } from 'class-variance-authority';
+import { cva, cx } from '../../cva.config';
 
 import type { RequiredVariantProps } from '~/types';
-import { cn } from '~/utils/css';
 
 type BadgeVariants = RequiredVariantProps<typeof badgeVariants>;
 
 type BadgeProps = Partial<BadgeVariants> &
     React.AllHTMLAttributes<HTMLDivElement>;
 
-const badgeVariants = cva(
-    'rounded-full text-xs px-2 py-1 text-white inline-block',
-    {
-        variants: {
-            variant: {
-                primary: 'bg-primary-700 dark:bg-primary-700',
-                secondary: 'bg-amber-500 dark:bg-amber-50',
-                tertiary: 'bg-red-500 dark:bg-red-500'
-            }
-        },
-        defaultVariants: {
-            variant: 'primary'
+const badgeVariants = cva({
+    variants: {
+        variant: {
+            primary: 'bg-primary-700 dark:bg-primary-700',
+            secondary: 'bg-amber-500 dark:bg-amber-50',
+            tertiary: 'bg-red-500 dark:bg-red-500'
         }
+    },
+    defaultVariants: {
+        variant: 'primary'
     }
-);
+});
 
 export function Badge({ children, className, variant, ...rest }: BadgeProps) {
     return (
-        <div className={cn(badgeVariants({ className, variant }))} {...rest}>
+        <div
+            className={cx(
+                'rounded-full text-xs px-2 py-1 text-white inline-block',
+                badgeVariants({ className, variant })
+            )}
+            {...rest}
+        >
             {children}
         </div>
     );

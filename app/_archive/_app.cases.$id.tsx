@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
-import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 import { ChevronRight } from 'lucide-react';
 
@@ -112,18 +111,14 @@ export default function CasesDetailsRoute() {
                     </div>
 
                     <div>
-                        {!dayjs(caseDetails?.createdAt).isSame(
-                            caseDetails?.updatedAt
-                        ) && (
-                            <div>
-                                Last updated:{' '}
-                                <Badge>
-                                    {formatTheDate(
-                                        caseDetails?.updatedAt as string
-                                    )}
-                                </Badge>
-                            </div>
-                        )}
+                        <div>
+                            Last updated:{' '}
+                            <Badge>
+                                {formatTheDate(
+                                    caseDetails?.updatedAt as string
+                                )}
+                            </Badge>
+                        </div>
                     </div>
                 </div>
 

@@ -1,6 +1,5 @@
 import { useMatches } from '@remix-run/react';
 import { useMemo } from 'react';
-import dayjs from 'dayjs';
 
 import type { User } from '~/models/user.server';
 
@@ -52,8 +51,4 @@ export function useUser(): User {
     }
 
     return maybeUser;
-}
-
-export function formatTheDate(date: string): string {
-    return dayjs(date).format('MMMM D, YYYY h:mm A');
 }

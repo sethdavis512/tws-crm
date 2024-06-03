@@ -29,4 +29,4 @@ export const BORDER_BOTTOM_COLORS =
 export const BORDER_LEFT_COLORS =
     'border-l border-l-zinc-300 dark:border-l-zinc-700';
 
-export const BACKGROUND_GRADIENT = `dark:bg-gradient-to-t dark:from-gray-950`;
+export const BACKGROUND_GRADIENT = `dark:bg-gradient-to-t dark:from-zinc-950`;

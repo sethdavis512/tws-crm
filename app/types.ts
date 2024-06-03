@@ -1,4 +1,4 @@
-import type { VariantProps } from 'class-variance-authority';
+import type { VariantProps } from 'cva';
 import type { Simplify } from 'type-fest';
 
 export type RequiredVariantProps<

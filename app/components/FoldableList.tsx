@@ -1,12 +1,13 @@
-import clsx from 'clsx';
+import { type ReactElement, type ReactNode } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { type ReactNode } from 'react';
+import { cx } from 'cva.config';
 
 import { useToggle } from '~/hooks/useToggle';
+import { Button } from '@lemonsqueezy/wedges';
 
 interface FoldableListProps {
     children: ReactNode;
-    icon: ReactNode;
+    icon: ReactElement;
     text: string;
 }
 
@@ -15,22 +16,25 @@ export function FoldableList({ children, icon, text }: FoldableListProps) {
 
     return (
         <>
-            <button
+            <Button
+                before={icon}
                 type="button"
-                className="flex items-center p-2 w-full text-base font-medium text-zinc-900 rounded-lg transition duration-75 group dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
+                className="flex items-center justify-start w-full mb-2"
                 onClick={toggleIsOpen}
+                variant="transparent"
+                after={
+                    isOpen ? (
+                        <ChevronDown className="w-5 h-5 justify-self-end" />
+                    ) : (
+                        <ChevronRight className="w-5 h-5 justify-self-end" />
+                    )
+                }
             >
-                <div>{icon}</div>
-                <span className="flex-1 ml-3 text-left whitespace-nowrap">
-                    {text}
-                </span>
-                {isOpen ? (
-                    <ChevronDown className="w-5 h-5" />
-                ) : (
-                    <ChevronRight className="w-5 h-5" />
-                )}
-            </button>
-            <ul className={clsx(!isOpen && 'hidden')}>{children}</ul>
+                {text}
+            </Button>
+            <ul className={cx('space-y-2 pl-6', !isOpen && 'hidden')}>
+                {children}
+            </ul>
         </>
     );
 }

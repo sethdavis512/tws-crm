@@ -1,6 +1,5 @@
-import { cva } from 'class-variance-authority';
 import { type ReactNode } from 'react';
-import { cn } from '~/utils/css';
+import { cva, cx } from 'cva.config';
 
 interface HeadingProps {
     children: ReactNode;
@@ -10,7 +9,7 @@ interface HeadingProps {
     size?: '1' | '2' | '3' | '4' | '5' | '6';
 }
 
-const headingVariants = cva('font-bold', {
+const headingVariants = cva({
     variants: {
         size: {
             '1': 'text-4xl',
@@ -36,7 +35,9 @@ export function Heading({
     const Component = as;
 
     return (
-        <Component className={cn(headingVariants({ className, size }))}>
+        <Component
+            className={cx('font-bold', headingVariants({ className, size }))}
+        >
             {children}
         </Component>
     );

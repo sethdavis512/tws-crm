@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Outlet, useLoaderData } from '@remix-run/react';
-import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 
 import { Badge } from '~/components/Badge';
@@ -126,18 +125,14 @@ export default function InteractionDetailsRoute() {
                                         )}
                                     </Badge>
                                 </div>
-                                {!dayjs(interactionDetails?.createdAt).isSame(
-                                    interactionDetails?.updatedAt
-                                ) && (
-                                    <div>
-                                        Last updated:{' '}
-                                        <Badge>
-                                            {formatTheDate(
-                                                interactionDetails?.updatedAt as string
-                                            )}
-                                        </Badge>
-                                    </div>
-                                )}
+                                <div>
+                                    Last updated:{' '}
+                                    <Badge>
+                                        {formatTheDate(
+                                            interactionDetails?.updatedAt as string
+                                        )}
+                                    </Badge>
+                                </div>
                             </Stack>
                         </Card>
                     </div>

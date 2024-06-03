@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'cva';
 import type { RequiredVariantProps } from '~/types';
 
 type SeparatorVariants = RequiredVariantProps<typeof separatorVariants>;

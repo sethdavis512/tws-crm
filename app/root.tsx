@@ -2,7 +2,6 @@ import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import {
     Links,
-    LiveReload,
     Meta,
     Outlet,
     Scripts,
@@ -10,11 +9,12 @@ import {
     useLoaderData
 } from '@remix-run/react';
 
+import {
+    getSupabaseEnv,
+    getSupabaseWithSessionAndHeaders
+} from './utils/supabase.server';
+import { useSupabase } from './utils/supabase';
 import { getThemeSession } from './utils/theme.server';
-import { SiteLayout } from './components/SiteLayout';
-import { getUser } from './utils/auth.server';
-import type { User } from '@prisma/client';
-import { BACKGROUND_COLORS } from './utils/constants';
 
 import '~/tailwind.css';
 
@@ -27,19 +27,35 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const themeSession = await getThemeSession(request);
-    const user = await getUser(request);
-
-    return json({
-        theme: themeSession.getTheme(),
-        user
+    const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({
+        request
     });
+    const domainUrl = process.env.DOMAIN_URL!;
+    const env = getSupabaseEnv();
+
+    return json(
+        {
+            serverSession,
+            env,
+            domainUrl,
+            theme: themeSession.getTheme()
+        },
+        { headers }
+    );
 };
 
 export default function App() {
-    const data = useLoaderData<typeof loader>();
+    const { env, serverSession, domainUrl, theme } =
+        useLoaderData<typeof loader>();
+
+    const { supabase } = useSupabase({ env, serverSession });
+    const isLoggedIn = !!serverSession;
+
+    const htmlClassName = `h-full ${theme}`;
+    const bodyClassName = `h-full`;
 
     return (
-        <html lang="en" className={data.theme}>
+        <html lang="en" className={htmlClassName}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -49,12 +65,9 @@ export default function App() {
                 <Meta />
                 <Links />
             </head>
-            <body className={`${BACKGROUND_COLORS} overflow-hidden`}>
-                <SiteLayout theme={data.theme} user={data.user as User}>
-                    <Outlet />
-                </SiteLayout>
+            <body className={bodyClassName}>
+                <Outlet context={{ supabase, domainUrl, theme, isLoggedIn }} />
                 <ScrollRestoration />
-                <LiveReload />
                 <Scripts />
             </body>
         </html>

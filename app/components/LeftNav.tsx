@@ -3,31 +3,25 @@ import { ActivitySquare, Building, Files, Gauge, Users } from 'lucide-react';
 
 import { Urls } from '~/utils/constants';
 import { FoldableList } from './FoldableList';
-import { cn } from '~/utils/css';
+import { Button } from '@lemonsqueezy/wedges';
 
 export function LeftNav() {
-    const navLinkClassFn = ({ isActive }: { isActive: boolean }) =>
-        cn(
-            `flex items-center p-2 text-base font-medium text-zinc-900 rounded-lg dark:text-white hover:bg-primary-300 dark:hover:bg-primary-700 group`,
-            { 'bg-primary-500 hover:bg-primary-600 text-white': isActive }
-        );
-
-    const subNavLinkClassFn = ({ isActive }: { isActive: boolean }) =>
-        cn(
-            `flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-primary-100 dark:text-white dark:hover:bg-primary-700`,
-            { 'bg-primary-500 hover:bg-primary-600 text-white': isActive }
-        );
-
     return (
-        <nav className="py-5 px-3">
+        <nav className="sm:px-4 sm:pt-4">
             <ul className="space-y-2">
                 <li>
-                    <NavLink to={Urls.DASHBOARD} className={navLinkClassFn}>
-                        <div>
-                            <Gauge className="w-5 h-5" />
-                        </div>
-                        <span className="ml-3">Dashboard</span>
-                    </NavLink>
+                    <Button
+                        asChild
+                        variant="transparent"
+                        className="flex justify-start"
+                    >
+                        <NavLink to={Urls.DASHBOARD}>
+                            <div>
+                                <Gauge className="w-5 h-5" />
+                            </div>
+                            <span className="ml-3">Dashboard</span>
+                        </NavLink>
+                    </Button>
                 </li>
                 <li>
                     <FoldableList
@@ -35,21 +29,26 @@ export function LeftNav() {
                         text="Cases"
                     >
                         <li>
-                            <NavLink
-                                to={Urls.CASES}
-                                className={subNavLinkClassFn}
-                                end
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                View all
-                            </NavLink>
+                                <NavLink to={Urls.CASES} end>
+                                    View all
+                                </NavLink>
+                            </Button>
                         </li>
                         <li>
-                            <NavLink
-                                to={`${Urls.CASES}/create`}
-                                className={subNavLinkClassFn}
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                Create new
-                            </NavLink>
+                                <NavLink to={`${Urls.CASES}/create`}>
+                                    Create new
+                                </NavLink>
+                            </Button>
                         </li>
                     </FoldableList>
                 </li>
@@ -59,21 +58,26 @@ export function LeftNav() {
                         text="Interactions"
                     >
                         <li>
-                            <NavLink
-                                to={Urls.INTERACTIONS}
-                                className={subNavLinkClassFn}
-                                end
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                View all
-                            </NavLink>
+                                <NavLink to={Urls.INTERACTIONS} end>
+                                    View all
+                                </NavLink>
+                            </Button>
                         </li>
                         <li>
-                            <NavLink
-                                to={`${Urls.INTERACTIONS}/create`}
-                                className={subNavLinkClassFn}
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                Create new
-                            </NavLink>
+                                <NavLink to={`${Urls.INTERACTIONS}/create`}>
+                                    Create new
+                                </NavLink>
+                            </Button>
                         </li>
                     </FoldableList>
                 </li>
@@ -83,21 +87,26 @@ export function LeftNav() {
                         text="Companies"
                     >
                         <li>
-                            <NavLink
-                                to={Urls.COMPANIES}
-                                className={subNavLinkClassFn}
-                                end
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                View all
-                            </NavLink>
+                                <NavLink to={Urls.COMPANIES} end>
+                                    View all
+                                </NavLink>
+                            </Button>
                         </li>
                         <li>
-                            <NavLink
-                                to={`${Urls.COMPANIES}/create`}
-                                className={subNavLinkClassFn}
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                Create new
-                            </NavLink>
+                                <NavLink to={`${Urls.COMPANIES}/create`}>
+                                    Create new
+                                </NavLink>
+                            </Button>
                         </li>
                     </FoldableList>
                 </li>
@@ -107,21 +116,26 @@ export function LeftNav() {
                         text="Customers"
                     >
                         <li>
-                            <NavLink
-                                to={Urls.CUSTOMERS}
-                                className={subNavLinkClassFn}
-                                end
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                View all
-                            </NavLink>
+                                <NavLink to={Urls.CUSTOMERS} end>
+                                    View all
+                                </NavLink>
+                            </Button>
                         </li>
                         <li>
-                            <NavLink
-                                to={`${Urls.CUSTOMERS}/create`}
-                                className={subNavLinkClassFn}
+                            <Button
+                                asChild
+                                variant="transparent"
+                                className="flex justify-start"
                             >
-                                Create new
-                            </NavLink>
+                                <NavLink to={`${Urls.CUSTOMERS}/create`}>
+                                    Create new
+                                </NavLink>
+                            </Button>
                         </li>
                     </FoldableList>
                 </li>

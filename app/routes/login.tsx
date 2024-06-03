@@ -1,205 +1,68 @@
-import {
-    json,
-    type ActionFunctionArgs,
-    redirect,
-    type LoaderFunctionArgs
-} from '@remix-run/node';
-import { Form } from '@remix-run/react';
-import { useState } from 'react';
-import { Button } from '~/components/Button';
-import { Heading } from '~/components/Heading';
-import { Input } from '~/components/Input';
-import { Label } from '~/components/Label';
-import { getUser, login, register } from '~/utils/auth.server';
-import { Urls } from '~/utils/constants';
-import {
-    validateEmail,
-    validateName,
-    validatePassword
-} from '~/utils/validator.server';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 
-export async function loader({ request }: LoaderFunctionArgs) {
-    return (await getUser(request)) ? redirect(Urls.DASHBOARD) : null;
-}
+import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
+import { useSupabase } from '~/utils/supabase';
+import { useRootData } from '~/hooks/useRootData';
+import { BORDER_COLORS, Urls } from '~/constants';
+import { Button } from '@lemonsqueezy/wedges';
 
-export async function action({ request }: ActionFunctionArgs): Promise<any> {
-    const form = await request.formData();
-    const intent = form.get('intent');
+export const meta: MetaFunction = () => [{ title: 'Login' }];
 
-    const email = form.get('email');
-    const password = form.get('password');
-
-    let firstName = form.get('firstName');
-    let lastName = form.get('lastName');
-
-    if (
-        typeof intent !== 'string' ||
-        typeof email !== 'string' ||
-        typeof password !== 'string'
-    ) {
-        return json(
-            { error: `Invalid Form Data`, form: intent },
-            { status: 400 }
-        );
-    }
-
-    if (
-        intent === 'register' &&
-        (typeof firstName !== 'string' || typeof lastName !== 'string')
-    ) {
-        return json(
-            { error: `Invalid Form Data`, form: intent },
-            { status: 400 }
-        );
-    }
-
-    const errors = {
-        email: validateEmail(email),
-        password: validatePassword(password),
-        ...(intent === 'register'
-            ? {
-                  firstName: validateName((firstName as string) || ''),
-                  lastName: validateName((lastName as string) || '')
-              }
-            : {})
-    };
-
-    if (Object.values(errors).some(Boolean))
-        return json(
-            {
-                errors,
-                fields: { email, password, firstName, lastName },
-                form: intent
-            },
-            { status: 400 }
-        );
-
-    if (intent === 'login') {
-        return await login({ email, password });
-    } else if (intent === 'register') {
-        firstName = firstName as string;
-        lastName = lastName as string;
-
-        return await register({ email, password, firstName, lastName });
-    } else {
-        return json({ error: `Invalid Form Data` }, { status: 400 });
-    }
-}
-
-type LoginActionType = 'login' | 'register';
-
-export default function LoginRoute() {
-    const [action, setAction] = useState<LoginActionType>('login');
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: ''
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    const { headers, serverSession } = await getSupabaseWithSessionAndHeaders({
+        request
     });
 
-    const handleInputChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        field: string
-    ) => {
-        setFormData((form) => ({ ...form, [field]: event.target.value }));
-    };
+    if (serverSession) {
+        return redirect(Urls.DASHBOARD, { headers });
+    }
 
-    const handleLoginType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAction(event?.currentTarget.value as LoginActionType);
+    return json({ success: true }, { headers });
+};
+
+export default function LoginRoute() {
+    const { domainUrl, env, serverSession } = useRootData();
+    const { supabase } = useSupabase({ env, serverSession });
+
+    const redirectTo = `${domainUrl}/api/auth/callback`;
+
+    const handleGoogleSignIn = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo
+            }
+        });
     };
 
     return (
-        <Form method="POST" className="col-span-4 col-start-5 mt-12">
-            <Heading as="h1" size="1" className="mb-8">
-                {action === 'login' ? 'Login' : 'Register'}
-            </Heading>
-            <ul className="my-8 items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-700 dark:border-zinc-600 dark:text-white">
-                <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
-                    <div className="flex items-center ps-3">
-                        <input
-                            id="horizontal-list-radio-license"
-                            type="radio"
-                            value="register"
-                            name="list-radio"
-                            className="w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-500"
-                            onChange={handleLoginType}
-                            checked={action === 'register'}
-                        />
-                        <label
-                            htmlFor="horizontal-list-radio-license"
-                            className="w-full py-3 ms-2 text-sm font-medium text-zinc-900 dark:text-zinc-300"
-                        >
-                            Register
-                        </label>
-                    </div>
-                </li>
-                <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
-                    <div className="flex items-center ps-3">
-                        <input
-                            id="horizontal-list-radio-id"
-                            type="radio"
-                            value="login"
-                            name="list-radio"
-                            className="w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-500"
-                            onChange={handleLoginType}
-                            checked={action === 'login'}
-                        />
-                        <label
-                            htmlFor="horizontal-list-radio-id"
-                            className="w-full py-3 ms-2 text-sm font-medium text-zinc-900 dark:text-zinc-300"
-                        >
-                            Login
-                        </label>
-                    </div>
-                </li>
-            </ul>
-
-            <Label htmlFor="email">Email</Label>
-            <Input
-                className="mb-4"
-                id="email"
-                type="email"
-                name="email"
-                onChange={(event) => handleInputChange(event, 'email')}
-                value={formData.email}
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-                className={`mb-${action === 'login' ? '8' : '4'}`}
-                id="password"
-                type="password"
-                name="password"
-                onChange={(event) => handleInputChange(event, 'password')}
-                value={formData.password}
-            />
-            {action === 'register' && (
-                <>
-                    <Label htmlFor="firstName">First name</Label>
-                    <Input
-                        className="mb-4"
-                        id="firstName"
-                        name="firstName"
-                        onChange={(event) =>
-                            handleInputChange(event, 'firstName')
+        <div className="flex items-center justify-center h-full">
+            <div
+                className={`mx-auto w-full max-w-md p-8 border ${BORDER_COLORS} rounded-lg`}
+            >
+                <h1 className="font-bold text-4xl mb-4">Login</h1>
+                <p className="mb-8">Choose a login method</p>
+                <div className="flex gap-2">
+                    <Button
+                        before={
+                            <svg
+                                className="fill-zinc-700 dark:fill-white"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <title>Google</title>
+                                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+                            </svg>
                         }
-                        value={formData.firstName}
-                    />
-                    <Label htmlFor="lastName">Last name</Label>
-                    <Input
-                        className="mb-8"
-                        id="lastName"
-                        name="lastName"
-                        onChange={(event) =>
-                            handleInputChange(event, 'lastName')
-                        }
-                        value={formData.lastName}
-                    />
-                </>
-            )}
-            <Button name="intent" type="submit" value={action}>
-                {action === 'login' ? 'Login' : 'Register'}
-            </Button>
-        </Form>
+                        onClick={handleGoogleSignIn}
+                        className="flex gap-3"
+                    >
+                        Google
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
 }

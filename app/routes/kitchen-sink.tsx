@@ -1,9 +1,108 @@
-import { useReducer, useState } from 'react';
-import { Button } from '~/components/Button';
+import { type ReactNode, useEffect, useReducer, useRef, useState } from 'react';
+import {
+    draggable,
+    dropTargetForElements,
+    monitorForElements
+} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import invariant from 'tiny-invariant';
+import { GripVerticalIcon } from 'lucide-react';
+import { Button } from '@lemonsqueezy/wedges';
+
 import { Drawer } from '~/components/Drawer';
 import { Heading } from '~/components/Heading';
 import { Modal } from '~/components/Modal';
 import { Stack } from '~/components/Stack';
+import { cx } from 'cva.config';
+
+const Box = ({
+    children,
+    id,
+    className
+}: {
+    children: ReactNode;
+    id: string;
+    className: string;
+}) => {
+    const boxRef = useRef<HTMLDivElement | null>(null);
+    const [dragging, setDragging] = useState(false);
+
+    useEffect(() => {
+        const el = boxRef.current;
+        invariant(el);
+
+        return draggable({
+            element: el,
+            onDragStart: () => setDragging(true),
+            onDrop: () => setDragging(false),
+            getInitialData: () => ({}) // props go here
+        });
+    }, []);
+
+    return (
+        <div
+            id={id}
+            className={cx(
+                className,
+                'hover:bg-zinc-800',
+                dragging && 'opacity-40'
+            )}
+            ref={boxRef}
+        >
+            {children}
+        </div>
+    );
+};
+
+const BoxDrop = ({ children, id }: { children?: ReactNode; id: string }) => {
+    const boxRef = useRef<HTMLDivElement | null>(null);
+    const [isDraggedOver, setIsDraggedOver] = useState(false);
+
+    useEffect(() => {
+        const el = boxRef.current;
+        invariant(el);
+
+        return dropTargetForElements({
+            element: el,
+            onDragEnter: () => setIsDraggedOver(true),
+            onDragLeave: () => setIsDraggedOver(false),
+            onDrop: () => setIsDraggedOver(false),
+            canDrop: ({ source }) => {
+                console.log(source);
+                return true;
+            },
+            getData: () => ({})
+        });
+    }, []);
+
+    return (
+        <div
+            id={id}
+            className={cx(
+                'w-32 h-16 bg-zinc-500 border',
+                isDraggedOver && 'bg-zinc-400'
+            )}
+            ref={boxRef}
+        >
+            {children}
+        </div>
+    );
+};
+
+const BoxBoard = ({
+    children,
+    className
+}: {
+    children?: ReactNode;
+    className: string;
+}) => {
+    useEffect(() => {
+        return monitorForElements({
+            onDrop({ source, location }) {}
+        });
+    }, []);
+
+    return <div className={cx(className)}>{children}</div>;
+};
 
 export default function KitchenSink() {
     const [isDrawerOpen, toggleDrawerOpen] = useReducer((s) => !s, false);
@@ -115,6 +214,24 @@ export default function KitchenSink() {
             >
                 Test test test
             </Modal>
+            <BoxBoard className="space-y-4 p-4">
+                <Box
+                    id="box-1"
+                    className="inline-flex gap-4 px-3 py-2 border border-zinc-500 rounded-xl"
+                >
+                    <GripVerticalIcon />
+                    ABC
+                </Box>
+                <BoxDrop id="box-drop-1" />
+                <Box
+                    id="box-2"
+                    className="inline-flex gap-4 px-3 py-2 border border-zinc-500 rounded-xl"
+                >
+                    <GripVerticalIcon />
+                    DEF
+                </Box>
+                <BoxDrop id="box-drop-2" />
+            </BoxBoard>
         </div>
     );
 }

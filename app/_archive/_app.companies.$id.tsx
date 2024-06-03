@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, useLoaderData, useNavigation } from '@remix-run/react';
-import dayjs from 'dayjs';
 import invariant from 'tiny-invariant';
 
 import { Badge } from '~/components/Badge';
@@ -99,18 +98,14 @@ export default function CompanyDetailsRoute() {
                                         )}
                                     </Badge>
                                 </div>
-                                {!dayjs(companyDetails?.createdAt).isSame(
-                                    companyDetails?.updatedAt
-                                ) && (
-                                    <div>
-                                        Last updated:{' '}
-                                        <Badge>
-                                            {formatTheDate(
-                                                companyDetails?.updatedAt as string
-                                            )}
-                                        </Badge>
-                                    </div>
-                                )}
+                                <div>
+                                    Last updated:{' '}
+                                    <Badge>
+                                        {formatTheDate(
+                                            companyDetails?.updatedAt as string
+                                        )}
+                                    </Badge>
+                                </div>
                             </Stack>
                             <Tabs>
                                 <TabsList>

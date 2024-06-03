@@ -4,11 +4,7 @@ import { prisma } from '~/utils/prisma.server';
 
 export function getCompany({ id }: Pick<Company, 'id'>) {
     return prisma.company.findFirst({
-        where: { id },
-        include: {
-            customers: true,
-            comments: true
-        }
+        where: { id }
     });
 }
 
@@ -25,16 +21,7 @@ export function addCommentToCompany({
         where: {
             id
         },
-        data: {
-            comments: {
-                create: [
-                    {
-                        userId,
-                        text: comment
-                    }
-                ]
-            }
-        }
+        data: {}
     });
 }
 

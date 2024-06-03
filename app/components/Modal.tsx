@@ -1,8 +1,7 @@
 import { type ReactNode } from 'react';
 import { X } from 'lucide-react';
+import { Button } from '@lemonsqueezy/wedges';
 
-import { cn } from '~/utils/css';
-import { Button } from './Button';
 import {
     BACKGROUND_COLORS,
     BORDER_BOTTOM_COLORS,
@@ -10,6 +9,7 @@ import {
     BORDER_TOP_COLORS
 } from '~/utils/constants';
 import { Heading } from './Heading';
+import { cx } from 'cva.config';
 
 interface ModalProps {
     children: ReactNode;
@@ -28,7 +28,7 @@ export function Modal({
     id,
     isOpen = false
 }: ModalProps) {
-    const modalClassName = cn(
+    const modalClassName = cx(
         `flex items-center justify-center fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-zinc-800/70`,
         !isOpen && 'hidden'
     );
@@ -43,7 +43,7 @@ export function Modal({
                         className={`flex items-center justify-between p-4 md:p-5 rounded-t ${BORDER_BOTTOM_COLORS}`}
                     >
                         <Heading>{heading}</Heading>
-                        <Button type="button" onClick={handleClose}>
+                        <Button onClick={handleClose}>
                             <X />
                             <span className="sr-only">Close modal</span>
                         </Button>

@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'cva';
 import { cn } from '~/utils/css';
 
 const textareaVariants = cva(

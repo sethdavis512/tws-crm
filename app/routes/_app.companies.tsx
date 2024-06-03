@@ -1,53 +1,32 @@
-import { json } from '@remix-run/node';
-import { Link, useLoaderData, useParams } from '@remix-run/react';
-
+import { Outlet } from '@remix-run/react';
 import { Heading } from '~/components/Heading';
-import { NewButtonLink } from '~/components/NewButtonLink';
-import ParentLayout from '~/components/ParentLayout';
-import { getAllCompanies } from '~/models/company.server';
-import { PRIMARY_COLOR } from '~/utils/constants';
-import { getPanelLinkClassName } from '~/utils/css';
-
-export async function loader() {
-    const companiesData = await getAllCompanies();
-
-    return json({
-        companiesData
-    });
-}
+import { LeftNav } from '~/components/LeftNav';
+import { BORDER_BOTTOM_COLORS, BORDER_LEFT_COLORS } from '~/utils/constants';
 
 export default function CompaniesRoute() {
-    const { id: companyIdParam } = useParams();
-    const { companiesData } = useLoaderData<typeof loader>();
+    // div className="grid grid-cols-subgrid gap-4 col-span-full"
 
     return (
-        <ParentLayout heading="Companies" aux={<NewButtonLink to="create" />}>
-            {companiesData && companiesData.length > 0 ? (
-                companiesData.map((company) => {
-                    const linkClassName = getPanelLinkClassName(
-                        company.id === companyIdParam
-                    );
-
-                    return (
-                        <Link
-                            key={company.id}
-                            className={linkClassName}
-                            to={company.id}
-                        >
-                            <Heading size="4" as="h3">
-                                {company.name}
-                            </Heading>
-                        </Link>
-                    );
-                })
-            ) : (
-                <div className="p-8">
-                    No companies yet.{' '}
-                    <Link to="create" className={PRIMARY_COLOR}>
-                        Create one.
-                    </Link>
+        <>
+            <div className="col-span-full sm:col-span-2">
+                <LeftNav />
+            </div>
+            <div
+                className={`col-span-full sm:col-span-10 overflow-y-auto ${BORDER_LEFT_COLORS}`}
+            >
+                <header
+                    className={`sticky top-0 left-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
+                >
+                    <div
+                        className={`p-4 flex items-center justify-between ${BORDER_BOTTOM_COLORS}`}
+                    >
+                        <Heading as="h2">Companies</Heading>
+                    </div>
+                </header>
+                <div className="p-4">
+                    <Outlet />
                 </div>
-            )}
-        </ParentLayout>
+            </div>
+        </>
     );
 }
