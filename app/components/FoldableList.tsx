@@ -1,39 +1,66 @@
-import { type ReactElement, type ReactNode } from 'react';
+import { Children, type ReactElement, type ReactNode } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { cx } from 'cva.config';
 
 import { useToggle } from '~/hooks/useToggle';
-import { Button } from '@lemonsqueezy/wedges';
+import {
+    BACKGROUND_HOVER_ACTIVE_COLORS,
+    BACKGROUND_HOVER_COLORS
+} from '~/constants';
+import Flex from './Flex';
+import { useLocation } from '@remix-run/react';
 
 interface FoldableListProps {
     children: ReactNode;
     icon: ReactElement;
     text: string;
+    className?: string;
 }
 
-export function FoldableList({ children, icon, text }: FoldableListProps) {
-    const [isOpen, toggleIsOpen] = useToggle();
+export function FoldableList({
+    children,
+    className,
+    icon,
+    text
+}: FoldableListProps) {
+    const location = useLocation();
+    const pathnameContainsText = location.pathname
+        .toLowerCase()
+        .includes(text.toLowerCase());
+
+    const [isOpen, toggleIsOpen] = useToggle(pathnameContainsText);
+
+    const isDetails =
+        location.pathname.split('/').length > 2 &&
+        !['create'].every((path) => location.pathname.includes(path));
 
     return (
         <>
-            <Button
-                before={icon}
-                type="button"
-                className="flex items-center justify-start w-full mb-2"
+            <Flex
+                className={cx(
+                    'justify-between p-2 rounded-lg mb-2',
+                    BACKGROUND_HOVER_COLORS,
+                    pathnameContainsText &&
+                        isDetails &&
+                        BACKGROUND_HOVER_ACTIVE_COLORS,
+                    className
+                )}
                 onClick={toggleIsOpen}
-                variant="transparent"
-                after={
-                    isOpen ? (
-                        <ChevronDown className="w-5 h-5 justify-self-end" />
-                    ) : (
-                        <ChevronRight className="w-5 h-5 justify-self-end" />
-                    )
-                }
             >
-                {text}
-            </Button>
+                <Flex>
+                    {icon}
+                    {text}
+                </Flex>
+                {isOpen ? (
+                    <ChevronDown className="w-5 h-5 justify-self-end" />
+                ) : (
+                    <ChevronRight className="w-5 h-5 justify-self-end" />
+                )}
+            </Flex>
             <ul className={cx('space-y-2 pl-6', !isOpen && 'hidden')}>
-                {children}
+                {Children.map(children, (child) => {
+                    return <li>{child}</li>;
+                })}
             </ul>
         </>
     );

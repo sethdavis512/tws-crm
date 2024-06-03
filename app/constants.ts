@@ -7,11 +7,13 @@ export enum Urls {
     PROFILE = '/dashboard/profile'
 }
 
-export const BACKGROUND_COLORS =
-    'bg-white dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200';
+export const BACKGROUND_COLORS = 'wg-bg-wg-white dark:wg-bg-wg-gray-900';
+
+export const BACKGROUND_HOVER_ACTIVE_COLORS =
+    'bg-primary-500 hover:bg-primary-400 dark:bg-primary-600 dark:hover:bg-primary-500 focus:outline-primary-500 dark:focus:outline-primary-500';
 
 export const BACKGROUND_HOVER_COLORS =
-    'hover:bg-zinc-200 hover:dark:bg-zinc-600';
+    'hover:bg-primary-400 dark:hover:bg-primary-950 focus:outline-primary-500 dark:focus:outline-primary-500';
 
 export const BORDER_COLORS = 'border border-zinc-200 dark:border-zinc-700';
 
@@ -24,4 +26,5 @@ export const BORDER_RIGHT_COLORS =
 export const BORDER_BOTTOM_COLORS =
     'border-b border-b-zinc-200 dark:border-b-zinc-700';
 
-export const TEXT_LINK_COLORS = 'text-amber-500';
+export const LINK_STYLES =
+    'hover:underline text-primary-500 dark:text-primary-500 dark:hover:text-primary-400 ring-primary-500';
