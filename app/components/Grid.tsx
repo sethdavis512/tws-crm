@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { cn } from '~/utils/css';
+import { cx } from 'cva.config';
 
 interface GridProps {
     children: ReactNode;
@@ -11,7 +11,7 @@ interface GridProps {
 export function Grid({ as = 'div', children, className, subgrid }: GridProps) {
     const Component = as;
 
-    const gridClassName = cn(
+    const gridClassName = cx(
         `grid grid-cols-12`,
         { 'grid-cols-subgrid': subgrid },
         className

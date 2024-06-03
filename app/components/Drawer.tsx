@@ -1,9 +1,11 @@
 import { type ReactNode } from 'react';
+import { Button } from '@lemonsqueezy/wedges';
 import {
     PanelBottomCloseIcon,
     PanelLeftCloseIcon,
     PanelRightCloseIcon
 } from 'lucide-react';
+import { cva, cx } from 'cva.config';
 
 import {
     BACKGROUND_COLORS,
@@ -12,9 +14,7 @@ import {
     BORDER_TOP_COLORS
 } from '~/utils/constants';
 import { Heading } from './Heading';
-import { Stack } from './Stack';
-import { cva, cx } from 'cva.config';
-import { Button } from '@lemonsqueezy/wedges';
+import Flex from './Flex';
 
 interface DrawerProps {
     children: ReactNode;
@@ -105,10 +105,10 @@ export function Drawer({
                 tabIndex={-1}
                 aria-labelledby={`${id}-label`}
             >
-                <Stack className="justify-between mb-4">
+                <Flex className="justify-between mb-4">
                     <Heading id={`${id}-label`}>{heading}</Heading>
                     <Button onClick={handleClose}>{orientedIcon}</Button>
-                </Stack>
+                </Flex>
                 {children}
             </div>
             {backdrop && (

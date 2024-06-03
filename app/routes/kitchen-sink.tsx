@@ -11,8 +11,8 @@ import { Button } from '@lemonsqueezy/wedges';
 import { Drawer } from '~/components/Drawer';
 import { Heading } from '~/components/Heading';
 import { Modal } from '~/components/Modal';
-import { Stack } from '~/components/Stack';
 import { cx } from 'cva.config';
+import Flex from '~/components/Flex';
 
 const Box = ({
     children,
@@ -123,7 +123,7 @@ export default function KitchenSink() {
                 <p>
                     Drawer set to: {drawerPosition} / {drawerSize}
                 </p>
-                <Stack>
+                <Flex>
                     <Button
                         onClick={() => {
                             setDrawerPosition('left');
@@ -148,8 +148,8 @@ export default function KitchenSink() {
                     >
                         Open bottom
                     </Button>
-                </Stack>
-                <Stack>
+                </Flex>
+                <Flex>
                     <Button
                         onClick={() => {
                             setDrawerSize('sm');
@@ -182,11 +182,11 @@ export default function KitchenSink() {
                     >
                         Set full size
                     </Button>
-                </Stack>
+                </Flex>
                 <Heading>Modal</Heading>
-                <Stack>
+                <Flex>
                     <Button onClick={toggleModalOpen}>Open modal</Button>
-                </Stack>
+                </Flex>
             </div>
             <Drawer
                 backdrop
@@ -207,9 +207,9 @@ export default function KitchenSink() {
                 handleClose={toggleModalOpen}
                 id="myModal"
                 footer={
-                    <Stack>
+                    <Flex>
                         <Button>Click this</Button>
-                    </Stack>
+                    </Flex>
                 }
             >
                 Test test test

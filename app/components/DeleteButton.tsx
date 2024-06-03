@@ -1,16 +1,11 @@
-import { Button } from './Button';
+import { Button } from '@lemonsqueezy/wedges';
 import { Trash } from 'lucide-react';
 
 export function DeleteButton() {
     return (
-        <Button
-            className="flex gap-2 items-center"
-            variant="danger"
-            name="intent"
-            value="delete"
-        >
+        <Button variant="primary" color="red" name="intent" value="delete">
             <Trash className="w-5 h-5" />
-            {/* <span>Delete</span> */}
+            <span className="sr-only">Delete</span>
         </Button>
     );
 }

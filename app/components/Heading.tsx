@@ -36,6 +36,7 @@ export function Heading({
 
     return (
         <Component
+            id={id}
             className={cx('font-bold', headingVariants({ className, size }))}
         >
             {children}
