@@ -1,11 +1,14 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 
-import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
-import { useSupabase } from '~/utils/supabase';
-import { useRootData } from '~/hooks/useRootData';
+import {
+    getSupabaseEnv,
+    getSupabaseWithSessionAndHeaders,
+} from '~/utils/supabase.server';
+import { type SupabaseOutletContext, useSupabase } from '~/utils/supabase';
 import { BACKGROUND_COLORS, BORDER_COLORS, Urls } from '~/constants';
 import { Button } from '@lemonsqueezy/wedges';
+import { useLoaderData, useOutletContext } from '@remix-run/react';
 
 export const meta: MetaFunction = () => [{ title: 'Login' }];
 
@@ -18,11 +21,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         return redirect(Urls.DASHBOARD, { headers });
     }
 
-    return json({ success: true }, { headers });
+    const domainUrl = process.env.DOMAIN_URL!;
+    const env = getSupabaseEnv();
+
+    return json({ success: true, domainUrl, env, serverSession }, { headers });
 };
 
 export default function LoginRoute() {
-    const { domainUrl, env, serverSession } = useRootData();
+    const { domainUrl } = useOutletContext<SupabaseOutletContext>();
+    // TODO: Get from root route
+    const { env, serverSession } = useLoaderData<typeof loader>();
     const { supabase } = useSupabase({ env, serverSession });
 
     const redirectTo = `${domainUrl}/api/auth/callback`;
