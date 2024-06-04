@@ -9,7 +9,7 @@
         "dev": "vite dev",
         "format": "prettier --write .",
         "generate:types": "supabase gen types typescript --project-id fadqmbhitjdovdzjujul > generated-db-types.ts",
-        "start": "remix-serve ./build/index.js",
+        "start": "remix-serve ./build/server/index.js",
         "typecheck": "tsc"
     },
     "dependencies": {
