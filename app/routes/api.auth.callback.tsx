@@ -3,8 +3,9 @@ import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const requestUrl = new URL(request.url);
+
     const code = requestUrl.searchParams.get('code');
-    const next = requestUrl.searchParams.get('next') || '/dashboard';
+    const redirectUrl = `${process.env.DOMAIN_URL}/dashboard` || '/';
     const headers = new Headers();
 
     if (code) {
@@ -12,7 +13,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
-            return redirect(next, { headers });
+            return redirect(redirectUrl, { headers });
         }
     }
 

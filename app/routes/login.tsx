@@ -32,9 +32,7 @@ export default function LoginRoute() {
     // TODO: Get from root route
     const { env, serverSession } = useLoaderData<typeof loader>();
     const { supabase } = useSupabase({ env, serverSession });
-
     const redirectTo = `${domainUrl}/api/auth/callback`;
-    console.log({ redirectTo });
 
     const handleGoogleSignIn = async () => {
         await supabase.auth.signInWithOAuth({
