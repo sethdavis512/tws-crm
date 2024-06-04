@@ -8,7 +8,7 @@ import {
     BORDER_COLORS,
     BORDER_TOP_COLORS,
 } from '~/constants';
-import { Heading } from './Heading';
+import Heading from './Heading';
 import { cx } from 'cva.config';
 
 interface ModalProps {
