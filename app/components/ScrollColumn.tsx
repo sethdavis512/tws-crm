@@ -7,11 +7,13 @@ interface ScrollColumnProps {
     children: ReactNode;
     header?: ReactNode;
     className?: string;
+    containerClassName?: string;
 }
 
 export default function ScrollColumn({
     children,
     className,
+    containerClassName,
     header,
 }: ScrollColumnProps) {
     return (
@@ -23,7 +25,7 @@ export default function ScrollColumn({
                     {header}
                 </header>
             )}
-            <div className="p-4">{children}</div>
+            <div className={cx('p-4', containerClassName)}>{children}</div>
         </div>
     );
 }

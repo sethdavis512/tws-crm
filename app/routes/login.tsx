@@ -4,7 +4,7 @@ import { json, redirect } from '@remix-run/node';
 import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
 import { useSupabase } from '~/utils/supabase';
 import { useRootData } from '~/hooks/useRootData';
-import { BORDER_COLORS, Urls } from '~/constants';
+import { BACKGROUND_COLORS, BORDER_COLORS, Urls } from '~/constants';
 import { Button } from '@lemonsqueezy/wedges';
 
 export const meta: MetaFunction = () => [{ title: 'Login' }];
@@ -37,9 +37,9 @@ export default function LoginRoute() {
     };
 
     return (
-        <div className="flex h-full items-center justify-center">
+        <div className="flex h-full items-center justify-center bg-gradient-to-t from-primary-200 dark:from-primary-950">
             <div
-                className={`mx-auto w-full max-w-md border p-8 ${BORDER_COLORS} rounded-lg`}
+                className={`mx-auto w-full max-w-md border p-8 ${BORDER_COLORS} rounded-lg ${BACKGROUND_COLORS}`}
             >
                 <h1 className="mb-4 text-4xl font-bold">Login</h1>
                 <p className="mb-8">Choose a login method</p>
@@ -47,7 +47,7 @@ export default function LoginRoute() {
                     <Button
                         before={
                             <svg
-                                className="fill-zinc-700 dark:fill-white"
+                                className="fill-white dark:fill-white"
                                 role="img"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"

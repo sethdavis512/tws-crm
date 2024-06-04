@@ -1,16 +1,21 @@
 import { Button } from '@lemonsqueezy/wedges';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import {
+    Link,
     Outlet,
     json,
     redirect,
     useFetcher,
     useOutletContext,
 } from '@remix-run/react';
-import { Moon, Sun } from 'lucide-react';
+import { HomeIcon, Moon, Sun } from 'lucide-react';
 import Flex from '~/components/Flex';
 
-import { BORDER_BOTTOM_COLORS, BORDER_TOP_COLORS } from '~/constants';
+import {
+    BORDER_BOTTOM_COLORS,
+    BORDER_TOP_COLORS,
+    LINK_STYLES,
+} from '~/constants';
 import type { SupabaseOutletContext } from '~/utils/supabase';
 import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
 import { Theme } from '~/utils/theme-provider';
@@ -42,9 +47,14 @@ export default function AppRoute() {
             <header className={`col-span-full ${BORDER_BOTTOM_COLORS}`}>
                 <nav className={`px-8 py-4`}>
                     <Flex className="justify-between">
-                        <div>
-                            <strong className="text-2xl">CRM</strong>
-                        </div>
+                        <Flex className="gap-4">
+                            <Link to="/">
+                                <strong className="text-2xl">CRM</strong>
+                            </Link>
+                            <Link to="/">
+                                <HomeIcon />
+                            </Link>
+                        </Flex>
                         <Flex>
                             <themeFetcher.Form
                                 method="POST"
@@ -80,7 +90,11 @@ export default function AppRoute() {
             </header>
             <Outlet />
             <footer className={`col-span-full ${BORDER_TOP_COLORS} p-8`}>
-                Footie
+                Built by{' '}
+                <a className={LINK_STYLES} href="https://www.sethdavis.io">
+                    Seth Davis
+                </a>{' '}
+                🤠
             </footer>
         </div>
     );

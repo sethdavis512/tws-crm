@@ -8,12 +8,13 @@
     },
     "scripts": {
         "build": "vite build && vite build --ssr",
+        "deploy": "fly deploy",
         "dev": "vite dev",
+        "format": "prettier --write .",
+        "generate:types": "supabase gen types typescript --project-id fadqmbhitjdovdzjujul > generated-db-types.ts",
         "seed": "prisma db seed",
         "start": "remix-serve ./build/index.js",
-        "typecheck": "tsc",
-        "generate:types": "supabase gen types typescript --project-id fadqmbhitjdovdzjujul > generated-db-types.ts",
-        "format": "prettier --write ."
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@atlaskit/pragmatic-drag-and-drop": "^1.1.9",
