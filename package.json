@@ -13,7 +13,7 @@
         "typecheck": "tsc"
     },
     "dependencies": {
-        "@atlaskit/pragmatic-drag-and-drop": "^1.1.9",
+        "@atlaskit/pragmatic-drag-and-drop": "^1.1.10",
         "@faker-js/faker": "^8.4.1",
         "@lemonsqueezy/wedges": "^1.3.0",
         "@remix-run/node": "2.9.2",
