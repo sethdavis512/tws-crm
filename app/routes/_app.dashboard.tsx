@@ -1,5 +1,5 @@
 import { Outlet } from '@remix-run/react';
-import { Heading } from '~/components/Heading';
+import Heading from '~/components/Heading';
 import { LeftNav } from '~/components/LeftNav';
 import ScrollColumn from '~/components/ScrollColumn';
 import { BORDER_LEFT_COLORS } from '~/constants';
@@ -12,7 +12,7 @@ export default function DashboardRoute() {
             </ScrollColumn>
             <ScrollColumn
                 className={`sm:col-span-10 ${BORDER_LEFT_COLORS}`}
-                header={<Heading>Dashboard</Heading>}
+                header={<Heading size="4">Dashboard</Heading>}
             >
                 <Outlet />
             </ScrollColumn>

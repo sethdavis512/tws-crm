@@ -9,7 +9,7 @@ import { GripVerticalIcon } from 'lucide-react';
 import { Button } from '@lemonsqueezy/wedges';
 
 import { Drawer } from '~/components/Drawer';
-import { Heading } from '~/components/Heading';
+import Heading from '~/components/Heading';
 import { Modal } from '~/components/Modal';
 import { cx } from 'cva.config';
 import Flex from '~/components/Flex';

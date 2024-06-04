@@ -3,10 +3,10 @@ import { json, type LoaderFunctionArgs } from '@remix-run/node';
 import { Link, NavLink, Outlet, useLoaderData } from '@remix-run/react';
 import { cx } from 'cva.config';
 import { BuildingIcon } from 'lucide-react';
-import { BaseSyntheticEvent, SyntheticEvent, useState } from 'react';
+import { type BaseSyntheticEvent, useState } from 'react';
 import invariant from 'tiny-invariant';
 import Flex from '~/components/Flex';
-import { Heading } from '~/components/Heading';
+import Heading from '~/components/Heading';
 
 import { LeftNav } from '~/components/LeftNav';
 import ScrollColumn from '~/components/ScrollColumn';
@@ -38,7 +38,9 @@ export default function CompaniesRoute() {
     const [search, setSearch] = useState('');
     const { companies } = useLoaderData<typeof loader>();
     const filteredCompanies = companies.reduce<CustomerShape[]>((acc, cur) => {
-        if (cur.name.toLowerCase().includes(search.toLowerCase())) {
+        if (
+            cur.name.toLowerCase().trim().includes(search.toLowerCase().trim())
+        ) {
             acc.push(cur);
         }
 
@@ -52,7 +54,7 @@ export default function CompaniesRoute() {
             </ScrollColumn>
             <ScrollColumn
                 header={
-                    <Heading>{`Companies (${filteredCompanies.length})`}</Heading>
+                    <Heading size="4">{`Companies (${filteredCompanies.length})`}</Heading>
                 }
                 className={`md:col-span-2 ${BORDER_LEFT_COLORS}`}
             >

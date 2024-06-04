@@ -5,7 +5,7 @@ import { cx } from 'cva.config';
 import { UsersIcon } from 'lucide-react';
 import invariant from 'tiny-invariant';
 import Flex from '~/components/Flex';
-import { Heading } from '~/components/Heading';
+import Heading from '~/components/Heading';
 
 import { LeftNav } from '~/components/LeftNav';
 import ScrollColumn from '~/components/ScrollColumn';
@@ -34,7 +34,9 @@ export default function CustomersRoute() {
                 <LeftNav />
             </ScrollColumn>
             <ScrollColumn
-                header={<Heading>{`Customers (${customers.length})`}</Heading>}
+                header={
+                    <Heading size="4">{`Customers (${customers.length})`}</Heading>
+                }
                 className={`md:col-span-2 ${BORDER_LEFT_COLORS}`}
             >
                 <ul className="space-y-2">

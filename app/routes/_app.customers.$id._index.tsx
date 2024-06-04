@@ -1,7 +1,7 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Heading } from '~/components/Heading';
+import Heading from '~/components/Heading';
 import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -21,7 +21,7 @@ export default function CompanyDetailsIndexRoute() {
 
     return (
         <>
-            <Heading>{customer?.name}</Heading>
+            <Heading size="4">{customer?.name}</Heading>
         </>
     );
 }
