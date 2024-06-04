@@ -1,9 +1,8 @@
-import { Button, Input } from '@lemonsqueezy/wedges';
+import { Button } from '@lemonsqueezy/wedges';
 import { json, type LoaderFunctionArgs } from '@remix-run/node';
 import { Link, NavLink, Outlet, useLoaderData } from '@remix-run/react';
 import { cx } from 'cva.config';
-import { BuildingIcon } from 'lucide-react';
-import { BaseSyntheticEvent, SyntheticEvent, useState } from 'react';
+import { UsersIcon } from 'lucide-react';
 import invariant from 'tiny-invariant';
 import Flex from '~/components/Flex';
 import { Heading } from '~/components/Heading';
@@ -11,39 +10,23 @@ import { Heading } from '~/components/Heading';
 import { LeftNav } from '~/components/LeftNav';
 import ScrollColumn from '~/components/ScrollColumn';
 import {
-    BACKGROUND_COLORS,
     BACKGROUND_HOVER_ACTIVE_COLORS,
     BACKGROUND_HOVER_COLORS,
-    BORDER_BOTTOM_COLORS,
     BORDER_COLORS,
     BORDER_LEFT_COLORS,
 } from '~/constants';
 import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 
-interface CustomerShape {
-    created_at: string;
-    id: string;
-    name: string;
-}
-
 export async function loader({ request }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
-    const response = await supabase.from('company').select('*');
+    const response = await supabase.from('customer').select('*');
     invariant(response, 'Supabase encountered an error');
 
-    return json({ companies: response.data || [] });
+    return json({ customers: response.data || [] });
 }
 
-export default function CompaniesRoute() {
-    const [search, setSearch] = useState('');
-    const { companies } = useLoaderData<typeof loader>();
-    const filteredCompanies = companies.reduce<CustomerShape[]>((acc, cur) => {
-        if (cur.name.toLowerCase().includes(search.toLowerCase())) {
-            acc.push(cur);
-        }
-
-        return acc;
-    }, []);
+export default function CustomersRoute() {
+    const { customers } = useLoaderData<typeof loader>();
 
     return (
         <>
@@ -51,25 +34,12 @@ export default function CompaniesRoute() {
                 <LeftNav />
             </ScrollColumn>
             <ScrollColumn
-                header={
-                    <Heading>{`Companies (${filteredCompanies.length})`}</Heading>
-                }
+                header={<Heading>{`Customers (${customers.length})`}</Heading>}
                 className={`md:col-span-2 ${BORDER_LEFT_COLORS}`}
             >
-                <div
-                    className={`sticky top-[65px] -m-4 p-4 ${BACKGROUND_COLORS} ${BORDER_BOTTOM_COLORS}`}
-                >
-                    <Input
-                        label="Search"
-                        onChange={(event: BaseSyntheticEvent) => {
-                            setSearch(event?.currentTarget.value);
-                        }}
-                        value={search}
-                    />
-                </div>
-                <ul className="space-y-2 pt-8">
-                    {companies && companies.length > 0 ? (
-                        filteredCompanies.map((company) => (
+                <ul className="space-y-2">
+                    {customers && customers.length > 0 ? (
+                        customers.map((company) => (
                             <li key={company.id}>
                                 <NavLink
                                     to={company.id}
@@ -91,13 +61,13 @@ export default function CompaniesRoute() {
                             className={`flex-col gap-4 p-4 ${BORDER_COLORS} rounded-lg`}
                         >
                             <div>
-                                <BuildingIcon />
+                                <UsersIcon />
                             </div>
                             <p className={`text-2xl text-zinc-500`}>
-                                No companies found
+                                No customers found
                             </p>
                             <Button asChild>
-                                <Link to="create">Create a company</Link>
+                                <Link to="create">Create a customer</Link>
                             </Button>
                         </Flex>
                     )}

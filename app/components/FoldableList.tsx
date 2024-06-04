@@ -1,4 +1,4 @@
-import { Children, type ReactElement, type ReactNode } from 'react';
+import { type ReactElement, type ReactNode } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { cx } from 'cva.config';
 
@@ -9,6 +9,7 @@ import {
 } from '~/constants';
 import Flex from './Flex';
 import { useLocation } from '@remix-run/react';
+import List from './List';
 
 interface FoldableListProps {
     children: ReactNode;
@@ -57,11 +58,7 @@ export function FoldableList({
                     <ChevronRight className="h-5 w-5 justify-self-end" />
                 )}
             </Flex>
-            <ul className={cx('space-y-2 pl-6', !isOpen && 'hidden')}>
-                {Children.map(children, (child) => {
-                    return <li>{child}</li>;
-                })}
-            </ul>
+            <List className={cx('pl-6', !isOpen && 'hidden')}>{children}</List>
         </>
     );
 }

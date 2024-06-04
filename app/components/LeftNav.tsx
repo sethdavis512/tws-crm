@@ -1,12 +1,20 @@
-import { ActivitySquare, Building, Files, Gauge, Users } from 'lucide-react';
+import {
+    Building,
+    CircleDollarSign,
+    Gauge,
+    RouteIcon,
+    Users,
+} from 'lucide-react';
 
-import { Urls } from '~/utils/constants';
+import { Urls } from '~/constants';
 import { FoldableList } from './FoldableList';
 import AppNavLink from './AppNavLink';
 
 export function LeftNav() {
+    const iconProps = { className: 'h-5 w-5' };
+
     return (
-        <nav className="sm:px-4 sm:pt-4">
+        <nav>
             <ul className="space-y-2">
                 <li>
                     <AppNavLink
@@ -16,14 +24,14 @@ export function LeftNav() {
                         }
                     >
                         <div>
-                            <Gauge className="h-5 w-5" />
+                            <Gauge {...iconProps} />
                         </div>
                         <div>Dashboard</div>
                     </AppNavLink>
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Building className="h-5 w-5" />}
+                        icon={<Building {...iconProps} />}
                         text="Companies"
                     >
                         <AppNavLink to={Urls.COMPANIES} end>
@@ -36,7 +44,7 @@ export function LeftNav() {
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Users className="h-5 w-5" />}
+                        icon={<Users {...iconProps} />}
                         text="Customers"
                     >
                         <AppNavLink to={Urls.CUSTOMERS} end>
@@ -49,26 +57,26 @@ export function LeftNav() {
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Files className="h-5 w-5" />}
-                        text="Cases"
+                        icon={<CircleDollarSign {...iconProps} />}
+                        text="Deals"
                     >
-                        <AppNavLink to={Urls.CASES} end>
+                        <AppNavLink to={Urls.DEALS} end>
                             View all
                         </AppNavLink>
-                        <AppNavLink to={`${Urls.CASES}/create`}>
+                        <AppNavLink to={`${Urls.DEALS}/create`}>
                             Create new
                         </AppNavLink>
                     </FoldableList>
                 </li>
                 <li>
                     <FoldableList
-                        icon={<ActivitySquare className="h-5 w-5" />}
-                        text="Interactions"
+                        icon={<RouteIcon {...iconProps} />}
+                        text="Leads"
                     >
-                        <AppNavLink to={Urls.INTERACTIONS} end>
+                        <AppNavLink to={Urls.LEADS} end>
                             View all
                         </AppNavLink>
-                        <AppNavLink to={`${Urls.INTERACTIONS}/create`}>
+                        <AppNavLink to={`${Urls.LEADS}/create`}>
                             Create new
                         </AppNavLink>
                     </FoldableList>

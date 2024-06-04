@@ -1,10 +1,12 @@
 export enum Urls {
-    HOME = '/',
+    COMPANIES = '/companies',
+    CUSTOMERS = '/customers',
     DASHBOARD = '/dashboard',
+    DEALS = '/deals',
+    HOME = '/',
+    LEADS = '/leads',
     LOGIN = '/login',
     LOGOUT = '/logout',
-    JOIN = '/join',
-    PROFILE = '/dashboard/profile',
 }
 
 export const BACKGROUND_COLORS = 'wg-bg-wg-white dark:wg-bg-wg-gray-900';
@@ -25,6 +27,9 @@ export const BORDER_RIGHT_COLORS =
 
 export const BORDER_BOTTOM_COLORS =
     'border-b border-b-zinc-300 dark:border-b-zinc-700';
+
+export const BORDER_LEFT_COLORS =
+    'border-l border-l-zinc-300 dark:border-l-zinc-700';
 
 export const LINK_STYLES =
     'hover:underline text-primary-500 dark:text-primary-500 dark:hover:text-primary-400 ring-primary-500';

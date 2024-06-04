@@ -12,7 +12,7 @@ import {
     BORDER_LEFT_COLORS,
     BORDER_RIGHT_COLORS,
     BORDER_TOP_COLORS,
-} from '~/utils/constants';
+} from '~/constants';
 import { Heading } from './Heading';
 import Flex from './Flex';
 

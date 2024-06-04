@@ -19,7 +19,7 @@ export async function action({ request }: ActionFunctionArgs) {
         request,
     });
     const { data, error } = await supabase
-        .from('company')
+        .from('customer')
         .insert([{ name }])
         .select();
 
@@ -31,31 +31,29 @@ export async function action({ request }: ActionFunctionArgs) {
         return null;
     }
 
-    return redirect(`${Urls.COMPANIES}/${data![0].id}`);
+    return redirect(`${Urls.CUSTOMERS}/${data![0].id}`);
 }
 
-export default function CreateInteractionRoute() {
-    const [companyName, setCompanyName] = useState('');
+export default function CreateCustomerRoute() {
+    const [customerName, setCustomerName] = useState('');
 
     return (
         <Form
             method="POST"
             className="max-w-lg space-y-4"
             onSubmit={() => {
-                setCompanyName('');
+                setCustomerName('');
             }}
         >
-            <div>
-                <Label htmlFor="name">Name</Label>
-                <Input
-                    name="name"
-                    type="text"
-                    value={companyName}
-                    onChange={(event: BaseSyntheticEvent) =>
-                        setCompanyName(event.target.value)
-                    }
-                />
-            </div>
+            <Label htmlFor="name">Name</Label>
+            <Input
+                name="name"
+                type="text"
+                value={customerName}
+                onChange={(event: BaseSyntheticEvent) =>
+                    setCustomerName(event.target.value)
+                }
+            />
             <Checkbox label="Quick create?" name="createAnother" />
             <Button type="submit">Create</Button>
         </Form>

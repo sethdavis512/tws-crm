@@ -1,7 +1,7 @@
 import { Outlet } from '@remix-run/react';
 import { Heading } from '~/components/Heading';
 import { LeftNav } from '~/components/LeftNav';
-import { BORDER_BOTTOM_COLORS, BORDER_LEFT_COLORS } from '~/utils/constants';
+import { BORDER_BOTTOM_COLORS, BORDER_LEFT_COLORS } from '~/constants';
 
 export default function CasesRoute() {
     // div className="grid grid-cols-subgrid gap-4 col-span-full"

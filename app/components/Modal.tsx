@@ -7,7 +7,7 @@ import {
     BORDER_BOTTOM_COLORS,
     BORDER_COLORS,
     BORDER_TOP_COLORS,
-} from '~/utils/constants';
+} from '~/constants';
 import { Heading } from './Heading';
 import { cx } from 'cva.config';
 

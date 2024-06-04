@@ -7,21 +7,21 @@ import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
     const response = await supabase
-        .from('company')
+        .from('customer')
         .select('*')
         .eq('id', params.id!);
 
-    const company = response?.data?.shift();
+    const customer = response?.data?.shift();
 
-    return json({ company });
+    return json({ customer });
 }
 
 export default function CompanyDetailsIndexRoute() {
-    const { company } = useLoaderData<typeof loader>();
+    const { customer } = useLoaderData<typeof loader>();
 
     return (
         <>
-            <Heading>{company?.name}</Heading>
+            <Heading>{customer?.name}</Heading>
         </>
     );
 }

@@ -3,10 +3,10 @@ import { Heading } from '~/components/Heading';
 import ScrollColumn from '~/components/ScrollColumn';
 import { BORDER_LEFT_COLORS } from '~/constants';
 
-export default function CreateCompanyRoute() {
+export default function CreateCustomerRoute() {
     return (
         <ScrollColumn
-            header={<Heading>Create a company</Heading>}
+            header={<Heading>Create a customer</Heading>}
             className={`sm:col-span-8 ${BORDER_LEFT_COLORS}`}
         >
             <Outlet />

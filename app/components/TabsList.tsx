@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Children, cloneElement, isValidElement } from 'react';
 import { useTabsContextData } from './Tabs';
-import { BORDER_BOTTOM_COLORS } from '~/utils/constants';
+import { BORDER_BOTTOM_COLORS } from '~/constants';
 
 interface TabsListProps {
     children: ReactNode;
