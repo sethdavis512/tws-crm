@@ -13,7 +13,7 @@ import {
     BORDER_RIGHT_COLORS,
     BORDER_TOP_COLORS,
 } from '~/constants';
-import { Heading } from './Heading';
+import Heading from './Heading';
 import Flex from './Flex';
 
 interface DrawerProps {

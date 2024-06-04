@@ -3,16 +3,12 @@
     "private": true,
     "sideEffects": false,
     "type": "module",
-    "prisma": {
-        "seed": "node --loader ts-node/esm prisma/seed.ts"
-    },
     "scripts": {
         "build": "vite build && vite build --ssr",
         "deploy": "fly deploy",
         "dev": "vite dev",
         "format": "prettier --write .",
         "generate:types": "supabase gen types typescript --project-id fadqmbhitjdovdzjujul > generated-db-types.ts",
-        "seed": "prisma db seed",
         "start": "remix-serve ./build/index.js",
         "typecheck": "tsc"
     },
@@ -20,7 +16,6 @@
         "@atlaskit/pragmatic-drag-and-drop": "^1.1.9",
         "@faker-js/faker": "^8.4.1",
         "@lemonsqueezy/wedges": "^1.3.0",
-        "@prisma/client": "^5.14.0",
         "@remix-run/node": "2.9.2",
         "@remix-run/react": "2.9.2",
         "@remix-run/serve": "2.9.2",
