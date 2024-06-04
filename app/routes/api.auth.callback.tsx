@@ -17,5 +17,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     }
 
     // return the user to an error page with instructions
-    return redirect('/login/error', { headers });
+    return redirect('/login', { headers });
 }
