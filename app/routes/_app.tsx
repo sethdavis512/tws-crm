@@ -39,11 +39,11 @@ export default function AppRoute() {
 
     return (
         <div className="grid h-full w-full grid-cols-12 grid-rows-[auto_1fr_auto]">
-            <header className="col-span-full">
-                <nav className={`${BORDER_BOTTOM_COLORS} px-8 py-4`}>
+            <header className={`col-span-full ${BORDER_BOTTOM_COLORS}`}>
+                <nav className={`px-8 py-4`}>
                     <Flex className="justify-between">
                         <div>
-                            <strong>CRM</strong>
+                            <strong className="text-2xl">CRM</strong>
                         </div>
                         <Flex>
                             <themeFetcher.Form

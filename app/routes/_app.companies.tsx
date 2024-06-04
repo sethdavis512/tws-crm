@@ -42,7 +42,9 @@ export default function CompaniesRoute() {
                     <div
                         className={`flex items-center justify-between p-4 ${BORDER_BOTTOM_COLORS}`}
                     >
-                        <Heading as="h2">Companies</Heading>
+                        <Heading as="h2">
+                            Companies ({companies.length})
+                        </Heading>
                     </div>
                 </header>
                 <div className="p-4">
@@ -83,22 +85,6 @@ export default function CompaniesRoute() {
                     </ul>
                 </div>
             </div>
-            {/* <div
-                className={`col-span-full sm:col-span-8 overflow-y-auto ${BORDER_LEFT_COLORS}`}
-            >
-                <header
-                    className={`sticky top-0 left-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
-                >
-                    <div
-                        className={`p-4 flex items-center justify-between ${BORDER_BOTTOM_COLORS}`}
-                    >
-                        <Heading>Details</Heading>
-                    </div>
-                </header>
-                <div className="p-4">
-                    <Outlet />
-                </div>
-            </div> */}
             <Outlet />
         </>
     );

@@ -18,7 +18,7 @@ export default {
                     colors: {
                         primary: {
                             ...colors.green,
-                            DEFAULT: colors.green['500'],
+                            DEFAULT: colors.green['700'],
                         },
                     },
                 },
@@ -26,7 +26,7 @@ export default {
                     colors: {
                         primary: {
                             ...colors.green,
-                            DEFAULT: colors.green['500'],
+                            DEFAULT: colors.green['400'],
                         },
                     },
                 },
