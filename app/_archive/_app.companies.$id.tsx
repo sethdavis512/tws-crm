@@ -19,7 +19,7 @@ import { TabsList } from '~/components/TabsList';
 import {
     addCommentToCompany,
     deleteCompany,
-    getCompany
+    getCompany,
 } from '~/models/company.server';
 import { formatTheDate } from '~/utils';
 import { getUserId } from '~/utils/auth.server';
@@ -32,7 +32,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const companyDetails = await getCompany({ id: companyId });
 
     return json({
-        companyDetails
+        companyDetails,
     });
 }
 
@@ -84,7 +84,7 @@ export default function CompanyDetailsRoute() {
                     isLoading ? '...' : companyDetails?.name || 'Company name'
                 }
             >
-                <div className="p-4 space-y-4">
+                <div className="space-y-4 p-4">
                     {isLoading ? (
                         <p>Loading...</p>
                     ) : (

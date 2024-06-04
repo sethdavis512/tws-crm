@@ -5,7 +5,7 @@ import { cx } from 'cva.config';
 import { useToggle } from '~/hooks/useToggle';
 import {
     BACKGROUND_HOVER_ACTIVE_COLORS,
-    BACKGROUND_HOVER_COLORS
+    BACKGROUND_HOVER_COLORS,
 } from '~/constants';
 import Flex from './Flex';
 import { useLocation } from '@remix-run/react';
@@ -21,7 +21,7 @@ export function FoldableList({
     children,
     className,
     icon,
-    text
+    text,
 }: FoldableListProps) {
     const location = useLocation();
     const pathnameContainsText = location.pathname
@@ -38,7 +38,7 @@ export function FoldableList({
         <>
             <Flex
                 className={cx(
-                    'justify-between p-2 rounded-lg mb-2',
+                    'mb-2 justify-between rounded-lg p-2',
                     BACKGROUND_HOVER_COLORS,
                     pathnameContainsText &&
                         isDetails &&
@@ -52,9 +52,9 @@ export function FoldableList({
                     {text}
                 </Flex>
                 {isOpen ? (
-                    <ChevronDown className="w-5 h-5 justify-self-end" />
+                    <ChevronDown className="h-5 w-5 justify-self-end" />
                 ) : (
-                    <ChevronRight className="w-5 h-5 justify-self-end" />
+                    <ChevronRight className="h-5 w-5 justify-self-end" />
                 )}
             </Flex>
             <ul className={cx('space-y-2 pl-6', !isOpen && 'hidden')}>

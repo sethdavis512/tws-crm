@@ -8,19 +8,19 @@ const textareaVariants = cva(
         variants: {
             variant: {
                 default: '',
-                primary: ''
+                primary: '',
             },
             size: {
-                default: ''
+                default: '',
             },
             fullwidth: {
-                true: 'w-full'
-            }
+                true: 'w-full',
+            },
         },
         defaultVariants: {
             variant: 'default',
-            size: 'default'
-        }
+            size: 'default',
+        },
     }
 );
 

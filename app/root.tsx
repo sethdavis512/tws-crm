@@ -6,12 +6,12 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
-    useLoaderData
+    useLoaderData,
 } from '@remix-run/react';
 
 import {
     getSupabaseEnv,
-    getSupabaseWithSessionAndHeaders
+    getSupabaseWithSessionAndHeaders,
 } from './utils/supabase.server';
 import { useSupabase } from './utils/supabase';
 import { getThemeSession } from './utils/theme.server';
@@ -21,14 +21,14 @@ import '~/tailwind.css';
 export const meta: MetaFunction = () => {
     return [
         { title: 'CRM' },
-        { name: 'description', content: 'Customer Relation Management System' }
+        { name: 'description', content: 'Customer Relation Management System' },
     ];
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const themeSession = await getThemeSession(request);
     const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({
-        request
+        request,
     });
     const domainUrl = process.env.DOMAIN_URL!;
     const env = getSupabaseEnv();
@@ -38,7 +38,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
             serverSession,
             env,
             domainUrl,
-            theme: themeSession.getTheme()
+            theme: themeSession.getTheme(),
         },
         { headers }
     );

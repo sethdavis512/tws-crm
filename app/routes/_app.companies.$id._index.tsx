@@ -1,27 +1,31 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { type LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { Heading } from '~/components/Heading';
 import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
-    const company = await supabase
-        .from('company')
-        .select('*')
-        .eq('id', params.id!);
+    try {
+        const response = await supabase
+            .from('company')
+            .select('*')
+            .eq('id', params.id!);
 
-    return json({
-        company
-    });
-}
+        const company = response?.data?.shift();
 
-export async function action({ request }: ActionFunctionArgs) {
-    // const form = await request.formData();
-    return null;
+        return json({ company });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 export default function CompanyDetailsIndexRoute() {
-    const data = useLoaderData<typeof loader>();
+    const { company } = useLoaderData<typeof loader>();
 
-    return <>{JSON.stringify(data, null, 4)}</>;
+    return (
+        <>
+            <Heading>{company?.name}</Heading>
+        </>
+    );
 }

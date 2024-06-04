@@ -32,13 +32,13 @@ export function TabsList({ children }: TabsListProps) {
             active: index === currentTab,
             currentTab,
             handleSetCurrentTab,
-            index
+            index,
         });
     });
 
     return (
         <ul
-            className={`flex gap-2 text-sm font-medium text-center text-zinc-500 dark:text-zinc-400 ${BORDER_BOTTOM_COLORS}`}
+            className={`flex gap-2 text-center text-sm font-medium text-zinc-500 dark:text-zinc-400 ${BORDER_BOTTOM_COLORS}`}
         >
             {mappedChildren}
         </ul>

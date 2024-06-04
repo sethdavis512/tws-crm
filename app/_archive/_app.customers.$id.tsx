@@ -16,7 +16,7 @@ import { Stack } from '~/components/Stack';
 import {
     addCommentToCustomer,
     deleteCustomer,
-    getCustomer
+    getCustomer,
 } from '~/models/customer.server';
 import { formatTheDate } from '~/utils';
 import { getUserId } from '~/utils/auth.server';
@@ -29,7 +29,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const customerDetails = await getCustomer({ id: customerId });
 
     return json({
-        customerDetails
+        customerDetails,
     });
 }
 

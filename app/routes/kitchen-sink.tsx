@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useReducer, useRef, useState } from 'react';
 import {
     draggable,
     dropTargetForElements,
-    monitorForElements
+    monitorForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import invariant from 'tiny-invariant';
 import { GripVerticalIcon } from 'lucide-react';
@@ -17,7 +17,7 @@ import Flex from '~/components/Flex';
 const Box = ({
     children,
     id,
-    className
+    className,
 }: {
     children: ReactNode;
     id: string;
@@ -34,7 +34,7 @@ const Box = ({
             element: el,
             onDragStart: () => setDragging(true),
             onDrop: () => setDragging(false),
-            getInitialData: () => ({}) // props go here
+            getInitialData: () => ({}), // props go here
         });
     }, []);
 
@@ -70,7 +70,7 @@ const BoxDrop = ({ children, id }: { children?: ReactNode; id: string }) => {
                 console.log(source);
                 return true;
             },
-            getData: () => ({})
+            getData: () => ({}),
         });
     }, []);
 
@@ -78,7 +78,7 @@ const BoxDrop = ({ children, id }: { children?: ReactNode; id: string }) => {
         <div
             id={id}
             className={cx(
-                'w-32 h-16 bg-zinc-500 border',
+                'h-16 w-32 border bg-zinc-500',
                 isDraggedOver && 'bg-zinc-400'
             )}
             ref={boxRef}
@@ -90,14 +90,14 @@ const BoxDrop = ({ children, id }: { children?: ReactNode; id: string }) => {
 
 const BoxBoard = ({
     children,
-    className
+    className,
 }: {
     children?: ReactNode;
     className: string;
 }) => {
     useEffect(() => {
         return monitorForElements({
-            onDrop({ source, location }) {}
+            onDrop({ source, location }) {},
         });
     }, []);
 
@@ -118,7 +118,7 @@ export default function KitchenSink() {
 
     return (
         <div className="col-span-12">
-            <div className="pt-4 px-4 space-y-4">
+            <div className="space-y-4 px-4 pt-4">
                 <Heading>Drawer</Heading>
                 <p>
                     Drawer set to: {drawerPosition} / {drawerSize}
@@ -217,7 +217,7 @@ export default function KitchenSink() {
             <BoxBoard className="space-y-4 p-4">
                 <Box
                     id="box-1"
-                    className="inline-flex gap-4 px-3 py-2 border border-zinc-500 rounded-xl"
+                    className="inline-flex gap-4 rounded-xl border border-zinc-500 px-3 py-2"
                 >
                     <GripVerticalIcon />
                     ABC
@@ -225,7 +225,7 @@ export default function KitchenSink() {
                 <BoxDrop id="box-drop-1" />
                 <Box
                     id="box-2"
-                    className="inline-flex gap-4 px-3 py-2 border border-zinc-500 rounded-xl"
+                    className="inline-flex gap-4 rounded-xl border border-zinc-500 px-3 py-2"
                 >
                     <GripVerticalIcon />
                     DEF

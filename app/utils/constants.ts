@@ -6,7 +6,7 @@ export enum Urls {
     LOGOUT = '/logout',
     CUSTOMERS = '/customers',
     COMPANIES = '/companies',
-    INTERACTIONS = '/interactions'
+    INTERACTIONS = '/interactions',
 }
 
 export const PRIMARY_COLOR = `text-primary-500`;

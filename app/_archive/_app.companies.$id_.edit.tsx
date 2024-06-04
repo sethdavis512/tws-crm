@@ -16,7 +16,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const companyDetails = await getCompany({ id: params.id });
 
     return json({
-        companyDetails
+        companyDetails,
     });
 }
 
@@ -31,7 +31,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     const companyObj = await updateCompany({
         id: companyId,
-        name
+        name,
     });
 
     return redirect(`${Urls.COMPANIES}/${companyObj.id}`);
@@ -43,7 +43,7 @@ export default function EditCaseRoute() {
     return (
         <ScrollyColumn size={4}>
             <ScrollyPanel heading="Edit company" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <input
                             type="hidden"

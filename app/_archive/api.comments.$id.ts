@@ -11,7 +11,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const comment = await getComment({ commentId });
 
     return json({
-        comment
+        comment,
     });
 }
 

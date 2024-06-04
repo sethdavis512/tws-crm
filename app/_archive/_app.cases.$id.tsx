@@ -10,7 +10,7 @@ import { Label } from '~/components/Label';
 import {
     connectInteractionsToCase,
     deleteCase,
-    getCase
+    getCase,
 } from '~/models/case.server';
 import { formatTheDate } from '~/utils';
 import { Tabs } from '~/components/Tabs';
@@ -45,7 +45,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     return json({
         userId,
         caseDetails,
-        allInteractions
+        allInteractions,
     });
 }
 
@@ -64,7 +64,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const interactions = form.getAll('interaction') as string[];
         await connectInteractionsToCase({
             id: caseId,
-            interactionIds: interactions
+            interactionIds: interactions,
         });
 
         return null;
@@ -94,7 +94,7 @@ export default function CasesDetailsRoute() {
             }
         >
             <div className="p-4">
-                <div className="space-y-2 mb-8">
+                <div className="mb-8 space-y-2">
                     <div>
                         Creator:{' '}
                         <Badge>
@@ -156,7 +156,7 @@ export default function CasesDetailsRoute() {
                                                     )}
                                                 </p>
                                                 <LinkButton
-                                                    className="mb-4 inline-flex gap-2 items-center"
+                                                    className="mb-4 inline-flex items-center gap-2"
                                                     to={`${Urls.INTERACTIONS}/${interaction.id}`}
                                                 >
                                                     Go to interaction{' '}
@@ -166,7 +166,7 @@ export default function CasesDetailsRoute() {
                                         )
                                     )
                                 ) : (
-                                    <p className="italic mb-4">
+                                    <p className="mb-4 italic">
                                         No interactions have been associated.
                                     </p>
                                 )}

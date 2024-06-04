@@ -18,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const allCustomers = await getAllCustomers();
 
     return json({
-        allCustomers
+        allCustomers,
     });
 }
 
@@ -40,7 +40,7 @@ export async function action({ request }: ActionFunctionArgs) {
         description,
         customerId,
         userId,
-        type: 'EMAIL'
+        type: 'EMAIL',
     });
 
     return redirect(`${Urls.INTERACTIONS}/${interaction.id}`);
@@ -52,12 +52,12 @@ export default function CreateInteractionRoute() {
     return (
         <ScrollyColumn as="main" className="col-span-10">
             <ScrollyPanel heading="Create interaction" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <Label htmlFor="customerId">Customer ID</Label>
                         <select
                             name="customerId"
-                            className="dark:bg-zinc-900 rounded-md"
+                            className="rounded-md dark:bg-zinc-900"
                         >
                             {allCustomers.map((customer) => (
                                 <option value={customer.id} key={customer.id}>

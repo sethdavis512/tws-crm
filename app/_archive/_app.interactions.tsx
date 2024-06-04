@@ -18,7 +18,7 @@ export async function loader() {
     const interactions = await getAllInteractions();
 
     return json({
-        interactions
+        interactions,
     });
 }
 
@@ -72,7 +72,7 @@ export default function InteractionsRoute() {
                                         </Badge>
                                     </Stack>
                                     <p
-                                        className={`dark:text-zinc-400 font-normal text-zinc-700 ${
+                                        className={`font-normal text-zinc-700 dark:text-zinc-400 ${
                                             isSelected &&
                                             'text-white dark:text-zinc-200'
                                         } break-words`}

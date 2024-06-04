@@ -19,7 +19,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const interactionDetails = await getInteraction({ id: params.id });
 
     return json({
-        interactionDetails
+        interactionDetails,
     });
 }
 
@@ -42,7 +42,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         id: interactionId,
         title,
         description,
-        type
+        type,
     });
 
     return redirect(`${Urls.INTERACTIONS}/${interactionObj.id}`);
@@ -54,7 +54,7 @@ export default function EditInteractionRoute() {
     return (
         <ScrollyColumn>
             <ScrollyPanel heading="Edit interaction" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <Label htmlFor="interactionType">
                             Interaction type

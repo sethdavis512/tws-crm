@@ -16,7 +16,7 @@ export async function loader() {
     const allCompanies = await getAllCompanies();
 
     return json({
-        allCompanies
+        allCompanies,
     });
 }
 
@@ -34,7 +34,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const customer = await createCustomer({
         firstName,
         lastName,
-        companyIDs: [companyIDs]
+        companyIDs: [companyIDs],
     });
 
     return redirect(`${Urls.CUSTOMERS}/${customer.id}`);
@@ -46,7 +46,7 @@ export default function CreateInteractionRoute() {
     return (
         <ScrollyColumn as="main" className="col-span-10">
             <ScrollyPanel heading="Create new customer" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <Label htmlFor="firstName">First name</Label>
                         <Input name="firstName" type="text" />
@@ -59,7 +59,7 @@ export default function CreateInteractionRoute() {
                         <Label htmlFor="companyIDs">Company</Label>
                         <select
                             name="companyIDs"
-                            className="dark:bg-zinc-900 rounded-md"
+                            className="rounded-md dark:bg-zinc-900"
                         >
                             {allCompanies.map((company) => (
                                 <option value={company.id} key={company.id}>

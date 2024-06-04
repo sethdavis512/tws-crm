@@ -17,7 +17,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const caseDetails = await getCase({ id: params.id });
 
     return json({
-        caseDetails
+        caseDetails,
     });
 }
 
@@ -35,7 +35,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const caseObj = await updateCase({
         id: caseId,
         title,
-        description
+        description,
     });
 
     return redirect(`${Urls.CASES}/${caseObj.id}`);
@@ -47,7 +47,7 @@ export default function EditCaseRoute() {
     return (
         <ScrollyColumn>
             <ScrollyPanel heading="Edit case" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <input
                             type="hidden"

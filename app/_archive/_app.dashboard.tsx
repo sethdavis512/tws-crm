@@ -28,7 +28,7 @@ export function DashboardCard({
     data,
     cardType,
     heading,
-    type
+    type,
 }: DashboardCardProps) {
     return (
         <Card className="col-span-6">
@@ -71,7 +71,7 @@ export async function loader() {
 
     return json({
         latestCases,
-        latestInteractions
+        latestInteractions,
     });
 }
 

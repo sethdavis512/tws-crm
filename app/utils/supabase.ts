@@ -34,7 +34,7 @@ export const useSupabase = ({ env, serverSession }: UseSupabase) => {
 
     useEffect(() => {
         const {
-            data: { subscription }
+            data: { subscription },
         } = supabase.auth.onAuthStateChange((event, session) => {
             if (session?.access_token !== serverAccessToken) {
                 // Revalidate the app.

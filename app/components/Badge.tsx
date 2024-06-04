@@ -13,19 +13,19 @@ const badgeVariants = cva({
         variant: {
             primary: 'bg-primary-700 dark:bg-primary-700',
             secondary: 'bg-amber-500 dark:bg-amber-50',
-            tertiary: 'bg-red-500 dark:bg-red-500'
-        }
+            tertiary: 'bg-red-500 dark:bg-red-500',
+        },
     },
     defaultVariants: {
-        variant: 'primary'
-    }
+        variant: 'primary',
+    },
 });
 
 export function Badge({ children, className, variant, ...rest }: BadgeProps) {
     return (
         <div
             className={cx(
-                'rounded-full text-xs px-2 py-1 text-white inline-block',
+                'inline-block rounded-full px-2 py-1 text-xs text-white',
                 badgeVariants({ className, variant })
             )}
             {...rest}

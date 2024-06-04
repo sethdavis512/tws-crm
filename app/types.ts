@@ -5,7 +5,7 @@ export type RequiredVariantProps<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     T extends (...args: any) => any,
     // By default, all variants will be required
-    Keys extends keyof VariantProps<T> = keyof VariantProps<T>
+    Keys extends keyof VariantProps<T> = keyof VariantProps<T>,
 > = Simplify<
     // Create an intersection of all variants with those being marked as required
     VariantProps<T> & {

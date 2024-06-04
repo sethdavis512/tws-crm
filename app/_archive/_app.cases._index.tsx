@@ -7,7 +7,7 @@ export async function loader() {
     const companies = await getAllCompanies();
 
     return json({
-        companies
+        companies,
     });
 }
 
@@ -15,7 +15,7 @@ export default function CompaniesIndexRoute() {
     const { companies } = useLoaderData<typeof loader>();
 
     return (
-        <ol className="space-y-4 list-decimal list-inside">
+        <ol className="list-inside list-decimal space-y-4">
             {companies.map((company) => (
                 <li
                     key={company.id}

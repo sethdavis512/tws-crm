@@ -10,13 +10,13 @@ export default function DashboardRoute() {
                 <LeftNav />
             </div>
             <div
-                className={`col-span-full sm:col-span-10 overflow-y-auto ${BORDER_LEFT_COLORS}`}
+                className={`col-span-full overflow-y-auto sm:col-span-10 ${BORDER_LEFT_COLORS}`}
             >
                 <header
-                    className={`sticky top-0 left-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
+                    className={`sticky left-0 top-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
                 >
                     <div
-                        className={`p-4 flex items-center justify-between ${BORDER_BOTTOM_COLORS}`}
+                        className={`flex items-center justify-between p-4 ${BORDER_BOTTOM_COLORS}`}
                     >
                         <Heading>Dashboard</Heading>
                     </div>

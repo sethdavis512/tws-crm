@@ -12,18 +12,18 @@ export function LeftNav() {
                     <AppNavLink
                         to={Urls.DASHBOARD}
                         className={
-                            'flex items-center justify-start p-2 rounded-lg gap-2'
+                            'flex items-center justify-start gap-2 rounded-lg p-2'
                         }
                     >
                         <div>
-                            <Gauge className="w-5 h-5" />
+                            <Gauge className="h-5 w-5" />
                         </div>
                         <div>Dashboard</div>
                     </AppNavLink>
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Building className="w-5 h-5" />}
+                        icon={<Building className="h-5 w-5" />}
                         text="Companies"
                     >
                         <AppNavLink to={Urls.COMPANIES} end>
@@ -36,7 +36,7 @@ export function LeftNav() {
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Users className="w-5 h-5" />}
+                        icon={<Users className="h-5 w-5" />}
                         text="Customers"
                     >
                         <AppNavLink to={Urls.CUSTOMERS} end>
@@ -49,7 +49,7 @@ export function LeftNav() {
                 </li>
                 <li>
                     <FoldableList
-                        icon={<Files className="w-5 h-5" />}
+                        icon={<Files className="h-5 w-5" />}
                         text="Cases"
                     >
                         <AppNavLink to={Urls.CASES} end>
@@ -62,7 +62,7 @@ export function LeftNav() {
                 </li>
                 <li>
                     <FoldableList
-                        icon={<ActivitySquare className="w-5 h-5" />}
+                        icon={<ActivitySquare className="h-5 w-5" />}
                         text="Interactions"
                     >
                         <AppNavLink to={Urls.INTERACTIONS} end>

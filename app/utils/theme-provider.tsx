@@ -1,6 +1,6 @@
 export enum Theme {
     DARK = 'dark',
-    LIGHT = 'light'
+    LIGHT = 'light',
 }
 
 const themes: Array<Theme> = Object.values(Theme);

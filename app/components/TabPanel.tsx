@@ -12,19 +12,19 @@ const tabPanelVariants = cva('', {
             none: '',
             sm: 'px-2',
             md: 'px-4',
-            lg: 'px-8'
+            lg: 'px-8',
         },
         paddingY: {
             none: '',
             sm: 'py-2',
             md: 'py-4',
-            lg: 'py-8'
-        }
+            lg: 'py-8',
+        },
     },
     defaultVariants: {
         paddingX: 'none',
-        paddingY: 'none'
-    }
+        paddingY: 'none',
+    },
 });
 
 export function TabPanel({ children, paddingY }: TabPanelProps) {

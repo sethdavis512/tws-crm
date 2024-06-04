@@ -21,7 +21,7 @@ export async function loader() {
 
     return json({
         allCompanies,
-        allCustomers
+        allCustomers,
     });
 }
 
@@ -42,7 +42,7 @@ export async function action({ request }: ActionFunctionArgs) {
         title,
         description,
         companyIDs: companies,
-        userId: ''
+        userId: '',
     });
 
     return redirect(`${Urls.CASES}/${caseObj.id}`);
@@ -54,7 +54,7 @@ export default function CreateCaseRoute() {
     return (
         <ScrollyColumn>
             <ScrollyPanel heading="Create case" padded>
-                <Form method="POST" className="space-y-4 max-w-lg">
+                <Form method="POST" className="max-w-lg space-y-4">
                     <div>
                         <Label htmlFor="title">Title</Label>
                         <Input name="title" type="text" />

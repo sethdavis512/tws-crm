@@ -12,7 +12,7 @@ export async function loader() {
     const companiesData = await getAllCompanies();
 
     return json({
-        companiesData
+        companiesData,
     });
 }
 

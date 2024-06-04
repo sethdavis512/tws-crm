@@ -11,7 +11,7 @@ import { LeftNav } from '~/components/LeftNav';
 import {
     BACKGROUND_HOVER_ACTIVE_COLORS,
     BACKGROUND_HOVER_COLORS,
-    BORDER_COLORS
+    BORDER_COLORS,
 } from '~/constants';
 import { BORDER_BOTTOM_COLORS, BORDER_LEFT_COLORS } from '~/utils/constants';
 import { getSupabaseWithHeaders } from '~/utils/supabase.server';
@@ -34,13 +34,13 @@ export default function CompaniesRoute() {
                 <LeftNav />
             </div>
             <div
-                className={`col-span-full sm:col-span-2 overflow-y-auto ${BORDER_LEFT_COLORS}`}
+                className={`col-span-full overflow-y-auto sm:col-span-2 ${BORDER_LEFT_COLORS}`}
             >
                 <header
-                    className={`sticky top-0 left-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
+                    className={`sticky left-0 top-0 wg-bg-wg-white dark:wg-bg-wg-gray-900`}
                 >
                     <div
-                        className={`p-4 flex items-center justify-between ${BORDER_BOTTOM_COLORS}`}
+                        className={`flex items-center justify-between p-4 ${BORDER_BOTTOM_COLORS}`}
                     >
                         <Heading as="h2">Companies</Heading>
                     </div>
@@ -54,7 +54,7 @@ export default function CompaniesRoute() {
                                         to={company.id}
                                         className={({ isActive }) =>
                                             cx(
-                                                'block p-4 rounded-lg',
+                                                'block rounded-lg p-4',
                                                 isActive
                                                     ? BACKGROUND_HOVER_ACTIVE_COLORS
                                                     : BACKGROUND_HOVER_COLORS
@@ -83,7 +83,7 @@ export default function CompaniesRoute() {
                     </ul>
                 </div>
             </div>
-            <div
+            {/* <div
                 className={`col-span-full sm:col-span-8 overflow-y-auto ${BORDER_LEFT_COLORS}`}
             >
                 <header
@@ -98,8 +98,8 @@ export default function CompaniesRoute() {
                 <div className="p-4">
                     <Outlet />
                 </div>
-            </div>
-            {/* <Outlet /> */}
+            </div> */}
+            <Outlet />
         </>
     );
 }

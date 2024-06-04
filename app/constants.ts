@@ -4,7 +4,7 @@ export enum Urls {
     LOGIN = '/login',
     LOGOUT = '/logout',
     JOIN = '/join',
-    PROFILE = '/dashboard/profile'
+    PROFILE = '/dashboard/profile',
 }
 
 export const BACKGROUND_COLORS = 'wg-bg-wg-white dark:wg-bg-wg-gray-900';

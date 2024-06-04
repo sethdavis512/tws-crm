@@ -16,7 +16,7 @@ export async function action({ request }: ActionFunctionArgs) {
     invariant(name, 'Name not defined');
 
     const { supabase } = await getSupabaseWithHeaders({
-        request
+        request,
     });
     const { data, error } = await supabase
         .from('company')
@@ -40,7 +40,7 @@ export default function CreateInteractionRoute() {
     return (
         <Form
             method="POST"
-            className="space-y-4 max-w-lg"
+            className="max-w-lg space-y-4"
             onSubmit={() => {
                 setCompanyName('');
             }}

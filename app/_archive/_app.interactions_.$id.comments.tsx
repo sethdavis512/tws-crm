@@ -6,7 +6,7 @@ import invariant from 'tiny-invariant';
 import {
     addCommentToInteraction,
     deleteInteraction,
-    getInteraction
+    getInteraction,
 } from '~/models/interaction.server';
 import { Urls } from '~/utils/constants';
 import { CommentsSection } from '~/components/CommentsSection';
@@ -21,7 +21,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const interactionDetails = await getInteraction({ id: interactionId });
 
     return json({
-        interactionDetails
+        interactionDetails,
     });
 }
 

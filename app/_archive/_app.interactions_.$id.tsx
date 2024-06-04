@@ -7,7 +7,7 @@ import { Badge } from '~/components/Badge';
 import {
     addCommentToInteraction,
     deleteInteraction,
-    getInteraction
+    getInteraction,
 } from '~/models/interaction.server';
 import { formatTheDate } from '~/utils';
 import { Urls } from '~/utils/constants';
@@ -27,7 +27,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     const interactionDetails = await getInteraction({ id: interactionId });
 
     return json({
-        interactionDetails
+        interactionDetails,
     });
 }
 
@@ -76,7 +76,7 @@ export default function InteractionDetailsRoute() {
                     </Stack>
                 </StickyHeader>
 
-                <div className="flex p-4 gap-4">
+                <div className="flex gap-4 p-4">
                     <div className="basis-2/3">
                         <Heading className="mb-4">Description</Heading>
                         <Card>

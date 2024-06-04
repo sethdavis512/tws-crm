@@ -5,7 +5,7 @@ import {
     json,
     redirect,
     useFetcher,
-    useOutletContext
+    useOutletContext,
 } from '@remix-run/react';
 import { Moon, Sun } from 'lucide-react';
 import Flex from '~/components/Flex';
@@ -17,7 +17,7 @@ import { Theme } from '~/utils/theme-provider';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const { headers, serverSession } = await getSupabaseWithSessionAndHeaders({
-        request
+        request,
     });
 
     if (!serverSession) {
@@ -38,7 +38,7 @@ export default function AppRoute() {
     const isThemeDark = theme === Theme.DARK;
 
     return (
-        <div className="grid grid-cols-12 h-full w-full grid-rows-[auto_1fr_auto]">
+        <div className="grid h-full w-full grid-cols-12 grid-rows-[auto_1fr_auto]">
             <header className="col-span-full">
                 <nav className={`${BORDER_BOTTOM_COLORS} px-8 py-4`}>
                     <Flex className="justify-between">

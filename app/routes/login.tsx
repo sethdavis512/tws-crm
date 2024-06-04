@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => [{ title: 'Login' }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const { headers, serverSession } = await getSupabaseWithSessionAndHeaders({
-        request
+        request,
     });
 
     if (serverSession) {
@@ -31,17 +31,17 @@ export default function LoginRoute() {
         await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo
-            }
+                redirectTo,
+            },
         });
     };
 
     return (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex h-full items-center justify-center">
             <div
-                className={`mx-auto w-full max-w-md p-8 border ${BORDER_COLORS} rounded-lg`}
+                className={`mx-auto w-full max-w-md border p-8 ${BORDER_COLORS} rounded-lg`}
             >
-                <h1 className="font-bold text-4xl mb-4">Login</h1>
+                <h1 className="mb-4 text-4xl font-bold">Login</h1>
                 <p className="mb-8">Choose a login method</p>
                 <div className="flex gap-2">
                     <Button

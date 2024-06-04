@@ -3,7 +3,7 @@ import type { Database } from 'generated-db-types';
 
 export const getSupabaseEnv = () => ({
     SUPABASE_URL: process.env.SUPABASE_URL!,
-    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
 });
 
 export function getSupabaseWithHeaders({ request }: { request: Request }) {
@@ -26,12 +26,12 @@ export function getSupabaseWithHeaders({ request }: { request: Request }) {
                 },
                 remove(key, options) {
                     headers.append('Set-Cookie', serialize(key, '', options));
-                }
+                },
             },
             auth: {
                 detectSessionInUrl: true,
-                flowType: 'pkce'
-            }
+                flowType: 'pkce',
+            },
         }
     );
 
@@ -39,15 +39,15 @@ export function getSupabaseWithHeaders({ request }: { request: Request }) {
 }
 
 export async function getSupabaseWithSessionAndHeaders({
-    request
+    request,
 }: {
     request: Request;
 }) {
     const { supabase, headers } = getSupabaseWithHeaders({
-        request
+        request,
     });
     const {
-        data: { session: serverSession }
+        data: { session: serverSession },
     } = await supabase.auth.getSession();
 
     return { serverSession, headers, supabase };
