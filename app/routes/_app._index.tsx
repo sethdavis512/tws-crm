@@ -32,7 +32,7 @@ export default function HomeRoute() {
                             interest in my work!
                         </p>
                         <Button asChild>
-                            <Link to={Urls.LOGIN}>Login to see more</Link>
+                            <Link to={Urls.DASHBOARD}>Go to dashboard</Link>
                         </Button>
                     </div>
                 </div>
