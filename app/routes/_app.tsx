@@ -49,7 +49,12 @@ export default function AppRoute() {
 
     return (
         <>
-            <div className="grid h-full w-full grid-cols-12 grid-rows-[auto_1fr_auto]">
+            <div className="grid h-full w-full grid-cols-12 grid-rows-[auto_auto_1fr_auto]">
+                <div
+                    className={`col-span-full bg-yellow-300 p-4 text-center text-black dark:bg-yellow-600 dark:text-white ${BORDER_BOTTOM_COLORS}`}
+                >
+                    🚧 App is currently a work in progress 🔨
+                </div>
                 <header className={`col-span-full ${BORDER_BOTTOM_COLORS}`}>
                     <nav className={`px-8 py-4`}>
                         <Flex className="justify-between">
