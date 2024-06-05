@@ -5,10 +5,10 @@ import {
     getSupabaseEnv,
     getSupabaseWithSessionAndHeaders,
 } from '~/utils/supabase.server';
-import { type SupabaseOutletContext, useSupabase } from '~/utils/supabase';
+import { useSupabase } from '~/utils/supabase';
 import { BACKGROUND_COLORS, BORDER_COLORS, Urls } from '~/constants';
 import { Button } from '@lemonsqueezy/wedges';
-import { useLoaderData, useOutletContext } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 
 export const meta: MetaFunction = () => [{ title: 'Login' }];
 
@@ -28,11 +28,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function LoginRoute() {
-    const { domainUrl } = useOutletContext<SupabaseOutletContext>();
+    const { domainUrl } = useLoaderData<typeof loader>();
     // TODO: Get from root route
     const { env, serverSession } = useLoaderData<typeof loader>();
     const { supabase } = useSupabase({ env, serverSession });
     const redirectTo = `${domainUrl}/api/auth/callback`;
+    // console.log({ redirectTo });
 
     const handleGoogleSignIn = async () => {
         await supabase.auth.signInWithOAuth({
