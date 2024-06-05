@@ -30,7 +30,7 @@ export default function CustomersRoute() {
 
     return (
         <>
-            <ScrollColumn className={`md:col-span-2`}>
+            <ScrollColumn className={`hidden md:col-span-2 md:block`}>
                 <LeftNav />
             </ScrollColumn>
             <ScrollColumn

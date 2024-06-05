@@ -4,7 +4,7 @@ import { createServerClient, parse, serialize } from '@supabase/ssr';
 export async function loader({ request }: LoaderFunctionArgs) {
     const requestUrl = new URL(request.url);
     const code = requestUrl.searchParams.get('code');
-    const next = `${process.env.DOMAIN_URL}/`;
+    const next = `/`;
     const headers = new Headers();
 
     if (code) {
@@ -33,9 +33,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
             }
         );
 
-        const { error, data } =
-            await supabase.auth.exchangeCodeForSession(code);
-        console.log({ data });
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
             return redirect(next, { headers });

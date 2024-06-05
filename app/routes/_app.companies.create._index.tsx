@@ -2,7 +2,7 @@ import { Button, Checkbox, Input, Label } from '@lemonsqueezy/wedges';
 import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
-import { type BaseSyntheticEvent, useState } from 'react';
+import { type BaseSyntheticEvent, useState, useRef } from 'react';
 import invariant from 'tiny-invariant';
 
 import { Urls } from '~/constants';
@@ -36,6 +36,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function CreateInteractionRoute() {
     const [companyName, setCompanyName] = useState('');
+    const nameInputRef = useRef<HTMLInputElement>(null);
 
     return (
         <Form
@@ -43,6 +44,7 @@ export default function CreateInteractionRoute() {
             className="max-w-lg space-y-4"
             onSubmit={() => {
                 setCompanyName('');
+                nameInputRef.current?.focus();
             }}
         >
             <div>
@@ -54,6 +56,7 @@ export default function CreateInteractionRoute() {
                     onChange={(event: BaseSyntheticEvent) =>
                         setCompanyName(event.target.value)
                     }
+                    ref={nameInputRef}
                 />
             </div>
             <Checkbox label="Quick create?" name="createAnother" />

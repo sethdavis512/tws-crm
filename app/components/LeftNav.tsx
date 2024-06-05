@@ -9,12 +9,17 @@ import {
 import { Urls } from '~/constants';
 import { FoldableList } from './FoldableList';
 import AppNavLink from './AppNavLink';
+import { cx } from 'cva.config';
 
-export function LeftNav() {
+interface LeftNavProps {
+    className?: string;
+}
+
+export function LeftNav({ className }: LeftNavProps) {
     const iconProps = { className: 'h-5 w-5' };
 
     return (
-        <nav>
+        <nav className={cx(className)}>
             <ul className="space-y-2">
                 <li>
                     <AppNavLink

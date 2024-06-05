@@ -48,8 +48,8 @@ export default function CompaniesRoute() {
     }, []);
 
     return (
-        <>
-            <ScrollColumn className={`md:col-span-2`}>
+        <div className="col-span-full grid auto-rows-min grid-cols-subgrid md:auto-rows-fr">
+            <ScrollColumn className={`row-auto hidden md:col-span-2 md:block`}>
                 <LeftNav />
             </ScrollColumn>
             <ScrollColumn
@@ -106,6 +106,6 @@ export default function CompaniesRoute() {
                 </ul>
             </ScrollColumn>
             <Outlet />
-        </>
+        </div>
     );
 }

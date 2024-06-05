@@ -1,6 +1,6 @@
 import { cx } from 'cva.config';
 
-export default function Divider({ className }: { className: string }) {
+export default function Divider({ className }: { className?: string }) {
     return (
         <hr
             className={cx(

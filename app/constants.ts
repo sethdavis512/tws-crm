@@ -29,7 +29,7 @@ export const BORDER_BOTTOM_COLORS =
     'border-b border-b-zinc-300 dark:border-b-zinc-700';
 
 export const BORDER_LEFT_COLORS =
-    'border-l border-l-zinc-300 dark:border-l-zinc-700';
+    'md:border-l md:border-l-zinc-300 dark:md:border-l-zinc-700';
 
 export const LINK_STYLES =
     'hover:underline text-primary-500 dark:text-primary-500 dark:hover:text-primary-400 ring-primary-500';
