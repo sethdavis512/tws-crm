@@ -33,7 +33,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
             }
         );
 
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        const { error, data } =
+            await supabase.auth.exchangeCodeForSession(code);
+        console.log({ data });
 
         if (!error) {
             return redirect(next, { headers });
