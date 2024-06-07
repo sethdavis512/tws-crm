@@ -21,7 +21,18 @@ export default function CompanyDetailsIndexRoute() {
 
     return (
         <>
-            <Heading size="4">{customer?.name}</Heading>
+            <Heading size="4" className="mb-4">
+                {customer?.name}
+            </Heading>
+            <p>
+                {customer?.description ? (
+                    customer.description
+                ) : (
+                    <span className="italic opacity-40">
+                        {'— Description is unavailable —'}
+                    </span>
+                )}
+            </p>
         </>
     );
 }

@@ -3,7 +3,6 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import {
     Link,
     Outlet,
-    json,
     redirect,
     useFetcher,
     useOutletContext,
@@ -33,7 +32,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         return redirect('/login', { headers });
     }
 
-    return json({});
+    return null;
 }
 
 export default function AppRoute() {
