@@ -15,39 +15,45 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          phone_number: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
           name: string
+          phone_number?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
           name?: string
+          phone_number?: string
         }
         Relationships: []
       }
       customer: {
         Row: {
           created_at: string
-          description: string | null
+          email: string
           id: string
           name: string
+          phone_number: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          email?: string
           id?: string
           name: string
+          phone_number?: string
         }
         Update: {
           created_at?: string
-          description?: string | null
+          email?: string
           id?: string
           name?: string
+          phone_number?: string
         }
         Relationships: []
       }

@@ -55,7 +55,7 @@ export default function AppRoute() {
                     🚧 App is currently a work in progress 🔨
                 </div>
                 <header className={`col-span-full ${BORDER_BOTTOM_COLORS}`}>
-                    <nav className={`px-8 py-4`}>
+                    <nav className={`p-4`}>
                         <Flex className="justify-between">
                             <Flex className="gap-4">
                                 <Link to="/">

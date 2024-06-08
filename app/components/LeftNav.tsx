@@ -64,11 +64,15 @@ export function LeftNav({ className }: LeftNavProps) {
                     <FoldableList
                         icon={<CircleDollarSign {...iconProps} />}
                         text="Deals"
+                        className="opacity-40"
                     >
-                        <AppNavLink to={Urls.DEALS} end>
+                        <AppNavLink to={Urls.DEALS} end className="opacity-40">
                             View all
                         </AppNavLink>
-                        <AppNavLink to={`${Urls.DEALS}/create`}>
+                        <AppNavLink
+                            to={`${Urls.DEALS}/create`}
+                            className="opacity-40"
+                        >
                             Create new
                         </AppNavLink>
                     </FoldableList>
@@ -77,11 +81,15 @@ export function LeftNav({ className }: LeftNavProps) {
                     <FoldableList
                         icon={<RouteIcon {...iconProps} />}
                         text="Leads"
+                        className="opacity-40"
                     >
-                        <AppNavLink to={Urls.LEADS} end>
+                        <AppNavLink to={Urls.LEADS} end className="opacity-40">
                             View all
                         </AppNavLink>
-                        <AppNavLink to={`${Urls.LEADS}/create`}>
+                        <AppNavLink
+                            to={`${Urls.LEADS}/create`}
+                            className="opacity-40"
+                        >
                             Create new
                         </AppNavLink>
                     </FoldableList>
