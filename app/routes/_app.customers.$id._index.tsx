@@ -106,17 +106,17 @@ export default function CompanyDetailsIndexRoute() {
                         <Input
                             label="Name"
                             name="name"
-                            value={customer?.name}
+                            defaultValue={customer?.name}
                         />
                         <Input
                             label="Email"
                             name="email"
-                            value={customer?.email}
+                            defaultValue={customer?.email}
                         />
                         <Input
                             label="Phone"
                             name="phone_number"
-                            value={customer?.phone_number}
+                            defaultValue={customer?.phone_number}
                         />
                         <Button type="submit" name="intent" value="update">
                             Update

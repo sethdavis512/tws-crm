@@ -28,7 +28,10 @@ interface CustomerShape {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
-    const response = await supabase.from('company').select('*');
+    const response = await supabase
+        .from('company')
+        .select('*')
+        .order('name', { ascending: true });
     invariant(response, 'Supabase encountered an error');
 
     return json({ companies: response.data || [] });

@@ -19,7 +19,10 @@ import { getSupabaseWithHeaders } from '~/utils/supabase.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
-    const response = await supabase.from('customer').select('*');
+    const response = await supabase
+        .from('customer')
+        .select('*')
+        .order('name', { ascending: true });
     invariant(response, 'Supabase encountered an error');
 
     return json({ customers: response.data || [] });
