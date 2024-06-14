@@ -50,16 +50,16 @@ export default function AppRoute() {
         <>
             <div className="grid h-full w-full grid-cols-12 grid-rows-[auto_auto_1fr_auto]">
                 <div
-                    className={`col-span-full bg-yellow-300 p-4 text-center text-black dark:bg-yellow-600 dark:text-white ${BORDER_BOTTOM_COLORS}`}
+                    className={`col-span-full bg-yellow-300 p-2 text-center text-black dark:bg-yellow-600 dark:text-white ${BORDER_BOTTOM_COLORS}`}
                 >
                     🚧 App is currently a work in progress 🔨
                 </div>
                 <header className={`col-span-full ${BORDER_BOTTOM_COLORS}`}>
-                    <nav className={`p-4`}>
+                    <nav className={`px-4 py-2`}>
                         <Flex className="justify-between">
                             <Flex className="gap-4">
                                 <Link to="/">
-                                    <strong className="text-2xl">CRM</strong>
+                                    <strong>CRM</strong>
                                 </Link>
                                 <Button variant="transparent" asChild>
                                     <Link to="/">
@@ -112,7 +112,7 @@ export default function AppRoute() {
                     </nav>
                 </header>
                 <Outlet />
-                <footer className={`col-span-full ${BORDER_TOP_COLORS} p-8`}>
+                <footer className={`col-span-full ${BORDER_TOP_COLORS} p-4`}>
                     Built by{' '}
                     <a className={LINK_STYLES} href="https://www.sethdavis.io">
                         Seth Davis

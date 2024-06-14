@@ -1,4 +1,4 @@
-import { Button, Input } from '@lemonsqueezy/wedges';
+import { Alert, Button, Input, Label } from '@lemonsqueezy/wedges';
 import {
     redirect,
     type ActionFunctionArgs,
@@ -19,7 +19,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     const { supabase } = await getSupabaseWithHeaders({ request });
     const response = await supabase
         .from('customer')
-        .select('*')
+        .select(
+            `
+            id,
+            name,
+            email,
+            phone_number,
+            company (
+                id,
+                name
+            )
+            `
+        )
         .eq('id', params.id!);
 
     const customer = response?.data?.shift();
@@ -125,28 +136,30 @@ export default function CompanyDetailsIndexRoute() {
                 </Form>
             ) : (
                 <div className="space-y-4">
-                    <p>
-                        <strong>Email:</strong>
-                        <br />
-                        {customer?.email ? (
-                            customer.email
-                        ) : (
-                            <span className="italic opacity-40">
-                                {'— email is unavailable —'}
-                            </span>
-                        )}
-                    </p>
-                    <p>
-                        <strong>Phone number:</strong>
-                        <br />
-                        {customer?.phone_number ? (
-                            customer.phone_number
-                        ) : (
-                            <span className="italic opacity-40">
-                                {'— Phone number is unavailable —'}
-                            </span>
-                        )}
-                    </p>
+                    <Label className="font-bold">Email</Label>
+                    {customer?.email ? (
+                        <p>{customer.email}</p>
+                    ) : (
+                        <Alert id="companyPhoneNumber" color="gray">
+                            {`Email not available`}
+                        </Alert>
+                    )}
+                    <Label className="font-bold">Company</Label>
+                    {customer?.company ? (
+                        <p>{customer.company.name}</p>
+                    ) : (
+                        <Alert id="companyPhoneNumber" color="gray">
+                            {`Company not available`}
+                        </Alert>
+                    )}
+                    <Label className="font-bold">Phone number</Label>
+                    {customer?.phone_number ? (
+                        <p>{customer.phone_number}</p>
+                    ) : (
+                        <Alert id="companyPhoneNumber" color="gray">
+                            {`Phone number not available`}
+                        </Alert>
+                    )}
                 </div>
             )}
             <Modal

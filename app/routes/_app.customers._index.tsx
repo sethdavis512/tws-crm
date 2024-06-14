@@ -1,18 +1,17 @@
+import { Alert } from '@lemonsqueezy/wedges';
 import Heading from '~/components/Heading';
 import ScrollColumn from '~/components/ScrollColumn';
-import { BORDER_COLORS, BORDER_LEFT_COLORS } from '~/constants';
+import { BORDER_LEFT_COLORS } from '~/constants';
 
-export default function CompaniesIndexRoute() {
+export default function CustomerIndexRoute() {
     return (
         <ScrollColumn
             header={<Heading size="4">Details</Heading>}
             className={`sm:col-span-8 ${BORDER_LEFT_COLORS}`}
         >
-            <div className={`rounded-xl border p-4 ${BORDER_COLORS}`}>
-                <p className="text-2xl text-zinc-500">
-                    Select a company from the list...
-                </p>
-            </div>
+            <Alert color="primary" variant="expanded">
+                {`Select a customer from the list...`}
+            </Alert>
         </ScrollColumn>
     );
 }

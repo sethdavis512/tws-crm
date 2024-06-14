@@ -9,6 +9,7 @@ import { useSupabase } from '~/utils/supabase';
 import { BACKGROUND_COLORS, BORDER_COLORS, Urls } from '~/constants';
 import { Button } from '@lemonsqueezy/wedges';
 import { useLoaderData } from '@remix-run/react';
+import Heading from '~/components/Heading';
 
 export const meta: MetaFunction = () => [{ title: 'Login' }];
 
@@ -33,7 +34,6 @@ export default function LoginRoute() {
     const { env, serverSession } = useLoaderData<typeof loader>();
     const { supabase } = useSupabase({ env, serverSession });
     const redirectTo = `${domainUrl}/api/auth/callback?redirectTo=${domainUrl}`;
-    console.log(redirectTo);
 
     const handleGoogleSignIn = async () => {
         await supabase.auth.signInWithOAuth({
@@ -49,7 +49,7 @@ export default function LoginRoute() {
             <div
                 className={`mx-auto w-full max-w-md border p-8 ${BORDER_COLORS} rounded-lg ${BACKGROUND_COLORS}`}
             >
-                <h1 className="mb-4 text-4xl font-bold">Login</h1>
+                <Heading className="mb-4">Login</Heading>
                 <p className="mb-8">Choose a login method</p>
                 <div className="flex gap-2">
                     <Button

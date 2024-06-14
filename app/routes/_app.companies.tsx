@@ -61,7 +61,7 @@ export default function CompaniesRoute() {
                 }
                 className={`md:col-span-2 ${BORDER_LEFT_COLORS}`}
             >
-                <div
+                {/* <div
                     className={`sticky top-[65px] -m-4 p-4 ${BACKGROUND_COLORS} ${BORDER_BOTTOM_COLORS}`}
                 >
                     <Input
@@ -71,8 +71,9 @@ export default function CompaniesRoute() {
                         }}
                         value={search}
                     />
-                </div>
-                <ul className="space-y-2 pt-8">
+                </div> */}
+                {/* pt-8 */}
+                <ul className="space-y-2">
                     {companies && companies.length > 0 ? (
                         filteredCompanies.map((company) => (
                             <li key={company.id}>

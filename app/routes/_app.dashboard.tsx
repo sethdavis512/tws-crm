@@ -12,7 +12,7 @@ export default function DashboardRoute() {
             </ScrollColumn>
             <ScrollColumn
                 className={`sm:col-span-10 ${BORDER_LEFT_COLORS}`}
-                containerClassName={`pt-8`}
+                containerClassName="pt-8"
                 header={
                     <Heading as="h1" size="4">
                         Dashboard

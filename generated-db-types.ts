@@ -35,6 +35,7 @@ export type Database = {
       }
       customer: {
         Row: {
+          company: string | null
           created_at: string
           email: string
           id: string
@@ -42,6 +43,7 @@ export type Database = {
           phone_number: string
         }
         Insert: {
+          company?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -49,13 +51,22 @@ export type Database = {
           phone_number?: string
         }
         Update: {
+          company?: string | null
           created_at?: string
           email?: string
           id?: string
           name?: string
           phone_number?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "customer_company_fkey"
+            columns: ["company"]
+            isOneToOne: false
+            referencedRelation: "company"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -65,7 +76,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      InteractionType: "MEETING" | "CALL" | "EMAIL" | "CHAT"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never

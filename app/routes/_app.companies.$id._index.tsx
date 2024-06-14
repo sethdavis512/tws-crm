@@ -1,4 +1,4 @@
-import { Button, Input } from '@lemonsqueezy/wedges';
+import { Alert, Button, Input, Label } from '@lemonsqueezy/wedges';
 import {
     type ActionFunctionArgs,
     redirect,
@@ -121,28 +121,35 @@ export default function CompanyDetailsIndexRoute() {
                 </Form>
             ) : (
                 <div className="space-y-4">
-                    <p>
-                        <strong>Description:</strong>
-                        <br />
-                        {company?.description ? (
-                            company.description
+                    <Label htmlFor="companyDescription" className="font-bold">
+                        Description
+                    </Label>
+                    {company?.description ? (
+                        <p id="companyDescription">{company.description}</p>
+                    ) : (
+                        <Alert
+                            id="companyDescription"
+                            color="gray"
+                        >{`Description not available`}</Alert>
+                    )}
+                    <Label htmlFor="companyPhoneNumber" className="font-bold">
+                        Phone number
+                    </Label>
+                    {company?.phone_number ? (
+                        <p id="companyPhoneNumber">{company.phone_number}</p>
+                    ) : (
+                        <Alert
+                            id="companyPhoneNumber"
+                            color="gray"
+                        >{`Phone number not available`}</Alert>
+                    )}
+                    {/* {company?.employees ? (
+                            JSON.stringify(company?.employees)
                         ) : (
                             <span className="italic opacity-40">
-                                {'— Description is unavailable —'}
+                                {'— Employees is unavailable —'}
                             </span>
-                        )}
-                    </p>
-                    <p>
-                        <strong>Phone number:</strong>
-                        <br />
-                        {company?.phone_number ? (
-                            company.phone_number
-                        ) : (
-                            <span className="italic opacity-40">
-                                {'— Phone number is unavailable —'}
-                            </span>
-                        )}
-                    </p>
+                        )} */}
                 </div>
             )}
             <Modal

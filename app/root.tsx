@@ -52,7 +52,7 @@ export default function App() {
     const isLoggedIn = !!serverSession;
 
     const htmlClassName = `h-full ${theme}`;
-    const bodyClassName = `h-full`;
+    const bodyClassName = `h-full text-sm`;
 
     return (
         <html lang="en" className={htmlClassName}>
