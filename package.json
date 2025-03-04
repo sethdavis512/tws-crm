@@ -1,65 +1,31 @@
 {
-    "name": "tws-crm",
-    "private": true,
-    "sideEffects": false,
-    "type": "module",
-    "scripts": {
-        "build": "vite build && vite build --ssr",
-        "deploy": "fly deploy",
-        "dev": "vite dev",
-        "format": "prettier --write .",
-        "generate:types": "supabase gen types typescript --project-id fadqmbhitjdovdzjujul > generated-db-types.ts",
-        "start": "remix-serve ./build/server/index.js",
-        "typecheck": "tsc"
-    },
-    "dependencies": {
-        "@atlaskit/pragmatic-drag-and-drop": "^1.1.10",
-        "@faker-js/faker": "^8.4.1",
-        "@lemonsqueezy/wedges": "^1.3.0",
-        "@remix-run/node": "2.9.2",
-        "@remix-run/react": "2.9.2",
-        "@remix-run/serve": "2.9.2",
-        "@supabase/ssr": "^0.3.0",
-        "@supabase/supabase-js": "^2.43.4",
-        "bcryptjs": "^2.4.3",
-        "clsx": "^2.1.1",
-        "cva": "^1.0.0-beta.1",
-        "isbot": "^5.1.8",
-        "lucide-react": "^0.381.0",
-        "prettier": "^3.3.0",
-        "prettier-plugin-tailwindcss": "^0.6.1",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "tailwind-merge": "^2.3.0",
-        "tailwindcss": "^3.4.3",
-        "tiny-invariant": "^1.3.3",
-        "type-fest": "^4.18.3"
-    },
-    "devDependencies": {
-        "@flydotio/dockerfile": "^0.5.7",
-        "@remix-run/dev": "^2.9.2",
-        "@remix-run/eslint-config": "^2.9.2",
-        "@types/bcryptjs": "^2.4.5",
-        "@types/node": "^20.12.12",
-        "@types/react": "^18.2.20",
-        "@types/react-dom": "^18.2.7",
-        "eslint": "^8.38.0",
-        "ts-node": "^10.9.2",
-        "tsconfig-paths": "^4.2.0",
-        "typescript": "^5.4.5",
-        "vite": "^5.2.12",
-        "vite-tsconfig-paths": "^4.3.2"
-    },
-    "engines": {
-        "node": ">=20.0.0"
-    },
-    "prettier": {
-        "tabWidth": 4,
-        "semi": true,
-        "singleQuote": true,
-        "trailingComma": "es5",
-        "plugins": [
-            "prettier-plugin-tailwindcss"
-        ]
-    }
+  "name": "tws-crm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@react-router/node": "^7.2.0",
+    "@react-router/serve": "^7.2.0",
+    "isbot": "^5.1.17",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.2.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.2.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "react-router-devtools": "^1.1.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
 }

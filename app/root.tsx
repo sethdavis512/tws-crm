@@ -1,75 +1,75 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
 import {
-    Links,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useLoaderData,
-} from '@remix-run/react';
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "react-router";
 
-import {
-    getSupabaseEnv,
-    getSupabaseWithSessionAndHeaders,
-} from './utils/supabase.server';
-import { useSupabase } from './utils/supabase';
-import { getThemeSession } from './utils/theme.server';
+import type { Route } from "./+types/root";
+import "./app.css";
 
-import '~/tailwind.css';
+export const links: Route.LinksFunction = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
+];
 
-export const meta: MetaFunction = () => {
-    return [
-        { title: 'CRM' },
-        { name: 'description', content: 'Customer Relation Management System' },
-    ];
-};
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const themeSession = await getThemeSession(request);
-    const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({
-        request,
-    });
-    const domainUrl = process.env.DOMAIN_URL!;
-    const env = getSupabaseEnv();
-
-    return json(
-        {
-            serverSession,
-            env,
-            domainUrl,
-            theme: themeSession.getTheme(),
-        },
-        { headers }
-    );
-};
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
 export default function App() {
-    const { env, serverSession, domainUrl, theme } =
-        useLoaderData<typeof loader>();
+  return <Outlet />;
+}
 
-    const { supabase } = useSupabase({ env, serverSession });
-    const isLoggedIn = !!serverSession;
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = "Oops!";
+  let details = "An unexpected error occurred.";
+  let stack: string | undefined;
 
-    const htmlClassName = `h-full ${theme}`;
-    const bodyClassName = `h-full text-sm`;
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? "404" : "Error";
+    details =
+      error.status === 404
+        ? "The requested page could not be found."
+        : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
 
-    return (
-        <html lang="en" className={htmlClassName}>
-            <head>
-                <meta charSet="utf-8" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <Meta />
-                <Links />
-            </head>
-            <body className={bodyClassName}>
-                <Outlet context={{ supabase, domainUrl, theme, isLoggedIn }} />
-                <ScrollRestoration />
-                <Scripts />
-            </body>
-        </html>
-    );
+  return (
+    <main className="pt-16 p-4 container mx-auto">
+      <h1>{message}</h1>
+      <p>{details}</p>
+      {stack && (
+        <pre className="w-full p-4 overflow-x-auto">
+          <code>{stack}</code>
+        </pre>
+      )}
+    </main>
+  );
 }
